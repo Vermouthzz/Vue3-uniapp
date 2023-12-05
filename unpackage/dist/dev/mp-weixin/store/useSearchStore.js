@@ -1,0 +1,1 @@
+"use strict";const t=require("../common/vendor.js"),c=t.defineStore("search",()=>{const e=t.ref([]);return{searchList:e,addSearchItem:s=>{e.value.unshift(s)}}},{persist:{storage:{setItem(e,r){t.index.setStorageSync(e,r)},getItem(e){return t.index.getStorageSync(e)}}}});exports.useSearchStore=c;

@@ -1,0 +1,14 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "goods-header": "./components/GoodsHeader",
+    "goods-detail": "./components/GoodsDetail",
+    "goods-deliver": "./components/GoodsDeliver",
+    "goods-hotfee": "./components/GoodsHotfee",
+    "goods-footer": "./components/GoodsFooter",
+    "goods-about-hot": "./components/GoodsAboutHot",
+    "goods-argument": "./components/GoodsArgument",
+    "goods-comment": "./components/GoodsComment",
+    "goods-brand": "./components/GoodsBrand"
+  }
+}

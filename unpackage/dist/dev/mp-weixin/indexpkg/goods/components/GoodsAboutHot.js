@@ -1,0 +1,1 @@
+"use strict";const e=require("../../../common/vendor.js"),o={};function t(r,s){return{a:e.f(6,(n,_,i)=>({a:n}))}}const c=e._export_sfc(o,[["render",t],["__file","D:/github/app-unis/indexpkg/goods/components/GoodsAboutHot.vue"]]);wx.createComponent(c);

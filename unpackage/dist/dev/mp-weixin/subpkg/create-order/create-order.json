@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "pay-popup": "../components/PayPopup",
+    "packge-item": "./components/PackgeItem",
+    "discount": "./components/Discount",
+    "create-header": "./components/CreateHeader",
+    "create-quote": "./components/CreateQuote"
+  }
+}

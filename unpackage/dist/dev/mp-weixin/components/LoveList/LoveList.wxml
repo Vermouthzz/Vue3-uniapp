@@ -1,0 +1,1 @@
+<view class="love-block"><slot name="title"></slot><view class="love-list"><view wx:for="{{a}}" wx:for-item="o" wx:key="b" class="love-list-item"><goods-item u-i="{{o.a}}" bind:__l="__l"></goods-item></view></view></view>

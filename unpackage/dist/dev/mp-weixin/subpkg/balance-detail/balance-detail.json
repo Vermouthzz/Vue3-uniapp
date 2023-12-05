@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-header": "../../components/CustomHeader/CustomHeader"
+  }
+}

@@ -1,0 +1,1 @@
+"use strict";const t=require("../request/index.js"),I=(r,e,d,u)=>t.http({url:"/order",method:"PUT",data:{cart:r,addres:e,fee:d,num:u}}),o=r=>t.http({url:"/order",data:{id:r}}),s=()=>t.http({url:"/orders"}),a=(r,e)=>t.http({url:"/order",method:"POST",data:{type:r,id:e}});exports.createOrderAPI=I;exports.getOrderItemAPI=o;exports.getOrderListAPI=s;exports.updateOrderItemAPI=a;

@@ -1,0 +1,1 @@
+"use strict";const e=require("../../../common/vendor.js"),o={__name:"HotSearch",props:["title","list"],setup(t){return(c,s)=>({a:e.t(t.title),b:e.f(8,(n,i,_)=>({a:n}))})}},r=e._export_sfc(o,[["__file","D:/github/app-unis/indexpkg/search/components/HotSearch.vue"]]);wx.createComponent(r);

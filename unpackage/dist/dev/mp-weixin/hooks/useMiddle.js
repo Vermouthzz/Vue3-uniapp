@@ -1,0 +1,1 @@
+"use strict";const r=require("../common/vendor.js"),l=c=>new Promise((o,d)=>{let t=0,e=0,n=r.index.getMenuButtonBoundingClientRect(),i=r.wx$1.createSelectorQuery();i.select(c).boundingClientRect(),i.exec(u=>{e=u[0].height,t=n.top+n.height/2-e/2,o({height:e,top:t})})});exports.useMiddle=l;

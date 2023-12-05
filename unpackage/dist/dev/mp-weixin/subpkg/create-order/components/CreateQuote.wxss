@@ -1,0 +1,1 @@
+.quote-packet-block{margin-top:16rpx;padding-left:16rpx;background-color:#fff}.quote-packet-block .common-block{padding:24rpx 20rpx 24rpx 0;border-bottom:1px solid #dbdbdb;justify-content:space-between;font-size:13px}.quote-packet-block .common-block .left-block .left-zero-checked,.quote-packet-block .common-block .left-block .left-zero-checked .van-checkbox__label{color:#cecece}

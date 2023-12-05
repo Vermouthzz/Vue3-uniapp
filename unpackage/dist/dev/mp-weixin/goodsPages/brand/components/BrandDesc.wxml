@@ -1,0 +1,1 @@
+<view class="brand-header flex-c"><view class="header-info flex"><view class="info-left"><image class="info-image" src="{{a}}"></image></view><view class="info-right flex-c"><view class="name">{{b}}</view><view class="all-num"> 全部商品{{c}}件 </view></view></view><view class="brand-desc">{{d}}</view></view>

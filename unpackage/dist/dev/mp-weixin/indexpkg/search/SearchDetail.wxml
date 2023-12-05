@@ -1,0 +1,1 @@
+<scroll-view scroll-y="true" class="detail-bd flex-c"><search-tab u-i="dd301b0c-0" bind:__l="__l"></search-tab><view class="search-item-block flex"><view wx:for="{{a}}" wx:for-item="item" wx:key="c" class="goods-item"><goods-item wx:if="{{item.b}}" u-i="{{item.a}}" bind:__l="__l" u-p="{{item.b}}"></goods-item></view></view></scroll-view>

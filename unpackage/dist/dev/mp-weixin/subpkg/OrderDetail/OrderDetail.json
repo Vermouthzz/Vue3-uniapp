@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-header": "../../components/CustomHeader/CustomHeader",
+    "packge-item": "../create-order/components/PackgeItem",
+    "love-list": "../../components/LoveList/LoveList"
+  }
+}

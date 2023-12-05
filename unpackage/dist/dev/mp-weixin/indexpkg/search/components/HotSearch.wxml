@@ -1,0 +1,1 @@
+<view class="hot-search flex-c"><view class="title">{{a}} <slot name="delete"></slot></view><view class="hot-search-list flex"><view wx:for="{{b}}" wx:for-item="i" wx:key="a" class="hot-search-item"> 睡衣 </view></view></view>

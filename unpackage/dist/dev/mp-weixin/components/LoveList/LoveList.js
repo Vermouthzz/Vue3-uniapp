@@ -1,0 +1,1 @@
+"use strict";const o=require("../../common/vendor.js"),n={};Array||o.resolveComponent("GoodsItem")();const c=()=>"../GoodsItem/GoodsItem.js";Math||c();function r(e,m,a,i,p,d){return{a:o.f(6,(t,u,s)=>({a:"08bc6605-0-"+s,b:t}))}}const _=o._export_sfc(n,[["render",r],["__file","D:/github/app-unis/components/LoveList/LoveList.vue"]]);wx.createComponent(_);

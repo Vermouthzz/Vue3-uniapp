@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "love-list": "../../components/LoveList/LoveList",
+    "profile-header": "./components/ProfileHeader"
+  }
+}

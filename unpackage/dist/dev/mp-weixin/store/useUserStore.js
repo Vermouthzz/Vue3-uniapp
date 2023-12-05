@@ -1,0 +1,1 @@
+"use strict";const r=require("../common/vendor.js"),n=r.defineStore("userinfo",()=>{const e=r.ref("");return{userInfo:e,setUserInfo:t=>{e.value=t},clearUserInfo:()=>{e.value=null}}},{persist:{storage:{setItem(e,s){r.index.setStorageSync(e,s)},getItem(e){return r.index.getStorageSync(e)}}}});exports.useUserStore=n;

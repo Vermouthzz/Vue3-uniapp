@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "header": "../card/header",
+    "love-list": "../../components/LoveList/LoveList"
+  }
+}
