@@ -6,7 +6,7 @@
 				<view class="error-pay">
 					支付失败
 				</view>
-				<view class="error-delay">
+				<view class="error-delay flex-c">
 					<text>请在<text class="err">1小时</text>内完成付款</text>
 					<text class="err">否则订单会被系统取消</text>
 				</view>
@@ -19,15 +19,15 @@
 					重新支付
 				</view>
 			</view>
-			<view class="pay-detail">
-				<view class="addres-user">
+			<view class="pay-detail flex-c">
+				<view class="addres-user flex">
 					<text class="text">工藤新一</text>
 					<text class="price">139****4611</text>
 				</view>
-				<view class="addres-detail">
-					
+				<view class="addres-detail flex">
+					北京市北京市大兴区北京经济技术开发区京东
 				</view>
-				<view class="should-pay">
+				<view class="should-pay flex">
 					<text class="text">实付:</text>
 					<text class="price">￥88.00</text>
 				</view>
@@ -43,6 +43,7 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 <style lang="scss">
 .error-box {
 	height: 100vh;
+	box-sizing: border-box;
 	.result-body {
 		.result-text {
 			width: 40vw;
@@ -55,9 +56,11 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 				text-align: center;
 			}
 			.error-delay {
-				display: inline-block;
 				font-size: 14px;
 				text-align: center;
+				.err {
+					color: #a8323b;
+				}
 			}
 		}
 		.show-repay {
@@ -72,7 +75,27 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 			}
 		}
 		.pay-detail {
-			
+			margin: 30rpx 20rpx;
+			padding: 30rpx 24rpx;
+			border: 1px solid #e6e9c7;	
+			background-color: #fffbf2;
+			border-radius: 16rpx;
+			font-size: 12px;
+			.addres-user {
+				.text {
+					width: 20vw;
+					
+				}
+			}
+			.addres-detail {
+				margin: 12rpx 0;
+			}
+			.should-pay {
+				.text {
+					width: 20vw;
+					color: #95968e;
+				}
+			}
 		}
 	}
 }
