@@ -28,7 +28,7 @@
 		</view>
 		<view class="more-detail flex" @tap="onShowMore">
 			<view class="more-text" v-if="!isTap">
-				适用商品/参与优惠金额小于红包门槛
+				{{isSuit ? '适用商品' : '参与优惠金额小于红包门槛'}}
 			</view>
 			<view class="more-text" v-else>
 				休闲时尚、运动休闲、复古、休闲、居家生活、现代简约、美式、日式、时尚、通用、百搭、通勤、简约、简约时尚、基础休闲、IFASHION
@@ -62,10 +62,14 @@ const props = defineProps({
 	dateFormat: {
 		type: Boolean,
 		default: true
-	}
+	},
+	// condition: {
+		
+	// }
 })
 const isTap = ref(false)
 const onShowMore = () => {
+	if(!props.isSuit) return
 	isTap.value = !isTap.value
 }
 

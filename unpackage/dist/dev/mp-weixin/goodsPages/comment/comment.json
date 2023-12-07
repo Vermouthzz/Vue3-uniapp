@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
+    "custom-header": "../../components/CustomHeader/CustomHeader",
     "comment-block": "../../indexpkg/components/CommentBlock"
   }
 }

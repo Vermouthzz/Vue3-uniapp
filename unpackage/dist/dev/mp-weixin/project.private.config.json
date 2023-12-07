@@ -9,6 +9,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "goodsPages/comment/comment",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "subpkg/error-result/error-result",
           "query": "",
           "launchMode": "default",
@@ -20,15 +27,9 @@
           "query": "",
           "launchMode": "default",
           "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "goodsPages/brand/brand",
-          "query": "id=1",
-          "launchMode": "default",
-          "scene": null
         }
       ]
     }
-  }
+  },
+  "libVersion": "3.2.3"
 }

@@ -17,12 +17,14 @@
 			</view>
 		</view>
 		<view class="scroll-search" :style="{height: `calc(100vh - 200rpx - ${safeAreaInsets.top}px)`}">
-			<template v-if="!searchResult.length">
+			<template v-if="show">
 				<view class="search-body flex-c">
 					<!-- 搜索历史板块 -->
-					<HotSearch :title="'搜索历史'" :list="searchStore.searchList"></HotSearch>
+					<HotSearch :title="'搜索历史'" :list="searchStore.searchList"
+							   :item="searchValue" @itemChange="onItemChange"
+					/>
 					<!-- 热门搜索板块 -->
-					<HotSearch :title="'热门搜索'"></HotSearch>
+					<HotSearch :title="'热门搜索'" :item="searchValue" />
 				</view>
 				<!-- 热门分类板块 -->
 				<HotCate></HotCate>
@@ -52,7 +54,7 @@ watch(type,(type,preType) => {
 	}
 })
 
-const searchValue = ref('')
+const searchValue = ref('') //搜索框value
 const onTapRight = () => {
 	if(searchValue.value.length == 0) {
 		uni.navigateBack()
@@ -61,11 +63,18 @@ const onTapRight = () => {
 		getSearchResultList()
 	}
 }
+//点击搜索历史和热门搜索进行跳转
+const onItemChange = (val) => {
+	searchValue.value = val
+	searchStore.addSearchItem(val)
+	getSearchResultList()
+}
 
+const show = ref(true) //控制searchDetail显示
 const onChange = (e) => {
 	searchValue.value = e.detail
 	if(searchValue.value == '') {
-		searchResult.value = []
+		show.value = true
 	}
 }
 
@@ -76,7 +85,8 @@ const getSearchResultList = async () => {
 	uni.showLoading({ mask:true })
 	const res = await getSearchResultAPI(searchValue.value,type.value)
 	searchResult.value = res.list
-	if(searchResult.value.length) uni.hideLoading()
+	show.value = false
+	uni.hideLoading()
 }
 
 </script>

@@ -7,15 +7,20 @@
 			</slot>
 		</view>
 		<view class="hot-search-list flex">
-			<view class="hot-search-item" v-for="i in 8" :key="i">
-				睡衣
+			<view class="hot-search-item" v-for="item in list" :key="item" @tap="onTapItem(item)">
+				{{item}}
 			</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
-defineProps(['title','list'])
+defineProps(['title','list','item'])
+const emits = defineEmits(['itemChange'])
+
+const onTapItem = (item) => {
+	emits('itemChange', item)
+}
 </script>
 
 <style lang="scss">

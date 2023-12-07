@@ -5,6 +5,10 @@ export const useSearchStore = defineStore('search', () => {
 	const searchList = ref([])
 	
 	const addSearchItem = (val) => {
+		const index = searchList.value.findIndex(i => i == val)
+		if(index != -1) {
+			searchList.value.splice(index,1)
+		}
 		searchList.value.unshift(val)
 	}
 	
