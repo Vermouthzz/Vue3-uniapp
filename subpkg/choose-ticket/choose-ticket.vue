@@ -1,12 +1,12 @@
 <template>
 	<view class="choose-ticket-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<Header :title="'选择红包'"></Header>
+		<CustomHeader :title="'选择红包'"></CustomHeader>
 		<view class="choose-ticket-bd flex-c">
 			<scroll-view scroll-y="true" class="scroll-ticket">
 				<view class="suit-ticket">
 					<template v-if="userCardStore.effectiveTickets.length">
 						<view class="item" @tap="selectedItem(item)" v-for="item in userCardStore.effectiveTickets" :key="item.ticket_id">
-							<red-ticket-item :tickets="item" :isUse="false" :isSelected="item.selected"></red-ticket-item>
+							<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSelected="item.selected"></red-ticket-item>
 						</view>
 					</template>
 				</view>
@@ -19,7 +19,7 @@
 					<view class="unsuit-item-block">
 						<template v-if="userCardStore.uselessTickets.length">
 							<block v-for="item in userCardStore.uselessTickets" :key="item.ticket_id">
-								<red-ticket-item :tickets="item" :isUse="false" :isSuit="false"></red-ticket-item>
+								<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSuit="false"></red-ticket-item>
 							</block>
 						</template>
 					</view>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import Header from '../card/header.vue'
+import CustomHeader from '../../components/CustomHeader/CustomHeader.vue'
 import RedTicketItem from '.././redPacket/components/RedTicketItem.vue'
 import { computed, ref } from 'vue'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
@@ -49,7 +49,7 @@ const selectedItem = (item) => {
 }
 //不使用红包
 const unuseTicket = () => {
-	
+	userCardStore.unUseTicket()
 }
 </script>
 

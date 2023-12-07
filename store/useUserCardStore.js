@@ -52,6 +52,10 @@ export const useUserCardStore = defineStore('user-card', () => {
 			if(item.ticket_id === val.ticket_id) item.selected = true
 		})
 	}
+	//不使用红包
+	const unUseTicket = () => {
+		userTicketList.value.forEach(item => item.selected = false)
+	}
 	
 	
 	//展示选中的红包
@@ -76,6 +80,7 @@ export const useUserCardStore = defineStore('user-card', () => {
 		optimalTicket,
 		effectiveTickets,
 		uselessTickets,
-		tapSelected
+		tapSelected,
+		unUseTicket
 	}
 })

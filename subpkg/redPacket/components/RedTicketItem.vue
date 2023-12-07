@@ -6,15 +6,18 @@
 				{{tickets.ticket_price}}元
 			</view>
 			<view class="ticket">
-				<view class="date-out" :style="{backgroundColor: isSuit ? '#e11c20': '#7d837e',display: !isUse ? '': 'none', borderColor: isSuit ? '#e11c20': '#7d837e'}">
+				<view class="date-out" :style="{backgroundColor: color,display: tickets.sign == 1 ? '': 'none', borderColor: color}">
 					即将过期
 				</view>
 				<view class="name-condition">
 					<text class="name">{{tickets.ticket_name}}</text>
 					<text class="condition">{{tickets.condition_name}}</text>
 				</view>
-				<view class="date">
-					3天00小时后失效
+				<view class="date" v-if="dateFormat">
+					<van-count-down :time="validTime" format="DD天HH 时" />
+				</view>
+				<view class="forbid-date" v-else>
+					{{startEnd}};还有{{surplusTime}}天过期
 				</view>
 			</view>
 			<view class="to-use">
@@ -25,7 +28,7 @@
 		</view>
 		<view class="more-detail flex" @tap="onShowMore">
 			<view class="more-text" v-if="!isTap">
-				适用商品
+				适用商品/参与优惠金额小于红包门槛
 			</view>
 			<view class="more-text" v-else>
 				休闲时尚、运动休闲、复古、休闲、居家生活、现代简约、美式、日式、时尚、通用、百搭、通勤、简约、简约时尚、基础休闲、IFASHION
@@ -36,7 +39,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue'
+import {useTimeHook} from './hooks/useTimeHooks.js'
+const {startEnd,validTime,surplusTime} = useTimeHook(props.tickets)
 const props = defineProps({
 	isUse: {
 		type: Boolean,
@@ -53,12 +58,20 @@ const props = defineProps({
 	tickets: {
 		type: Object,
 		default: {}
+	},
+	dateFormat: {
+		type: Boolean,
+		default: true
 	}
 })
 const isTap = ref(false)
 const onShowMore = () => {
 	isTap.value = !isTap.value
 }
+
+const color = computed(() => props.isSuit ? '#e11c20': '#7d837e')
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -91,7 +104,7 @@ const onShowMore = () => {
 	}
 	
 	.ticket-top {
-		padding: 16rpx 0 24rpx;
+		padding: 24rpx 0;
 		margin-left: -2rpx;
 		margin-top: -2rpx;
 		border-radius: 16rpx 16rpx 0 0;
@@ -103,8 +116,8 @@ const onShowMore = () => {
 			font-size: 22px;
 		}
 		.ticket {
-			flex: 2;
-			margin-left: -20rpx;
+			flex: 3.5;
+			// margin-left: -20rpx;
 			.date-out {
 				width: fit-content;
 				padding: 4rpx 12rpx;
@@ -119,6 +132,14 @@ const onShowMore = () => {
 			.date {
 				margin-top: 8rpx;
 				font-size: 11px;
+				
+				::v-deep(.van-count-down) {
+					color: #fff;
+				}
+			}
+			.forbid-date {
+				margin-top: 8rpx;
+				font-size: 10px;
 			}
 		}
 		.to-use {

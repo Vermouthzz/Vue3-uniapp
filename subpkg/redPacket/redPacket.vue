@@ -3,29 +3,40 @@
 		<Header :title="'红包'" :middle="true"></Header>
 		<view class="header-tab">
 			<van-tabs animated swipeable>
-				<van-tab title="未使用">
+				<van-tab :title="item.name" v-for="(item,index) in ticketList" :key="index">
 					<scroll-view scroll-y="true" class="scroll-ticket-quote">
-						<block v-for="(item,index) in userCardStore.userTicketList" :key="item.ticket_id">
-							<red-ticket-item :tickets="item"></red-ticket-item>
+						<block v-for="(subItem,index) in item.value" :key="subItem.user_ticket_id">
+							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
 							<!-- <quote-item></quote-item> -->
 						</block>
 					</scroll-view>
 				</van-tab>
-			  <van-tab title="已使用">内容 2</van-tab>
-			  <van-tab title="已失效">内容 3</van-tab>
 			</van-tabs>
 		</view>
 	</view>
 </template>
 
 <script setup>
+import {onLoad} from '@dcloudio/uni-app'
 import Header from '../card/header.vue'
 import RedTicketItem from './components/RedTicketItem.vue'
 // import QuoteItem from './components/QuoteItem.vue'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
-const userCardStore = useUserCardStore()
+import { ref } from 'vue'
+import {getTicketListAPI} from '../../api/ticket.js'
+// const userCardStore = useUserCardStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
-	
+
+const ticketList = ref([])
+const getTicketList = async () => {
+	const res = await getTicketListAPI()
+	ticketList.value = res.data
+}
+
+
+onLoad((options) => {
+	getTicketList()
+})
 </script>
 
 <style lang="scss">
