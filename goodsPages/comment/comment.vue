@@ -25,7 +25,7 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import {ref} from 'vue'
-import CommentBlock from '../../indexpkg/components/CommentBlock.vue'
+import CommentBlock from '../../components/CommentBlock/CommentBlock.vue'
 import {getCommentListAPI} from '../../api/comment.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 

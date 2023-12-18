@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import CommentBlock from '../../components/CommentBlock.vue'
+import CommentBlock from '../../../components/CommentBlock/CommentBlock.vue'
 const toComment = () => {
 	uni.navigateTo({
 		url: '/goodsPages/comment/comment'

@@ -19,7 +19,7 @@
 					<!-- 相关商品、热销榜板块 -->
 					<goods-about-hot></goods-about-hot>
 					<!-- 参数板块 -->
-					<goods-argument :arguments="goodsVal.arguments"></goods-argument>
+					<goods-argument :arguments="goodsVal.attrList"></goods-argument>
 					<!-- 大图板块 -->
 					<view class="goods-big-img" v-if="goodsVal.goods_argImg">
 						<view v-for="item in goodsVal.goods_argImg" :key="item">

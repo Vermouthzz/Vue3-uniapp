@@ -97,7 +97,6 @@ const toLogin = () => {
 const onAllChange = (e) => {
 	cartStore.onAllChange(e.detail)
 }
-//
 //结算功能
 const onClickButton = () => {
 	if(!cartStore.selectedItems.length) return uni.showToast({title:'请选择商品结算', icon: 'error'})

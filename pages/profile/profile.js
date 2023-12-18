@@ -19,10 +19,11 @@ export const useProfileHook = () => {
 	
 	const serviceList = ref([
 		{id:1,name: '地址管理', icon: 'location-o', path:'/subpkg/Address/Address'},
-		{id:1,name: '账号安全', icon: 'shield-o', path:'/subpkg/Address/Address'},
-		{id:1,name: '账号关联', icon: 'link-o', path:'/subpkg/Address/Address'},
-		{id:1,name: '我的手机号', icon: 'phone-o', path:'/subpkg/Address/Address'},
-		{id:1,name: '加好友交流', icon: 'friends-o', path:'/subpkg/Address/Address'},
+		{id:2,name: '账号安全', icon: 'shield-o', path:'/subpkg/ProfileSafe/ProfileSafe'},
+		{id:3,name: '账号关联', icon: 'link-o', path:'/subpkg/Address/Address'},
+		{id:4,name: '我的手机号', icon: 'phone-o', path:'/subpkg/Address/Address'},
+		{id:5,name: '加好友交流', icon: 'friends-o', path:'/subpkg/Address/Address'},
+		{id:6,name: '积分乐园', icon: 'award-o', path:'/subpkg/integral/integral'}
 	])
 	
 	return {

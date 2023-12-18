@@ -53,7 +53,6 @@ const toGoodsDetail = () => {
 <style lang="scss" scoped>
 .goods-block {
 	width: 100%;
-	// margin: 20rpx 0 6rpx;
 	.top-img {
 		width: 100%;
 		.top-image { 	
@@ -66,6 +65,8 @@ const toGoodsDetail = () => {
 	.btm-text {
 		margin-top: 5px;
 		.produce {
+			font-size: 13px;
+			color: #171717;
 			.produce-image {
 				width: 18px;
 				height: 18px;

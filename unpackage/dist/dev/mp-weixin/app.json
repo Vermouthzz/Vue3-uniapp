@@ -7,7 +7,7 @@
   ],
   "subPackages": [
     {
-      "root": "subpkg",
+      "root": "profilePackge",
       "pages": [
         "Address/Address",
         "order/order",
@@ -20,7 +20,9 @@
         "choose-ticket/choose-ticket",
         "card/card",
         "error-result/error-result",
-        "balance-detail/balance-detail"
+        "balance-detail/balance-detail",
+        "ProfileSafe/ProfileSafe",
+        "integral/integral"
       ]
     },
     {
@@ -43,6 +45,13 @@
         "brand/brand",
         "comment/comment"
       ]
+    },
+    {
+      "root": "integralPackge",
+      "pages": [
+        "integral-detail/integral-detail",
+        "integral-packet/integral-packet"
+      ]
     }
   ],
   "usingComponents": {
@@ -56,6 +65,7 @@
     "van-dialog": "/wxcomponents/vant/dialog/index",
     "van-field": "/wxcomponents/vant/field/index",
     "van-icon": "/wxcomponents/vant/icon/index",
+    "van-notify": "/wxcomponents/vant/notify/index",
     "van-popup": "/wxcomponents/vant/popup/index",
     "van-radio": "/wxcomponents/vant/radio/index",
     "van-radio-group": "/wxcomponents/vant/radio-group/index",
@@ -108,7 +118,7 @@
     "pages/profile/profile": {
       "network": "all",
       "packages": [
-        "subpkg"
+        "profilePackge"
       ]
     },
     "pages/cate/cate": {
@@ -127,6 +137,12 @@
       "network": "all",
       "packages": [
         "goodsPages"
+      ]
+    },
+    "profilePackge/integral/integral": {
+      "network": "all",
+      "packages": [
+        "integralPackge"
       ]
     }
   },

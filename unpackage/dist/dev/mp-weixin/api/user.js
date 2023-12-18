@@ -1,1 +1,1 @@
-"use strict";const r=require("../request/index.js"),t=e=>r.http({url:"/user",data:{user_id:e}});exports.getUserInfoAPI=t;
+"use strict";const e=require("../request/index.js"),t=r=>e.http({url:"/user",data:{user_id:r}}),s=r=>e.http({url:"/verify",method:"POST",data:{pwd:r}});exports.getUserInfoAPI=t;exports.verifyPasswordAPI=s;

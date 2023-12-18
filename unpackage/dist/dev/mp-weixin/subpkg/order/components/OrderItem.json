@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "pay-popup": "../../components/PayPopup"
-  }
-}

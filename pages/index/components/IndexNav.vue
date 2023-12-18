@@ -1,6 +1,6 @@
 <template>
 	<view class="index-nav">
-		<scroll-view scroll-x="true" class="scroll-cate" @scroll="onNavScroll" :show-scrollbar="false">
+		<scroll-view scroll-x="true" class="scroll-cate" @scroll="onNavScroll" show-scrollbar="false">
 			<view class="cate-item flex-c" v-for="i in 10" :key="i">
 				<view class="top-item flex-c-a">
 					<image class="index-image" src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png"></image>

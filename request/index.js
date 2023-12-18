@@ -1,9 +1,7 @@
 import {useUserStore} from '../store/useUserStore.js'
 
 let baseUrl =  'http://localhost:3000/api/uni'
-// #ifdef APP-PLUS
-	baseUrl = 'http://10.0.2.2:3000/api/uni'
-// #endif
+
 const httpInterceptor = {
 	invoke(args) {
 		args.url = baseUrl + args.url

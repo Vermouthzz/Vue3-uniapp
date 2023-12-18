@@ -44,7 +44,7 @@
 			<!-- 新品首发板块 -->
 			<view class="new-product card">
 				<view class="new-block flex">
-					<view class="new-block-item flex-c-a" v-for="j in 5" :key="j">
+					<view @click="as" class="new-block-item flex-c-a" v-for="j in 5" :key="j">
 						<view class="new-item-img">
 							<image class=".new-item-image" src="https://yanxuan.nosdn.127.net/static-union/16644541382b06e4.png"></image>
 						</view>
@@ -64,9 +64,11 @@
 			</template>
 		</LoveList>
 	</scroll-view>
+	<PasswordPopup v-model:show="a"></PasswordPopup>
 </template>
 
 <script setup>
+import PasswordPopup from '../../components/PasswordPopup/PasswordPopup.vue'
 import { ref } from "vue";
 import LoveList from '../../components/LoveList/LoveList.vue'
 import { useUserStore } from "../../store/useUserStore";
@@ -79,7 +81,10 @@ const isShow = ref(false)
 const onMyScroll = (e) => {
 	e.detail.scrollTop > 200 ? isShow.value = true : isShow.value = false
 }
-
+const a = ref(false)
+const as = () => {
+	a.value = true
+}
 const toOrder = (index) => {
 	uni.navigateTo({
 		url: `/subpkg/order/order?index=${index}`

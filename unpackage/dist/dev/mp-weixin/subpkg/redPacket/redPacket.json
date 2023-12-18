@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "header": "../card/header",
-    "red-ticket-item": "./components/RedTicketItem"
-  }
-}

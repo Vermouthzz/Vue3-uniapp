@@ -1,1 +1,0 @@
-page{display:flex;flex-direction:column;height:100%;background-color:#f4f4f4}.scroll-order{flex:1;overflow:scroll}.create-order-btm{width:100%;height:100rpx;justify-content:space-between;background-color:#fff;font-size:13px}.create-order-btm .pay-price{padding:30rpx;color:#f72430}.create-order-btm .buy-now{padding:30rpx 56rpx;color:#fff;background-color:#ccc}

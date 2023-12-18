@@ -9,6 +9,8 @@ import http from '../request/index.js'
 export const getCardDetailAPI = (type) => {
 	return http({
 		url: '/card/detail',
-		data: type
+		data: {
+			type
+		}
 	})
 }

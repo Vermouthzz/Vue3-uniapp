@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "header": "../card/header",
-    "order-item": "./components/OrderItem"
-  }
-}

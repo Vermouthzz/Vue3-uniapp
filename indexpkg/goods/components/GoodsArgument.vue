@@ -6,10 +6,10 @@
 		<view class="arguments-item-block">
 			<view class="arguments-item" :class="{moreItem: index > 2 ? true: false}" v-for="(item,index) in arguments" :key="index" :style="{display: isShow ? 'flex':''}">
 				<view class="item-name">
-					{{item.name}}
+					{{item.parameter_name}}
 				</view>
 				<view class="item-val">
-					{{item.value}}
+					{{item.parameter_value}}
 				</view>
 			</view>
 		</view>

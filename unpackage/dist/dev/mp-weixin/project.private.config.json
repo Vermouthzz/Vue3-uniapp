@@ -9,14 +9,14 @@
       "list": [
         {
           "name": "",
-          "pathName": "goodsPages/comment/comment",
+          "pathName": "subpkg/integral/integral",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "",
-          "pathName": "subpkg/error-result/error-result",
+          "pathName": "goodsPages/comment/comment",
           "query": "",
           "launchMode": "default",
           "scene": null

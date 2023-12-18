@@ -30,7 +30,7 @@
 	],
 	"subPackages": [
 			{
-				"root": "subpkg",
+				"root": "profilePackge",
 				"pages": [
 					
 				{
@@ -120,6 +120,20 @@
 						{
 							"navigationStyle": "custom"
 						}
+					},
+					{
+						"path" : "ProfileSafe/ProfileSafe",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
+					},
+					{
+						"path" : "integral/integral",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
 					}
 	            ]
 			},
@@ -185,12 +199,31 @@
 						}
 					]
 				
+			},
+			{
+				"root": "integralPackge",
+				"pages": [
+					{
+						"path" : "integral-detail/integral-detail",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
+					},
+					{
+						"path" : "integral-packet/integral-packet",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
+					}
+				]
 			}
 		],
 		"preloadRule": {
 				"pages/profile/profile": {
 					"network": "all",
-					"packages": ["subpkg"]
+					"packages": ["profilePackge"]
 				},
 				"pages/cate/cate": {
 					"network": "all",
@@ -203,6 +236,10 @@
 				"indexpkg/goods/goods": {
 					"network": "all",
 					"packages": ["goodsPages"]
+				},
+				"profilePackge/integral/integral": {
+					"network": "all",
+					"packages": ["integralPackge"]
 				}
 			},
 	"globalStyle": {
@@ -231,7 +268,7 @@
 		      // "van-loading": "/wxcomponents/vant/loading/index",
 		      // "van-nav-bar": "/wxcomponents/vant/nav-bar/index",
 		      // "van-notice-bar": "/wxcomponents/vant/notice-bar/index",
-		      // "van-notify": "/wxcomponents/vant/notify/index",
+		      "van-notify": "/wxcomponents/vant/notify/index",
 		      // "van-panel": "/wxcomponents/vant/panel/index",
 		      "van-popup": "/wxcomponents/vant/popup/index",
 		      // "van-progress": "/wxcomponents/vant/progress/index",

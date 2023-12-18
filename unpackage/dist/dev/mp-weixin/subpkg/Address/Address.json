@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "address-item": "./components/AddressItem",
-    "custom-header": "../../components/CustomHeader/CustomHeader"
-  }
-}

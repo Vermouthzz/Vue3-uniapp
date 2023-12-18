@@ -123,7 +123,7 @@ const handleScroll = (e) => {
 const goodsItemList = ref([])
 const indexData = ref({
 	page: 1,
-	pageSize: 11,
+	pageSize: 12,
 })
 const getHomeList = async () => {
 	const res = await getHomeListAPI(indexData.value)
@@ -156,9 +156,7 @@ onMounted(() => {
 
 	.scroll-box {
 		flex: 1;
-		height: calc(100% - 128rpx);
-		
-
+		height: calc(100% - 140rpx);
 		.content {
 			margin-top: 40rpx;
 			padding: 0 20rpx;
@@ -301,7 +299,7 @@ onMounted(() => {
 
 				.everyday-time {
 					width: 96%;
-					height: 60rpx;
+					height: 50rpx;
 					margin: 8rpx 0 0 -2rpx;
 					border-radius: 15px;
 					background-color: #fde9eb;
@@ -309,12 +307,12 @@ onMounted(() => {
 					.every-date {
 						display: block;
 						width: 40%;
-						height: 48rpx;
+						height: 40rpx;
 						text-align: center;
-						line-height: 48rpx;
-						margin: 6rpx 8rpx 0 8rpx;
+						line-height: 40rpx;
+						margin: 0 8rpx;
 						border-radius: 30rpx;
-						font-size: 14px;
+						font-size: 12px;
 						color: #fff;
 						background-color: #f62436;
 					}
@@ -326,7 +324,7 @@ onMounted(() => {
 						font-size: 12px;
 					}
 				}
-
+				
 				.goods-item {
 					width: 48%;
 					margin: 0 10rpx 30rpx 10rpx;

@@ -9,3 +9,13 @@ export const getUserInfoAPI = (id) => {
 	})
 }
 
+export const verifyPasswordAPI = (password) => {
+	return http({
+		url: '/verify',
+		method: 'POST',
+		data: {
+			pwd: password
+		}
+	})
+}
+
