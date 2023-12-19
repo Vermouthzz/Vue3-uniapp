@@ -87,7 +87,7 @@ const as = () => {
 }
 const toOrder = (index) => {
 	uni.navigateTo({
-		url: `/subpkg/order/order?index=${index}`
+		url: `/profilePackge/order/order?index=${index}`
 	})
 }
 

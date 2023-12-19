@@ -5,3 +5,10 @@ export const getTicketListAPI = () => {
 		url: '/ticket'
 	})
 }
+
+//可兑换红包list
+export const getExchangeTicketAPI = () => {
+	return http({
+		url: '/ticket/sign'
+	})
+}

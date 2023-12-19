@@ -23,8 +23,12 @@
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
+import {getIntegralChangeAPI} from '../../api/integral.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
+const getChangeList = async () => {
+	const res = await getIntegralChangeAPI()
+}
 onLoad((options) => {
 	
 })

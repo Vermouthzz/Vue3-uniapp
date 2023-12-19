@@ -9,7 +9,7 @@
       "list": [
         {
           "name": "",
-          "pathName": "subpkg/integral/integral",
+          "pathName": "integralPackge/integral-packet/integral-packet",
           "query": "",
           "launchMode": "default",
           "scene": null
