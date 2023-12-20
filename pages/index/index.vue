@@ -46,29 +46,42 @@
 					</view>
 				</view>
 				<view class="body-content flex">
-					<view class="rank flex">
-						<view class="rank-item flex-c-a" v-for="i in 4" :key="i">
-							<view class="r-item-title flex-c-a">
-								<text class="title-weight">严选榜单</text>
-								<text class="title-s">大家都在买</text>
-							</view>
-							<view class="r-item-img">
-								<image
-									src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330">
+					 <!-- 左侧list -->
+					<view class="body-list left-list"> 
+						<view class="rank flex">
+							<view class="rank-item flex-c-a" v-for="i in 4" :key="i">
+								<view class="r-item-title flex-c-a">
+									<text class="title-weight">严选榜单</text>
+									<text class="title-s">大家都在买</text>
+								</view>
+								<image class="r-item-img" src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330" mode="widthFix">
 								</image>
 							</view>
 						</view>
+						<block v-for="item in leftList" :key="item.goods_id">
+							<GoodsItem :goodsItem="item">
+								<template #footer>
+									<view class="everyday-time flex-a">
+										<text class="every-date ">每日抄底</text>
+										<text class="end-time">距结束13小时</text>
+									</view>
+								</template>
+							</GoodsItem>
+						</block>
 					</view>
-					<block v-for="item in goodsItemList" :key="item.goods_id">
-						<GoodsItem class="goods-item" :goodsItem="item">
-							<template #footer>
-								<view class="everyday-time flex-a">
-									<text class="every-date ">每日抄底</text>
-									<text class="end-time">距结束13小时</text>
-								</view>
-							</template>
-						</GoodsItem>
-					</block>
+					<!-- 右侧list -->
+					<view class="body-list">
+						<block v-for="item in rightList" :key="item.goods_id">
+							<GoodsItem class="goods-item" :goodsItem="item">
+								<template #footer>
+									<view class="everyday-time flex-a">
+										<text class="every-date ">每日抄底</text>
+										<text class="end-time">距结束13小时</text>
+									</view>
+								</template>
+							</GoodsItem>
+						</block>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -120,14 +133,18 @@ const handleScroll = (e) => {
 	e.detail.scrollTop > 30 ? scroll.value = true : scroll.value = false
 }
 //获取列表
-const goodsItemList = ref([])
+
+const leftList = ref([])
+const rightList = ref([])
 const indexData = ref({
 	page: 1,
 	pageSize: 12,
 })
 const getHomeList = async () => {
 	const res = await getHomeListAPI(indexData.value)
-	goodsItemList.value = res
+	console.log(res);
+	leftList.value = res.leftData
+	rightList.value = res.rightData
 }
 //获取更多列表
 let flag = ref(true)
@@ -137,7 +154,8 @@ const onLoadMore = async () => {
 		indexData.value.page++
 		const res = await getHomeListAPI(indexData.value)
 		if(res.length == 0) return
-		goodsItemList.value = [...goodsItemList.value,...res]
+		leftList.value = [...leftList.value, ...res.leftData]
+		rightList.value = [...rightList.value, ...res.rightData]
 		flag.value = true
 	}
 }
@@ -264,79 +282,69 @@ onMounted(() => {
 					}
 				}
 			}
-
+			
 			.body-content {
-				flex-wrap: wrap;
-				margin-top: 36rpx;
-				.rank {
-					width: 49%;
-					flex-wrap: wrap;
-					margin-right: 4rpx;
-
-					.rank-item {
-						width: 50%;
-						.r-item-title {
-							.title-weight {
-								font-weight: 600;
-								font-size: 14px;
-								margin-bottom: 4rpx;
-							}
-
-							.title-s {
-								font-size: 10px;
-								color: #959595;
-							}
-						}
-
-						.r-item-img {
-							image {
-								width: 132rpx;
-								height: 132rpx;
-							}
-						}
-					}
+				margin-top: 20rpx;
+				justify-content: space-between;
+				box-sizing: border-box;
+				.left-list {
+					margin-right: 22rpx;
 				}
-
-				.everyday-time {
-					width: 96%;
-					height: 50rpx;
-					margin: 8rpx 0 0 -2rpx;
-					border-radius: 15px;
-					background-color: #fde9eb;
-
-					.every-date {
-						display: block;
-						width: 40%;
-						height: 40rpx;
-						text-align: center;
-						line-height: 40rpx;
-						margin: 0 8rpx;
-						border-radius: 30rpx;
-						font-size: 12px;
-						color: #fff;
-						background-color: #f62436;
+				.body-list {
+					flex: 1;
+					:deep(.goods-block) {
+						margin-bottom: 50rpx;
 					}
-
-					.end-time {
-						width: 60%;
-						display: block;
-						color: #f62436;
-						font-size: 12px;
+					.rank {
+						flex-wrap: wrap;
+						.rank-item {
+							flex: 1;
+							margin: 30rpx 0;
+							.r-item-title {
+								.title-weight {
+									font-size: 14px;
+									font-weight: 550;
+								}
+								.title-s {
+									margin-top: 8rpx;
+									font-size: 10px;
+									color: #828282;
+								}
+							}
+							.r-item-img {
+								width: 134rpx;
+							}
+						}
+					}
+					.everyday-time {
+						width: 96%;
+						height: 50rpx;
+						margin: 8rpx 0 0 -2rpx;
+						border-radius: 15px;
+						background-color: #fde9eb;
+					
+						.every-date {
+							display: block;
+							width: 40%;
+							height: 40rpx;
+							text-align: center;
+							line-height: 40rpx;
+							margin: 0 8rpx;
+							border-radius: 30rpx;
+							font-size: 12px;
+							color: #fff;
+							background-color: #f62436;
+						}
+					
+						.end-time {
+							width: 60%;
+							display: block;
+							color: #f62436;
+							font-size: 12px;
+						}
 					}
 				}
 				
-				.goods-item {
-					width: 48%;
-					margin: 0 10rpx 30rpx 10rpx;
-				}
-
-				.goods-item:nth-child(even) {
-					margin-right: 0;
-				}
-
-				.goods-item:nth-child(odd) {
-					margin-left: 0;
-				}
 			}
 		}
 	}

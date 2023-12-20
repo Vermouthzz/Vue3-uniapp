@@ -102,7 +102,7 @@ const onClickButton = () => {
 	if(!cartStore.selectedItems.length) return uni.showToast({title:'请选择商品结算', icon: 'error'})
 	userCardStore.optimalTicket(cartStore.allRetailPrice,'selected')
 	uni.navigateTo({
-		url: '/subpkg/create-order/create-order'
+		url: '/profilePackge/create-order/create-order'
 	})
 }
 //结算总金额

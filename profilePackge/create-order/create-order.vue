@@ -96,7 +96,6 @@ const show = ref(false)
 const password_show = ref(false)
 const onPayFor = async () => {
 	const res = await hasPayPassword()
-	console.log(res);
 	if(!res) return
 	show.value = true
 	// uni.showLoading({ mask: true })

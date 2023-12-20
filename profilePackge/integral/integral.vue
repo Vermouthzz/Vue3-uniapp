@@ -43,10 +43,10 @@
 					</view>
 				</view>
 				<view class="item-main flex">
-					<view class="item flex-c-a" v-for="i in 4" :key="i" @tap="toTicketDetail()">
+					<view class="item flex-c-a" v-for="(item,index) in ticketList" :key="index" @tap="toTicketDetail(item.ticket_id,integralInfo.integral)">
 						<image src="https://yanxuan.nosdn.127.net/4333b709fac8932bbf86a48ebb022e34.png?type=webp&imageView&thumbnail=160x160&quality=75" class="item-image"></image>
-						<text class="pack-name">99-10红包</text>
-						<text class="integral-num">60积分兑</text>
+						<text class="pack-name">{{item.ticket_name}}</text>
+						<text class="integral-num">{{item.is_exchange}}积分兑</text>
 					</view>
 				</view>
 			</view>
@@ -100,10 +100,8 @@ const onTapGift = async (val) => {
 	flag = true
 }
 
-const toTicketDetail = () => {
-	uni.navigateTo({
-		url: '/integralPackge/integral-packet/integral-packet'
-	})
+const toTicketDetail = (id,val) => {
+	uni.navigateTo({ url: `/integralPackge/integral-packet/integral-packet?id=${id}&integral=${val}` })
 }
 
 const integralInfo = ref([])
@@ -118,7 +116,7 @@ const getRedTicketList = async () => {
 	ticketList.value = res.result
 }
 onLoad(() => {
-	Promise.all(getUserIntegral(),getRedTicketList())
+	Promise.all([getUserIntegral(),getRedTicketList()])
 })
 </script>
 

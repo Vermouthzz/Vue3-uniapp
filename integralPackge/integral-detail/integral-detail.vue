@@ -4,33 +4,42 @@
 		<view class="detail-block-body">
 			<view class="integral flex-c-a">
 				<text class="user-integral">我的积分</text>
-				<text class="integral-num">330</text>
+				<text class="integral-num">{{user_integral}}</text>
 			</view>
-			<view class="integral-detail flex-c">
-				<view class="integral-item flex-a">
-					<view class="item-left flex-c">
-						<text>签到积分</text>
-						<text class="date">2023-12-18 07:06:09</text>
-					</view>
-					<view class="item-right">
-						+10
+			<block v-if="integralChangeList.length">
+				<view class="integral-detail flex-c">
+					<view class="integral-item flex-a" v-for="(item,index) in integralChangeList" :key="index">
+						<view class="item-left flex-c">
+							<text>签到积分</text>
+							<text class="date">{{item.change_time}}</text>
+						</view>
+						<view class="item-right">
+							{{item.change_type ? '+' : '-'}}{{item.change_num}}
+						</view>
 					</view>
 				</view>
-			</view>
+			</block>
 		</view>
 	</view>
 </template>
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
+import { computed, ref, watch } from 'vue';
 import {getIntegralChangeAPI} from '../../api/integral.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
+
+const integralChangeList = ref([])
+const user_integral = ref('')
 const getChangeList = async () => {
 	const res = await getIntegralChangeAPI()
+	integralChangeList.value = res.result
+	user_integral.value = res.integral
+	console.log(res);
 }
 onLoad((options) => {
-	
+	getChangeList()
 })
 </script>
 
