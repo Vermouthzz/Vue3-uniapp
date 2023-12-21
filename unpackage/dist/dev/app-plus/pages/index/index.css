@@ -23,34 +23,34 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.search-block[data-v-428b4be6] {
+.search-block-index[data-v-428b4be6] {
   padding: 0 0.625rem;
 }
-.search-block .search-area[data-v-428b4be6] {
+.search-block-index .search-area-index[data-v-428b4be6] {
   width: 100%;
-  height: 1.75rem;
-  border: 1px solid red;
+  border: 1px solid #d93d46;
   border-radius: 30px;
   display: flex;
   box-sizing: border-box;
 }
-.search-block .search-area .sea-icon[data-v-428b4be6] {
+.search-block-index .search-area-index .sea-icon[data-v-428b4be6] {
   margin: 0.5rem 0.3125rem 0.3125rem 0.5rem;
 }
-.search-block .search-area uni-input[data-v-428b4be6] {
+.search-block-index .search-area-index .search-input[data-v-428b4be6] {
   flex: 1;
-  margin: 0.1875rem 0;
+  padding: 0.3125rem 0;
   font-size: 14px;
 }
-.search-block .search-area .btn-search[data-v-428b4be6] {
-  margin-right: -1px;
-  margin-top: -1px;
+.search-block-index .search-area-index .btn-search[data-v-428b4be6] {
+  margin-right: -0.0625rem;
+  margin-top: -0.125rem;
   width: 3.75rem;
   font-size: 14px;
-  line-height: 1.625rem;
+  line-height: 2.1875rem;
   text-align: center;
   border-radius: 15px;
-  background-color: red;
+  background-color: #f1373d;
+  color: #fff;
 }
 /**
  * 这里是uni-app内置的常用样式变量
@@ -77,14 +77,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.header[data-v-0def32ac] {
+.index-header[data-v-0def32ac] {
   padding-left: 0.3125rem;
 }
-.header uni-image[data-v-0def32ac] {
+.index-header .index-header-img[data-v-0def32ac] {
   width: 7.5rem;
   height: 2.5rem;
 }
-.header .search-box[data-v-0def32ac] {
+.index-header .search-box[data-v-0def32ac] {
   width: 75%;
   margin: 0.5rem 0;
 }
@@ -119,7 +119,7 @@
 .goods-block .top-img[data-v-4b020d49] {
   width: 100%;
 }
-.goods-block .top-img uni-image[data-v-4b020d49] {
+.goods-block .top-img .top-image[data-v-4b020d49] {
   display: block;
   width: 100%;
   height: 200px;
@@ -128,7 +128,11 @@
 .goods-block .btm-text[data-v-4b020d49] {
   margin-top: 5px;
 }
-.goods-block .btm-text .produce uni-image[data-v-4b020d49] {
+.goods-block .btm-text .produce[data-v-4b020d49] {
+  font-size: 13px;
+  color: #171717;
+}
+.goods-block .btm-text .produce .produce-image[data-v-4b020d49] {
   width: 18px;
   height: 18px;
   vertical-align: top;
@@ -138,17 +142,84 @@
   color: #9d9d9d;
   font-size: 12px;
 }
+.goods-block .btm-text .goods-price[data-v-4b020d49] {
+  font-size: 12px;
+}
+.goods-block .btm-text .goods-price .retail-price[data-v-4b020d49] {
+  color: #fd1f33;
+}
 .goods-block .btm-text .goods-price .hot-price[data-v-4b020d49] {
   color: #fd1f33;
-  font-size: 12px;
+  font-size: 14px;
 }
 .goods-block .btm-text .goods-price .hot-price .int[data-v-4b020d49] {
   font-size: 16px;
 }
-.goods-block .btm-text .goods-price .col-price[data-v-4b020d49] {
-  font-size: 14px;
+.goods-block .btm-text .goods-price .real-price[data-v-4b020d49] {
   color: #9b9b9b;
   text-decoration: line-through;
+}
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.index-nav[data-v-bf52ae38] {
+  margin-top: 0.5rem;
+  padding: 0 0.375rem;
+  box-sizing: border-box;
+}
+.index-nav .scroll-cate[data-v-bf52ae38] {
+  white-space: nowrap;
+}
+.index-nav .scroll-cate .cate-item[data-v-bf52ae38] {
+  width: 20%;
+  display: inline-block;
+}
+.index-nav .scroll-cate .cate-item .index-image[data-v-bf52ae38] {
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.index-nav .scroll-cate .cate-item .item-text[data-v-bf52ae38] {
+  margin-top: 0.3125rem;
+  font-size: 11px;
+}
+.index-nav .scroll-line[data-v-bf52ae38] {
+  justify-content: center;
+  margin-top: 0.9375rem;
+}
+.index-nav .scroll-line .line[data-v-bf52ae38] {
+  position: relative;
+  height: 0.1875rem;
+  width: 2.5rem;
+  background-color: #efefef;
+}
+.index-nav .scroll-line .line .move-line[data-v-bf52ae38] {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: red;
 }
 /**
  * 这里是uni-app内置的常用样式变量
@@ -182,26 +253,7 @@ body {
 }
 .scroll-box {
   flex: 1;
-  height: 375px;
-}
-.scroll-box .swiper-box {
-  height: 12.5rem;
-}
-.scroll-box .swiper-box .swiper-item .list-block {
-  display: flex;
-  flex-wrap: wrap;
-}
-.scroll-box .swiper-box .swiper-item .list-block .list-item {
-  justify-content: space-between;
-  width: 20%;
-}
-.scroll-box .swiper-box .swiper-item .list-block .list-item uni-image {
-  width: 3.75rem;
-  height: 3.75rem;
-}
-.scroll-box .swiper-box .swiper-item .list-block .list-item .item-text {
-  margin-top: 0.375rem;
-  font-size: 12px;
+  height: calc(100% - 4.375rem);
 }
 .scroll-box .content {
   margin-top: 1.25rem;
@@ -293,62 +345,60 @@ body {
   margin-right: 0.25rem;
 }
 .scroll-box .content .body-content {
+  margin-top: 0.625rem;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.scroll-box .content .body-content .left-list {
+  margin-right: 0.6875rem;
+}
+.scroll-box .content .body-content .body-list {
+  flex: 1;
+}
+.scroll-box .content .body-content .body-list .goods-block {
+  margin-bottom: 1.5625rem;
+}
+.scroll-box .content .body-content .body-list .rank {
   flex-wrap: wrap;
-  margin-top: 1.125rem;
 }
-.scroll-box .content .body-content .rank {
-  width: 49%;
-  flex-wrap: wrap;
-  margin-right: 0.125rem;
+.scroll-box .content .body-content .body-list .rank .rank-item {
+  flex: 1;
+  margin: 0.9375rem 0;
 }
-.scroll-box .content .body-content .rank .rank-item {
-  width: 50%;
-}
-.scroll-box .content .body-content .rank .rank-item .r-item-title .title-weight {
-  font-weight: 600;
+.scroll-box .content .body-content .body-list .rank .rank-item .r-item-title .title-weight {
   font-size: 14px;
-  margin-bottom: 0.125rem;
+  font-weight: 550;
 }
-.scroll-box .content .body-content .rank .rank-item .r-item-title .title-s {
+.scroll-box .content .body-content .body-list .rank .rank-item .r-item-title .title-s {
+  margin-top: 0.25rem;
   font-size: 10px;
-  color: #959595;
+  color: #828282;
 }
-.scroll-box .content .body-content .rank .rank-item .r-item-img uni-image {
-  width: 4.125rem;
-  height: 4.125rem;
+.scroll-box .content .body-content .body-list .rank .rank-item .r-item-img {
+  width: 4.1875rem;
 }
-.scroll-box .content .body-content .everyday-time {
+.scroll-box .content .body-content .body-list .everyday-time {
   width: 96%;
-  height: 1.875rem;
+  height: 1.5625rem;
   margin: 0.25rem 0 0 -0.0625rem;
   border-radius: 15px;
   background-color: #fde9eb;
 }
-.scroll-box .content .body-content .everyday-time .every-date {
+.scroll-box .content .body-content .body-list .everyday-time .every-date {
   display: block;
   width: 40%;
-  height: 1.5rem;
+  height: 1.25rem;
   text-align: center;
-  line-height: 1.5rem;
-  margin: 0.1875rem 0.25rem 0 0.25rem;
+  line-height: 1.25rem;
+  margin: 0 0.25rem;
   border-radius: 0.9375rem;
-  font-size: 14px;
+  font-size: 12px;
   color: #fff;
   background-color: #f62436;
 }
-.scroll-box .content .body-content .everyday-time .end-time {
+.scroll-box .content .body-content .body-list .everyday-time .end-time {
   width: 60%;
   display: block;
   color: #f62436;
   font-size: 12px;
-}
-.scroll-box .content .body-content .goods-item {
-  width: 48%;
-  margin: 0 0.3125rem;
-}
-.scroll-box .content .body-content .goods-item:nth-child(even) {
-  margin-right: 0;
-}
-.scroll-box .content .body-content .goods-item:nth-child(odd) {
-  margin-left: 0;
 }

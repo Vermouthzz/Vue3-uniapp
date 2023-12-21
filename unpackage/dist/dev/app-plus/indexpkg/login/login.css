@@ -39,7 +39,7 @@ body {
 .login-box .body .content .img-logo {
   margin-top: 1.875rem;
 }
-.login-box .body .content .img-logo uni-image {
+.login-box .body .content .img-logo .content-image {
   width: 10.4375rem;
   height: 3.75rem;
 }

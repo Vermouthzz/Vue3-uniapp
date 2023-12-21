@@ -1,9 +1,16 @@
 <template>
-	<view class="love-block">
+	<view class="love-block flex-c-a fff">
 		<slot name="title"></slot>
-		<view class="love-list">
-			<view class="love-list-item" v-for="o in 6" :key="o">
-				<GoodsItem></GoodsItem>
+		<view class="love-list flex">
+			<view class="love-list-left">
+				<block v-for="i in 6" :key="i">
+					<GoodsItem></GoodsItem>
+				</block>
+			</view>
+			<view class="love-list-right">
+				<block v-for="i in 6" :key="i">
+					<GoodsItem></GoodsItem>
+				</block>
 			</view>
 		</view>
 	</view>
@@ -13,22 +20,27 @@
 import GoodsItem from '../GoodsItem/GoodsItem.vue'
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.love-block {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
 		margin-top: 12px;
-		padding: 0 ;
 		background-color: #fff;
 		box-sizing: border-box;
 		.love-list {
-			display: flex;
-			flex-wrap: wrap;
-			// padding: 0 8px;
-			.love-list-item {
-				width: 45%;
-				margin: 0 6px 24px 10px;
+			justify-content: space-between;
+			padding: 0 18rpx;
+			box-sizing: border-box;
+			.love-list-left {
+				flex: 1;
+				margin-right: 24rpx;
+				:deep(.goods-block) {
+					margin-bottom: 50rpx;
+				}
+			}
+			.love-list-right {
+				flex: 1;
+				:deep(.goods-block) {
+					margin-bottom: 50rpx;
+				}
 			}
 		}
 	}

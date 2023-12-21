@@ -26,3 +26,22 @@
 .buy-goods {
 	background-color: #db1b2d;
 }
+.btn-del {
+	justify-content: center;
+	width: 120rpx;
+	height: 100%;
+	background-color: red;
+	border: 1px solid red;
+	color: #fff;
+	font-size: 12px;
+}
+.fff {
+	background-color: #fff;
+}
+.love-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 94rpx;
+	font-size: 16px;
+}
