@@ -19,3 +19,15 @@ export const verifyPasswordAPI = (password) => {
 	})
 }
 
+export const updateUserMoneyAPI = (money,type,num) => {
+	return http({
+		url: '/user/balance',
+		method: 'POST',
+		data: {
+			money,
+			type,
+			num
+		}
+	})
+}
+

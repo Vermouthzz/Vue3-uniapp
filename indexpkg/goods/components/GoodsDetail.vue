@@ -23,7 +23,7 @@
 			<text class="date">{{curSeconds}}</text> -->
 		</view>
 		<view class="goods-price">
-			<text class="mid-size">￥</text><text class="big-size">{{goods.retail_price}}</text><text class="mid-size">.00</text>
+			<text class="mid-size">￥</text><text class="big-size">{{goods.retail_price}}</text><text class="mid-size"></text>
 			<text class="line-size">￥{{goods.goods_price}}</text>
 		</view>
 	</view>
@@ -135,11 +135,14 @@ onLoad(() => {
 		height: 140rpx;
 		color: #fff;
 		font-size: 14px;
-		padding: 0 20rpx;
-
-		.cheap-price {}
+		padding: 20rpx 20rpx 0;
+		box-sizing: border-box;
+		.cheap-price {
+			font-size: 11px;
+		}
 
 		.goods-price {
+			margin-bottom: 8rpx;
 			.mid-size {
 				margin-right: -8rpx;
 				font-size: 18px;
@@ -190,10 +193,11 @@ onLoad(() => {
 
 		.goods-name {
 			font-size: 16px;
+			margin-top: 24rpx;
 		}
 
 		.goods-recommend-block {
-			margin: 12rpx 0;
+			margin: 16rpx 0 12rpx;
 
 			.goods-recommend-item1 {
 				width: 12%;
@@ -241,10 +245,9 @@ onLoad(() => {
 
 		.goods-hot-list {
 			position: relative;
-			padding: 10rpx;
+			padding: 16rpx;
 			margin-top: 20rpx;
 			background-color: #fafafa;
-
 			&::before {
 				content: '>';
 				position: absolute;
@@ -263,14 +266,17 @@ onLoad(() => {
 					width: 30rpx;
 					height: 30rpx;
 					font-size: 12px;
-					color: #b82332;
+					color: #c52331;
 					border-radius: 50%;
-					border: 2px solid #b82332;
+					border: 2px solid #c52331;
 					margin-right: 6rpx;
 				}
-
 				.item-text {
+					margin-left: 8rpx;
 					font-size: 12px;
+				}
+				&:last-child {
+					margin-bottom: 0;
 				}
 			}
 		}

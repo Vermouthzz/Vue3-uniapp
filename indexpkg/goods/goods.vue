@@ -1,5 +1,5 @@
 <template>
-	<view class="goods-block flex-c" :style="{paddingTop: 30 + 'px'}">
+	<view class="goods-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<goods-header></goods-header>
 		<view class="goods-body flex-c">
 			<scroll-view scroll-y="true" class="goods-scroll" enable-flex="true">
@@ -27,12 +27,7 @@
 						</view>
 					</view>
 					<!-- 更多推荐板块 -->
-					<view class="more-recommend">
-						<view class="more-recommend-title">
-							更多推荐
-						</view>
-						<!-- 更多推荐item -->
-					</view>
+					<goods-recommed></goods-recommed>
 				</view>
 			</scroll-view>
 		</view>
@@ -44,6 +39,7 @@
 <script setup>
 import {ref} from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import GoodsRecommed from './components/GoodsRecommend.vue'
 import GoodsHeader from './components/GoodsHeader.vue'
 import GoodsDetail from './components/GoodsDetail.vue'
 import GoodsDeliver from './components/GoodsDeliver.vue'
@@ -57,7 +53,7 @@ import GoodsBrand from './components/GoodsBrand.vue'
 import { useMiddle } from '../../hooks/useMiddle.js'
 import { getGoodsInfoAPI } from '../../api/goods.js'
 import mitter from '../../utils/mitt.js'
-
+const {safeAreaInsets} = uni.getSystemInfoSync()
 //获取goods数据
 const goodsVal = ref({})
 const getGoodsInfo = async (id) => {
@@ -128,17 +124,6 @@ onLoad((options) => {
 						.goods-big-image {
 							width: 100%;
 							display: block;
-						}
-					}
-
-					.more-recommend {
-						margin: 14rpx 0 30rpx;
-						padding: 12rpx;
-						background-color: #fff;
-
-						.more-recommend-title {
-							padding: 16rpx 0;
-							font-size: 15px;
 						}
 					}
 				}

@@ -5,7 +5,7 @@
 			<packge-item :item="item" :index="index"></packge-item>
 		</block>
 		<!-- 优惠券、红包板块 -->
-		<create-quote v-model:li_checked="li_checked" v-model:h_checked="h_checked"></create-quote>
+		<create-quote v-model:li_checked="li_checked" v-model:h_checked="h_checked" v-model:ba_checked="ba_checked"></create-quote>
 		<!-- 商品金额信息板块 -->
 		<Discount v-model:li_checked="li_checked" v-model:h_checked="h_checked"></Discount>
 	</scroll-view>
@@ -13,7 +13,7 @@
 		<view class="pay-price">
 			应付:￥{{payNum.toFixed(2)}}
 		</view>
-		<view class="buy-now" :style="{backgroundColor: addressStore.addressList ? '#f72430' : ''}" @tap="onPayFor">
+		<view class="buy-now" :style="{backgroundColor: addressStore.addressList && ba_checked ? '#f72430' : ''}" @tap="onPayFor">
 			立即支付
 		</view>
 	</view>
@@ -46,6 +46,7 @@ const userCardStore = useUserCardStore()
 //礼品卡、提货卡
 const li_checked = ref(false)
 const h_checked = ref(false)
+const ba_checked = ref(false)
 //应付总金额
 const payNum = computed(() => {
 	let li_num = 0, h_num = 0
@@ -95,12 +96,19 @@ const hasPayPassword = () => {
 const show = ref(false)
 const password_show = ref(false)
 const onPayFor = async () => {
+	if(userCardStore.userBalance.num < payNum.value) {
+		uni.showToast({
+			icon: 'error',
+			title: '余额不足'
+		})
+		return
+	}
 	const res = await hasPayPassword()
 	if(!res) return
 	show.value = true
-	// uni.showLoading({ mask: true })
-	// let flag = orderStore.createOrderItem(cartStore.selectedItems,addressStore.selectedAddress,cartStore.activeFee,payNum.value)
-	// if(flag) uni.hideLoading()
+	uni.showLoading({ mask: true })
+	let flag = orderStore.createOrderItem(cartStore.selectedItems,addressStore.selectedAddress,cartStore.activeFee,payNum.value)
+	if(flag) uni.hideLoading()
 }
 
 

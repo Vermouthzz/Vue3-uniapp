@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import {getOrderItemAPI,getOrderListAPI,updateOrderItemAPI,createOrderAPI} from '../api/order.js'
+import {getOrderItemAPI,getOrderListAPI,updateOrderItemStatusAPI,createOrderAPI} from '../api/order.js'
 
 export const useOrderStore = defineStore('order', () => {
 	//-------state---------
@@ -32,10 +32,9 @@ export const useOrderStore = defineStore('order', () => {
 	}
 	
 	const updateItem = async (type,id) => {
-		uni.showLoading({
-			mask: true
-		})
-		const res = await updateOrderItemAPI(type,id)
+		if(orderItem.value) orderItem.order_status = type
+		uni.showLoading({ mask: true })
+		const res = await updateOrderItemStatusAPI(type,id)
 		if(res) uni.hideLoading()
 	}
 	

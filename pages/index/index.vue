@@ -292,9 +292,6 @@ onMounted(() => {
 				}
 				.body-list {
 					flex: 1;
-					:deep(.goods-block) {
-						margin-bottom: 50rpx;
-					}
 					.rank {
 						flex-wrap: wrap;
 						.rank-item {

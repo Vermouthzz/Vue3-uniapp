@@ -36,11 +36,11 @@
 				<van-icon name="arrow" size="32rpx" color="#6b6b6b"></van-icon>
 			</view>
 		</view>
-		<!-- <view class="common-block flex-a">
+		<view class="common-block flex-a">
 			<view class="left-block">
-				<van-checkbox class="left-zero-checked" shape="square" :value="ba_checked" @change="onChange()">余额：￥0</van-checkbox>
+				<van-checkbox class="left-zero-checked" :disabled="userCardStore.userBalance.num <= 0" shape="square" :value="ba_checked" @change="onChange($event,'ba')">余额：￥{{userCardStore.userBalance.num}}</van-checkbox>
 			</view>
-		</view> -->
+		</view>
 	</view>
 </template>
 
@@ -48,8 +48,8 @@
 import { ref } from 'vue';
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
 const userCardStore = useUserCardStore()
-const props = defineProps(['li_checked','h_checked'])
-const emits = defineEmits(['update:li_checked','update:h_checked'])
+const props = defineProps(['li_checked','h_checked','ba_checked'])
+const emits = defineEmits(['update:li_checked','update:h_checked','update:ba_checked'])
 const toTicketQuote = (type) => {
 	uni.navigateTo({
 		url: '/subpkg/choose-ticket/choose-ticket'
@@ -59,6 +59,8 @@ const toTicketQuote = (type) => {
 const onChange = (e, type = 'h') => {
 	if(type == 'li') {
 		emits('update:li_checked', e.detail)
+	} else if(type == 'ba') {
+		emits('update:ba_checked', e.detail)
 	} else {
 		emits('update:h_checked', e.detail)
 	}

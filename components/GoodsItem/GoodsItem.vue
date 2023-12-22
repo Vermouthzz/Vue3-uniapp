@@ -1,5 +1,5 @@
 <template>
-	<view class="goods-block flex-c" @tap="toGoodsDetail">
+	<view class="goods-item-block flex-c" @tap="toGoodsDetail">
 		<view class="top-img">
 			<image class="top-image" :src="goodsItem.goods_img || 'https://yanxuan-item.nosdn.127.net/b61a592db6544fb87710bfa6b2a226f7.png?type=webp&imageView&quality=65&thumbnail=330x330'"></image>
 		</view> 
@@ -51,8 +51,9 @@ const toGoodsDetail = () => {
 </script>
 
 <style lang="scss" scoped>
-.goods-block {
+.goods-item-block {
 	width: 100%;
+	margin-bottom: 50rpx;
 	.top-img {
 		width: 100%;
 		.top-image { 	

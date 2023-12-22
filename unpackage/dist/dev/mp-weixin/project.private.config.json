@@ -9,6 +9,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "profilePackge/pay-result/pay-result",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "integralPackge/integral-packet/integral-packet",
           "query": "",
           "launchMode": "default",
@@ -17,13 +24,6 @@
         {
           "name": "",
           "pathName": "goodsPages/comment/comment",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "subpkg/balance-detail/balance-detail",
           "query": "",
           "launchMode": "default",
           "scene": null

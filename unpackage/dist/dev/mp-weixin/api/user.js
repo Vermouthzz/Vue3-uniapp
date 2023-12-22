@@ -1,1 +1,1 @@
-"use strict";const e=require("../request/index.js"),t=r=>e.http({url:"/user",data:{user_id:r}}),s=r=>e.http({url:"/verify",method:"POST",data:{pwd:r}});exports.getUserInfoAPI=t;exports.verifyPasswordAPI=s;
+"use strict";const r=require("../request/index.js"),u=e=>r.http({url:"/user",data:{user_id:e}}),n=e=>r.http({url:"/verify",method:"POST",data:{pwd:e}}),a=(e,t,s)=>r.http({url:"/user/balance",method:"POST",data:{money:e,type:t,num:s}});exports.getUserInfoAPI=u;exports.updateUserMoneyAPI=a;exports.verifyPasswordAPI=n;

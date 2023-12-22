@@ -19,7 +19,7 @@
         "redPacket/redPacket",
         "choose-ticket/choose-ticket",
         "card/card",
-        "error-result/error-result",
+        "pay-result/pay-result",
         "balance-detail/balance-detail",
         "ProfileSafe/ProfileSafe",
         "integral/integral"

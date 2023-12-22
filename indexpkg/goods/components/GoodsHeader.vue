@@ -43,9 +43,8 @@ const toBack = () => {
 		}
 		.header-right-block {
 			width: 46%;
-			background-color: #ccc;
+			background-color: #fafafa;
 			.header-right-input {
-				// background-color: skyblue;
 				font-size: 26rpx;
 			}
 		}

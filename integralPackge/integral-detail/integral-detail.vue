@@ -13,7 +13,7 @@
 							<text>签到积分</text>
 							<text class="date">{{item.change_time}}</text>
 						</view>
-						<view class="item-right">
+						<view class="item-right" :style="{color: item.change_type ? '#8b4f18' : '#4096e6'}">
 							{{item.change_type ? '+' : '-'}}{{item.change_num}}
 						</view>
 					</view>
@@ -36,7 +36,6 @@ const getChangeList = async () => {
 	const res = await getIntegralChangeAPI()
 	integralChangeList.value = res.result
 	user_integral.value = res.integral
-	console.log(res);
 }
 onLoad((options) => {
 	getChangeList()

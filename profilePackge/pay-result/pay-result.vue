@@ -3,12 +3,17 @@
 		<CustomHeader :title="'支付结果'" :middle="true"></CustomHeader>
 		<view class="result-body flex-c">
 			<view class="result-text">
-				<view class="error-pay">
-					支付失败
-				</view>
-				<view class="error-delay flex-c">
-					<text>请在<text class="err">1小时</text>内完成付款</text>
-					<text class="err">否则订单会被系统取消</text>
+				<block v-if="true">
+					<view class="error-pay">
+						支付失败
+					</view>
+					<view class="error-delay flex-c">
+						<text>请在<text class="err">1小时</text>内完成付款</text>
+						<text class="err">否则订单会被系统取消</text>
+					</view>
+				</block>
+				<view class="success-pay" v-else>
+					支付成功
 				</view>
 			</view>
 			<view class="show-repay flex">
@@ -62,6 +67,11 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 					color: #a8323b;
 				}
 			}
+			.success-pay {
+				color: #20b44f;
+				font-size: 22px;
+				text-align: center;
+			}
 		}
 		.show-repay {
 			width: 52vw;
@@ -75,7 +85,7 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 			}
 		}
 		.pay-detail {
-			margin: 30rpx 20rpx;
+			margin: 34rpx 20rpx;
 			padding: 30rpx 24rpx;
 			border: 1px solid #e6e9c7;	
 			background-color: #fffbf2;

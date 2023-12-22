@@ -23,7 +23,7 @@
 				<packge-item :item="item" :index="index">	
 					<template #title>
 						<view class="wait-pay">
-							{{cancelFlag ? '已取消' : '待付款'}}
+							{{orderStatus}}
 						</view>
 					</template>
 				</packge-item>
@@ -33,7 +33,7 @@
 					<text class="id-name">订单编号：<text class="id-value">{{orderStore.orderItem.order_id}}</text></text>
 					<text class="id-name">下单时间：<text class="id-value">{{orderStore.orderItem.create_time}}</text></text>
 				</view>
-				<view class="copy-right">
+				<view class="copy-right" @tap="onCopy">
 					复制
 				</view>
 			</view>
@@ -81,11 +81,16 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 const orderStore = useOrderStore()
 const addressStore = useAddressStore()
 const cartStore = useCartStore()
-//地址
 
+//地址
 const address = computed(() => addressStore.selectedAddress.address.split(" ").join('') + addressStore.selectedAddress.detail_adrs)
 const phone = computed(() => orderStore.orderItem.contact?.slice(0,3) + '****' + orderStore.orderItem.contact?.slice(7))
 //倒计时
+
+//订单状态
+const orderStatus = computed(() => {
+	return orderStore.orderItem.order_status == -1 ? '已取消' : orderStore.orderItem.order_status == 0 ? '待付款' : '待发货'
+})
 
 //倒计时结束
 const onFinish = async () => {
@@ -93,16 +98,20 @@ const onFinish = async () => {
 	orderStore.updateItem(-1,orderStore.orderItem.order_id)
 }
 
+//复制功能
+const onCopy = () => {
+	
+}
+
 //取消订单
 const cancelFlag = ref(false)
 const onCancelOrder = () => {
-	cancelFlag.value = true
 	orderStore.updateItem(-1,orderStore.orderItem.order_id)
+	cancelFlag.value = true
 }
 const onPayOrder = () => {
 	
 }
-
 
 onLoad((options) => {
 	

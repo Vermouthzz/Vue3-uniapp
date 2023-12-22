@@ -18,19 +18,22 @@
 				<van-icon name="alipay" color="rgb(23,120,255)" size="50rpx"></van-icon>
 				<view class="pay-item flex-a">
 					<text>余额支付({{userCardStore.userBalance.num}})</text>
-					<text class="error" v-show="!is_enough">*余额不足，请先去充值</text>
 				</view>
 			</view>
 			<view class="pay">
-				<van-button type="primary" @tap="confirmPay" block :disabled="!is_enough">确认支付</van-button>
+				<van-button type="primary" @tap="confirmPay" block >确认支付</van-button>
 			</view>
 		</view>
 	</van-popup>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from 'vue'
+import {updateUserMoneyAPI} from '../../api/user.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
+import {updateOrderItemStatusAPI} from '../../api/order.js'
+import {useOrderStore} from '../../store/useOrderStore.js'
+const orderStore = useOrderStore()
 const userCardStore = useUserCardStore()
 const props = defineProps({
 	show: {
@@ -52,21 +55,25 @@ const props = defineProps({
 })
 const emits = defineEmits(['update:show'])
 
-const is_enough = computed(() => userCardStore.userBalance.num >= props?.price)
 
 const onClose = () => {
 	emits('update:show', false)
-	// if(props.type) {
-	// 	//还可以添加loding
-	// 	uni.navigateTo({
-	// 		url: `/subpkg/OrderDetail/OrderDetail?id=${props.id}`
-	// 	})
-	// }
+	if(props.type) {
+		//还可以添加loding
+		uni.navigateTo({
+			url: `/profilePackge/OrderDetail/OrderDetail?id=${props.id}`
+		})
+	}
 }
 
 //确认支付
-const confirmPay = () => {
-	
+const confirmPay = async () => {
+	userCardStore.postNewBalance(userCardStore.userBalance.num - props.price)
+	await Promise.all([updateOrderItemStatusAPI(1,orderStore.orderItem.order_id),updateUserMoneyAPI( userCardStore.userBalance.num, 0, props.price)])
+	onClose()
+	uni.navigateTo({
+		url: `/profilePackge/pay-result/pay-result`
+	})
 }
 </script>
 

@@ -108,7 +108,7 @@
 						}
 					},
 					{
-						"path" : "error-result/error-result",
+						"path" : "pay-result/pay-result",
 						"style" : 
 						{
 							"navigationStyle": "custom"

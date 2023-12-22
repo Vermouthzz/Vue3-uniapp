@@ -5,7 +5,7 @@
 			<view class="profile-ticket-block flex">
 				<view class="ticket-item flex-c-a" v-for="(i,index) in quoteList" :key="index" @tap="onTapQuoteList(i.path)">
 					<view class="item-num" :class="{price: i.is_dollar}">
-						0
+					{{i.num}}
 					</view>
 					<view class="item-name">
 						{{i.name}}

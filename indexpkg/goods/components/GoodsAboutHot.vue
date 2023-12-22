@@ -2,7 +2,7 @@
 	<view class="about-hot-block">
 		<view class="about-hot-title flex">
 			<view class="common-title" @tap="onTapTitle(index)" v-for="(item,index) in titleList" :class="{active_title: index == activeTitle}" :key="index">
-				相关商品
+				{{item.name}}
 			</view>
 		</view>
 		<view class="about-hot-goods">

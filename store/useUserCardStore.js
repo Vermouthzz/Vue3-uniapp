@@ -18,6 +18,10 @@ export const useUserCardStore = defineStore('user-card', () => {
 		if(userTicketList.value.length) userTicketList.value.forEach(item => item.selected = false)
 	}
 	
+	const postNewBalance = (val) => {
+		userBalance.value.num = val
+	}
+	
 	//默认选中最优惠的红包
 	const defaultSelectedTicket = (price) => {
 		if(!userTicketList.value.length) return
@@ -81,6 +85,7 @@ export const useUserCardStore = defineStore('user-card', () => {
 		effectiveTickets,
 		uselessTickets,
 		tapSelected,
-		unUseTicket
+		unUseTicket,
+		postNewBalance
 	}
 })

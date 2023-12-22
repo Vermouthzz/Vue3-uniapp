@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
+    "goods-recommed": "./components/GoodsRecommend",
     "goods-header": "./components/GoodsHeader",
     "goods-detail": "./components/GoodsDetail",
     "goods-deliver": "./components/GoodsDeliver",

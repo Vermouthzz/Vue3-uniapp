@@ -1,12 +1,13 @@
 import { ref } from "vue"
-
+import {useUserCardStore} from '../../store/useUserCardStore.js'
 
 export const useProfileHook = () => {
+	const userCardStore = useUserCardStore()
 	const quoteList = ref([
-		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card'},
-		{id: 2, name: '余额', is_dollar: true, path: '/profilePackge/balance/balance'},
-		{id: 3, name: '红包', is_dollar: false, path: '/profilePackge/redPacket/redPacket'},
-		{id: 4, name: '优惠券', is_dollar: false, path: '/profilePackge/redPacket/redPacket'}
+		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card',num: userCardStore.userCard.length},
+		{id: 2, name: '余额', is_dollar: true, path: '/profilePackge/balance/balance', num: userCardStore.userBalance.num},
+		{id: 3, name: '红包', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: userCardStore.userTicketList[0]?.length || 0},
+		{id: 4, name: '优惠券', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: 0}
 	])
 	
 	const orderList = ref([

@@ -30,7 +30,7 @@ export const getOrderListAPI = () => {
 }
 
 
-export const updateOrderItemAPI = (type,id) => {
+export const updateOrderItemStatusAPI = (type,id) => {
 	return http({
 		url: '/order',
 		method: 'POST',
