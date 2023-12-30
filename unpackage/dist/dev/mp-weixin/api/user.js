@@ -1,1 +1,0 @@
-"use strict";const r=require("../request/index.js"),n=()=>r.http({url:"/user"}),u=e=>r.http({url:"/verify",method:"POST",data:{pwd:e}}),o=(e,t,s)=>r.http({url:"/user/balance",method:"POST",data:{money:e,type:t,num:s}});exports.getUserInfoAPI=n;exports.updateUserMoneyAPI=o;exports.verifyPasswordAPI=u;

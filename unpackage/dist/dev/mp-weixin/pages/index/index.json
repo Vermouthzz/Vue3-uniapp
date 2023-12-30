@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "search": "./components/Search",
-    "custom-header": "./components/CustomHeader",
-    "goods-item": "../../components/GoodsItem/GoodsItem",
-    "index-nav": "./components/IndexNav"
-  }
-}

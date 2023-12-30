@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),n={};function o(c,r){return{}}const t=e._export_sfc(n,[["render",o],["__file","D:/github/app-unis/indexpkg/goods/components/GoodsHotfee.vue"]]);wx.createComponent(t);

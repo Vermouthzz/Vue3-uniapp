@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "custom-header": "../../components/CustomHeader/CustomHeader",
-    "goods-item": "../../components/GoodsItem/GoodsItem",
-    "brand-tab": "./components/BrandTab",
-    "brand-desc": "./components/BrandDesc"
-  }
-}

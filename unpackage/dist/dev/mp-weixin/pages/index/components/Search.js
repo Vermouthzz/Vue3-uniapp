@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js");Array||e.resolveComponent("van-icon")();const o={__name:"Search",setup(n){return(_,t)=>({a:e.p({name:"search",color:"#323232",size:"32rpx"})})}},c=e._export_sfc(o,[["__scopeId","data-v-428b4be6"],["__file","D:/github/app-unis/pages/index/components/Search.vue"]]);wx.createComponent(c);

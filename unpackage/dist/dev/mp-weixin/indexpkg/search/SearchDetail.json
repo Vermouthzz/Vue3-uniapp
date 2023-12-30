@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "search-tab": "./components/SearchTab",
-    "goods-item": "../../components/GoodsItem/GoodsItem"
-  }
-}

@@ -1,1 +1,0 @@
-<view class="comment-block flex-c" style="{{'padding-top:' + b}}"><custom-header wx:if="{{a}}" u-i="0771e806-0" bind:__l="__l" u-p="{{a}}"></custom-header><comment-block u-i="0771e806-1" bind:__l="__l"></comment-block></view>

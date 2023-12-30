@@ -1,1 +1,0 @@
-"use strict";const t=require("../common/vendor.js"),o=()=>new Promise(n=>{const{safeAreaInsets:r,statusBarHeight:s}=t.index.getSystemInfoSync(),e=t.index.getMenuButtonBoundingClientRect();let i=(e.top-s)*2+e.height;n(i)});exports.middle=o;

@@ -1,1 +1,0 @@
-<view class="index-header" style="{{'padding-top:' + b}}"><block wx:if="{{a}}"><image class="index-header-img" src="https://yanxuan.nosdn.127.net/static-union/164793255107785e.png"></image></block><view wx:else class="search-box"><search u-i="159371d0-0" bind:__l="__l"></search></view></view>

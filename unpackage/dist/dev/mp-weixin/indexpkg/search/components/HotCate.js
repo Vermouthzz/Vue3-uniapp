@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),t={};function c(r,s){return{a:e.f(7,(n,_,i)=>({a:n}))}}const o=e._export_sfc(t,[["render",c],["__file","D:/github/app-unis/indexpkg/search/components/HotCate.vue"]]);wx.createComponent(o);

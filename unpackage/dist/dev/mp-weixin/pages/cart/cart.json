@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "cart-item": "./components/CartItem",
-    "love-list": "../../components/LoveList/LoveList",
-    "change-item": "./components/ChangeItem",
-    "cart-header": "./components/CartHeader"
-  }
-}

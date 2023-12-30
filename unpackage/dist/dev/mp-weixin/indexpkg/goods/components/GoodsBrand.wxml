@@ -1,1 +1,0 @@
-<view class="brand-block flex" bindtap="{{e}}"><view class="brand-img"><image class="brand-image" src="{{a}}"></image></view><view class="brand-info flex-c"><view class="info-title"><text class="b-title">{{b}}</text><van-icon wx:if="{{r0}}" class="b-right" u-t="m" u-i="cd3ef96a-0" bind:__l="__l" u-p="{{c}}"></van-icon></view><view class="info-produce">{{d}}</view></view></view>

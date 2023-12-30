@@ -1,1 +1,0 @@
-<view class="user-comment"><view class="comment-title flex-a" bindtap="{{a}}"><view class="comment-title-left"><text>用户评价(6000+)</text></view><view class="comment-title-right"><text>99.8% 好评</text><text>></text></view></view><comment-block u-i="aeed01ba-0" bind:__l="__l"></comment-block></view>

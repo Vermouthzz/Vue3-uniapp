@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),a={__name:"BrandDesc",props:["brandInfo"],setup(n){return(r,t)=>({a:n.brandInfo.brand_pic,b:e.t(n.brandInfo.brand_name),c:e.t(n.brandInfo.count),d:e.t(n.brandInfo.brand_desc)})}},o=e._export_sfc(a,[["__file","D:/github/app-unis/goodsPages/brand/components/BrandDesc.vue"]]);wx.createComponent(o);

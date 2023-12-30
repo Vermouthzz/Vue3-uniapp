@@ -1,1 +1,0 @@
-"use strict";const o=require("../../../common/vendor.js");Math||e();const e=()=>"../../../components/CommentBlock/CommentBlock.js",t={__name:"GoodsComment",setup(c){const n=()=>{o.index.navigateTo({url:"/goodsPages/comment/comment"})};return(s,_)=>({a:o.o(n)})}},m=o._export_sfc(t,[["__file","D:/github/app-unis/indexpkg/goods/components/GoodsComment.vue"]]);wx.createComponent(m);

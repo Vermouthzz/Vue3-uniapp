@@ -1,1 +1,0 @@
-<view class="common-header flex" style="{{'line-height:' + e}}"><view class="left-icon" bindtap="{{b}}"><van-icon wx:if="{{r0}}" u-t="m" u-i="4f9bc976-0" bind:__l="__l" u-p="{{a}}"></van-icon></view><view class="{{['common-header-title', d && 'middle']}}">{{c}}</view></view>
