@@ -1,8 +1,8 @@
 import {useUserStore} from '../store/useUserStore.js'
 
-// let baseUrl =  'http://192.168.56.1:3000/api/uni'
-
-let baseUrl =  'http://192.168.70.138:3000/api/uni' //用于调试
+let baseUrl =  'http://192.168.56.1:3000/api/uni'
+ //用于调试
+// let baseUrl =  'http://192.168.70.138:3000/api/uni'
 
 const httpInterceptor = {
 	invoke(args) {

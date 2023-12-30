@@ -134,6 +134,20 @@
 						{
 							"navigationStyle": "custom"
 						}
+					},
+					{
+						"path" : "writeComment/writeComment",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
+					},
+					{
+						"path" : "onlineService/onlineService",
+						"style" : 
+						{
+							"navigationStyle": "custom"
+						}
 					}
 	            ]
 			},
@@ -273,6 +287,7 @@
 		      "van-popup": "/wxcomponents/vant/popup/index",
 		      // "van-progress": "/wxcomponents/vant/progress/index",
 		      "van-radio": "/wxcomponents/vant/radio/index",
+		      "van-rate": "/wxcomponents/vant/rate/index",
 		      "van-radio-group": "/wxcomponents/vant/radio-group/index",
 		      // "van-row": "/wxcomponents/vant/row/index",
 		      "van-search": "/wxcomponents/vant/search/index",

@@ -8,8 +8,8 @@ export const useAddressStore = defineStore('address', () => {
 	
 	
 	//----------getter-------------
-	const selectedAddress = computed(() => addressList.value.find(item => item.is_selected == 1))   //选中的地址)
-	const storeAddress = computed(() => addressList.value.find(item => item.selected))    //store中选中的地址
+	const selectedAddress = computed(() => addressList.value?.find(item => item.is_selected == 1))   //选中的地址)
+	const storeAddress = computed(() => addressList.value?.find(item => item.selected))    //store中选中的地址
 	
 	//-----------action---------------
 	const getAddresList = async () => {

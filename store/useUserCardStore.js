@@ -25,6 +25,7 @@ export const useUserCardStore = defineStore('user-card', () => {
 	const onCheckedChange = (val,type) => {
 		type == 'li' ? userCard.value[0].checked = val : userCard.value[1].checked = val
 	}
+	
 	//默认选中最优惠的红包
 	const defaultSelectedTicket = (price) => {
 		if(!userTicketList.value.length) return

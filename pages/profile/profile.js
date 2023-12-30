@@ -24,7 +24,8 @@ export const useProfileHook = () => {
 		{id:3,name: '账号关联', icon: 'link-o', path:'/profilePackge/Address/Address'},
 		{id:4,name: '我的手机号', icon: 'phone-o', path:'/profilePackge/Address/Address'},
 		{id:5,name: '加好友交流', icon: 'friends-o', path:'/profilePackge/Address/Address'},
-		{id:6,name: '积分乐园', icon: 'award-o', path:'/profilePackge/integral/integral'}
+		{id:6,name: '积分乐园', icon: 'award-o', path:'/profilePackge/integral/integral'},
+		{id:7,name: '在线客服', icon: 'service-o', path:'/profilePackge/onlineService/onlineService'}
 	])
 	
 	return {

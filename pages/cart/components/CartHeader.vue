@@ -5,7 +5,7 @@
 		</view>
 		<view class="location flex" @tap="onShowAddress">
 			<van-icon name="location-o" size="24rpx" />
-			<text class="address-text">{{addressStore.selectedAddress.address.split(' ').join('')}}</text>
+			<text class="address-text">{{addressStore.selectedAddress?.address.split(' ').join('')}}</text>
 			<van-icon name="arrow" size="24rpx" />
 		</view>
 	</view>
