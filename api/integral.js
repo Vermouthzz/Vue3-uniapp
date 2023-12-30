@@ -1,6 +1,6 @@
 import http from '../request/index.js'
 
-export const updateIntegralAPI = ({type,count,sum,date}) => {
+export const updateIntegralAPI = (type,count,sum,date) => {
 	return http({
 		url: '/integral',
 		method: 'POST',

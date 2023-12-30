@@ -14,7 +14,7 @@ export const useUserCardStore = defineStore('user-card', () => {
 		const res = await getUserInfoAPI(id)
 		userBalance.value = res.balance
 		userTicketList.value = res.tickets
-		userCard.value = res.card
+		userCard.value = res.card.map(item => Object.assign(item,{checked: false}))
 		if(userTicketList.value.length) userTicketList.value.forEach(item => item.selected = false)
 	}
 	
@@ -22,6 +22,9 @@ export const useUserCardStore = defineStore('user-card', () => {
 		userBalance.value.num = val
 	}
 	
+	const onCheckedChange = (val,type) => {
+		type == 'li' ? userCard.value[0].checked = val : userCard.value[1].checked = val
+	}
 	//默认选中最优惠的红包
 	const defaultSelectedTicket = (price) => {
 		if(!userTicketList.value.length) return
@@ -86,6 +89,7 @@ export const useUserCardStore = defineStore('user-card', () => {
 		uselessTickets,
 		tapSelected,
 		unUseTicket,
-		postNewBalance
+		postNewBalance,
+		onCheckedChange
 	}
 })

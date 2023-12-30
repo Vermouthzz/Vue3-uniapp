@@ -68,7 +68,7 @@ const onClose = () => {
 
 //确认支付
 const confirmPay = async () => {
-	userCardStore.postNewBalance(userCardStore.userBalance.num - props.price)
+	// userCardStore.postNewBalance(userCardStore.userBalance.num - props.price)
 	await Promise.all([updateOrderItemStatusAPI(1,orderStore.orderItem.order_id),updateUserMoneyAPI( userCardStore.userBalance.num, 0, props.price)])
 	onClose()
 	uni.navigateTo({

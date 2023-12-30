@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import {ref} from 'vue'
+import {getUserInfoAPI} from '../api/user.js'
 
 export const useUserStore = defineStore('userinfo', () => {
 	const userInfo = ref('')
@@ -9,13 +10,18 @@ export const useUserStore = defineStore('userinfo', () => {
 		userInfo.value = data
 	}
 	
+	const getNewInfo = async () => {
+		userInfo.value = await getUserInfoAPI()
+	}
+	
 	const clearUserInfo = () => {
 		userInfo.value = null
 	}
 	return {
 		userInfo,
 		setUserInfo,
-		clearUserInfo
+		clearUserInfo,
+		getNewInfo
 	}
 },{
 	persist: {

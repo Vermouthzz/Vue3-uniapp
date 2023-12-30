@@ -49,7 +49,7 @@ import { ref } from 'vue';
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
 const userCardStore = useUserCardStore()
 const props = defineProps(['li_checked','h_checked','ba_checked'])
-const emits = defineEmits(['update:li_checked','update:h_checked','update:ba_checked'])
+const emits = defineEmits(['checkChange','update:ba_checked'])
 const toTicketQuote = (type) => {
 	uni.navigateTo({
 		url: '/subpkg/choose-ticket/choose-ticket'
@@ -58,11 +58,11 @@ const toTicketQuote = (type) => {
 
 const onChange = (e, type = 'h') => {
 	if(type == 'li') {
-		emits('update:li_checked', e.detail)
+		emits('checkChange', e.detail,type)
 	} else if(type == 'ba') {
 		emits('update:ba_checked', e.detail)
 	} else {
-		emits('update:h_checked', e.detail)
+		emits('checkChange', e.detail,type)
 	}
 }
 

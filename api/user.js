@@ -1,11 +1,8 @@
 import http from '../request/index.js'
 
-export const getUserInfoAPI = (id) => {
+export const getUserInfoAPI = () => {
 	return http({
 		url: '/user',
-		data: {
-			user_id: id
-		}
 	})
 }
 

@@ -90,7 +90,7 @@ const onTapGift = async (val) => {
 		//首次签到得60积分
 		val = 60
 	}
-	const res = await updateIntegralAPI(1,val,integralInfo.value.integral + val,nowTime.getTime())
+	await updateIntegralAPI(1,val,integralInfo.value.integral + val,nowTime.getTime())
 	Notify({
 	  type: 'success',
 	  message: `签到获得${val}积分`,
@@ -108,6 +108,7 @@ const integralInfo = ref([])
 const getUserIntegral = async () => {
 	const res = await getUserIntegralAPI()
 	integralInfo.value = res.result
+	console.log(integralInfo.value);
 }
 
 const ticketList = ref([])

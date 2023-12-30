@@ -5,9 +5,9 @@
 			<packge-item :item="item" :index="index"></packge-item>
 		</block>
 		<!-- 优惠券、红包板块 -->
-		<create-quote v-model:li_checked="li_checked" v-model:h_checked="h_checked" v-model:ba_checked="ba_checked"></create-quote>
+		<create-quote :li_checked="userCard[0].checked" :h_checked="userCard[1].checked" v-model:ba_checked="ba_checked" @checkChange="onCheckChange"></create-quote>
 		<!-- 商品金额信息板块 -->
-		<Discount v-model:li_checked="li_checked" v-model:h_checked="h_checked"></Discount>
+		<Discount :li_checked="userCard[0].checked" :h_checked="userCard[1].checked"></Discount>
 	</scroll-view>
 	<view class="create-order-btm flex">
 		<view class="pay-price">
@@ -24,6 +24,7 @@
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
+import {storeToRefs} from 'pinia'
 import { computed, nextTick, ref, watchEffect } from 'vue'
 import PayPopup from '../components/PayPopup.vue'
 import Dialog from '../../wxcomponents/vant/dialog/dialog'
@@ -42,16 +43,21 @@ const orderStore = useOrderStore()
 const addressStore = useAddressStore()
 const cartStore = useCartStore()
 const userCardStore = useUserCardStore()
+//礼品卡userCard[0]、提货卡userCard[1]
+const { userCard } = storeToRefs(userCardStore)
 
-//礼品卡、提货卡
-const li_checked = ref(false)
-const h_checked = ref(false)
+//用户余额
 const ba_checked = ref(false)
-//应付总金额
+
+const onCheckChange = (val,type) => {
+	userCardStore.onCheckedChange(val, type)
+}
+
+// 应付总金额
 const payNum = computed(() => {
 	let li_num = 0, h_num = 0
-	if(li_checked.value) li_num = userCardStore.userCard[0].card_num
-	if(h_checked.value) h_num = userCardStore.userCard[1].card_num
+	if(userCard.value[0].checked) li_num = userCard.value[0].card_num
+	if(userCard.value[1].checked) h_num = userCard.value[1].card_num
 	if( userCardStore.selectedTicket) { //如果选中红包
 		return cartStore.allRetailPrice - li_num - h_num - userCardStore.selectedTicket.ticket_price
 	} else { //未选中红包

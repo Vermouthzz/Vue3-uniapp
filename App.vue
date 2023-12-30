@@ -10,7 +10,7 @@
 				const addressStore = useAddressStore()
 				const cartStore = useCartStore()
 				const userCardStore = useUserCardStore()
-				userCardStore.getUserCardInfo(userStore.userInfo.user_id)
+				userCardStore.getUserCardInfo()
 				addressStore.getAddresList()
 				await cartStore.getCartList()
 				// uni.setTabBarBadge({
