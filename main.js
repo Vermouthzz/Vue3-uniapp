@@ -16,7 +16,7 @@ import { createSSRApp } from 'vue'
 import pinia from './store/index.js'
 export function createApp() {
   const app = createSSRApp(App)
-  
+
   app.use(pinia)
   return {
     app,
