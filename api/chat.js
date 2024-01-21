@@ -1,7 +1,11 @@
 import http from '../request/index.js'
 
-export const getUserChatRecordAPI = () => {
+export const getUserChatRecordAPI = (id,send) => {
 	return http({
-		url: '/user/chat'
+		url: '/chat',
+		data: {
+			id,
+			send
+		}
 	})
 }

@@ -26,9 +26,9 @@
 
 <script setup>
 import {ref,computed} from 'vue'
-import {useUserCardStore} from '../../store/useUserCardStore.js'
+import {useTicketStore} from '../../store/useTicketStore.js'
 import {useUserStore} from '../../store/useUserStore.js'
-const userCardStore = useUserCardStore()
+const ticketStore = useTicketStore()
 const userStore = useUserStore()
 const props = defineProps({
 	goodsItem: {
@@ -39,7 +39,7 @@ const props = defineProps({
 
 
 const retailPrice = computed(() => {
-	return props.goodsItem.retail_price - userCardStore.optimalTicket(props.goodsItem.retail_price,'price')
+	return props.goodsItem.retail_price - ticketStore.optimalTicket(props.goodsItem.retail_price,'price')
 })
 
 

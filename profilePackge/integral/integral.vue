@@ -77,8 +77,7 @@ const onTapGift = async (val) => {
 	flag = false
 	const nowTime = new Date()
 	if(integralInfo.value.sign_date) {
-		const signTime = new Date(Number(integralInfo.value.sign_date)).getDate()
-		if(nowTime.getDate() <= signTime) {
+		if(integralInfo.value.is_sign == 1) {
 			uni.showToast({
 				icon: 'error',
 				title: '今天您已经签到过了',
@@ -108,7 +107,6 @@ const integralInfo = ref([])
 const getUserIntegral = async () => {
 	const res = await getUserIntegralAPI()
 	integralInfo.value = res.result
-	console.log(integralInfo.value);
 }
 
 const ticketList = ref([])

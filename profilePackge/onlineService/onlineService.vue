@@ -7,22 +7,19 @@
 			</view>
 			<scroll-view scroll-y="true" class="communicate-block">
 				<view class="communicate">
-					<view class="first-message">
+					<block v-if="chatInfo.length">
+						<view class="message-block flex" :class="{message_block_right: item.send_id == sendId}" v-for="(item,index) in chatInfo" :key="index">
+							<image v-if="item.send_id == receiverId" src="http://127.0.0.1:3000/upload/QIwNRdjgjNSU0f93370b9ab43a78e6a00cbd791d4b7a.jpg" class="user-avator"></image>
+							<image v-else :src="userStore.userInfo.avator" class="user-avator"></image>
+							<view class="message" :class="{message_left: item.send_id == receiverId, message_right: item.send_id == sendId}">
+								<van-icon v-if="item.send_id == receiverId" size="32rpx" class="before-icon" name="arrow-left" />
+								{{item.message}}
+							</view>
+						</view>
+					</block>
+<!-- 					<view class="first-message">
 						hello!您的客服小优为您服务
-					</view>
-					<view class="message-block flex">
-						<image src="http://127.0.0.1:3000/upload/QIwNRdjgjNSU0f93370b9ab43a78e6a00cbd791d4b7a.jpg" class="user-avator"></image>
-						<view class="message message-left">
-							<van-icon size="32rpx" class="before-icon" name="arrow-left" />
-							哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-						</view>
-					</view>
-					<view class="message-block message-block-right flex">
-						<view class="message message-right">
-							哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-						</view>
-						<image src="http://127.0.0.1:3000/upload/QIwNRdjgjNSU0f93370b9ab43a78e6a00cbd791d4b7a.jpg" class="user-avator"></image>
-					</view>
+					</view> -->
 				</view>
 			</scroll-view>
 		</view>
@@ -36,23 +33,56 @@
 </template>
 
 <script setup>
-import {onUnload, onLoad} from '@dcloudio/uni-app'
-import { ref } from 'vue';
+import {onLoad} from '@dcloudio/uni-app'
+import { ref } from 'vue'
+import {getUserChatRecordAPI} from '../../api/chat.js'
+import {useUserStore} from '../../store/useUserStore.js'
+const userStore = useUserStore()
+
+//固定接收信息人id
+const receiverId = ref(1001)
+const sendId = userStore.userInfo.socket_id
+
 const {safeAreaInsets} = uni.getSystemInfoSync()
+
+let socketTask = uni.connectSocket({
+	url: `ws://localhost:3001?socket=${sendId}`, //仅为示例，并非真实接口地址。
+	complete: ()=> {}
+})
+
+
+
+const chatInfo = ref([])
+const getChatHistory = async () => {
+	const res = await getUserChatRecordAPI(receiverId.value,userStore.userInfo.socket_id)
+	chatInfo.value = res.result
+}
+
+
+
 //用户输入数据
 const userMessage = ref('')
 const onSendMessage = () => {
 	if(userMessage.value == '') return uni.showToast({ icon: 'error', title: '输入不能为空哦' })
-	
-	
+	const now = new Date()
+	const message = {message: userMessage.value, send_id: sendId, chat_time: now.getTime(), receiver_id: receiverId.value}
+	chatInfo.value.push(message)
+	const jsonMessage = JSON.stringify(message)
+	socketTask.send({data: jsonMessage })
+	userMessage.value = ''
 }
-onLoad(() => {
-	
+
+//接受服务端传递的消息
+socketTask.onMessage((e) => {
+	const msg = JSON.parse(e.data)
+	chatInfo.value.push(msg)
 })
-onUnload(() => {
-	console.log('客服连接关闭');
+
+onLoad(() => {
+	getChatHistory()
 })
 </script>
+
 
 <style lang="scss">
 .online-service-block {
@@ -91,13 +121,13 @@ onUnload(() => {
 				.message-block {
 					margin-bottom: 40rpx;
 					.user-avator {
+						flex-shrink: 0;
 						width: 82rpx;
 						height: 82rpx;
 						border-radius: 50%;
 					}
 					.message {
 						position: relative;
-						width: 472rpx;
 						line-height: 44rpx;
 						padding: 28rpx 24rpx 32rpx;
 						margin-left: 30rpx;
@@ -111,7 +141,7 @@ onUnload(() => {
 							color: #dadada;
 						}
 					}
-					.message-left::before {
+					.message_left::before {
 						content: '';
 						position: absolute;
 						left: -2rpx;
@@ -120,7 +150,7 @@ onUnload(() => {
 						height: 24rpx;
 						background-color: #fff;
 					}
-					.message-right {
+					.message_right {
 						background-color: #aa2c2a;
 						border-color: #7a4242;
 						color: #fff;
@@ -138,8 +168,8 @@ onUnload(() => {
 						}
 					}
 				}
-				.message-block-right {
-					justify-content: flex-end;
+				.message_block_right {
+					flex-flow: row-reverse;
 				}
 			}
 		}

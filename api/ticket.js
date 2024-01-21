@@ -1,10 +1,15 @@
 import http from '../request/index.js'
 
-export const getTicketListAPI = () => {
+//获取全部红包list
+export const getTicketListAPI = (type = 1) => {
 	return http({
-		url: '/tickets'
+		url: '/tickets',
+		data: {
+			type
+		}
 	})
 }
+
 
 //可兑换红包list
 export const getExchangeTicketAPI = () => {

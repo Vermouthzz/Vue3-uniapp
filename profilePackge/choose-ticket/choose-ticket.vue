@@ -36,21 +36,24 @@
 </template>
 
 <script setup>
-import CustomHeader from '../../components/CustomHeader/CustomHeader.vue'
+import {onLoad} from '@dcloudio/uni-app'
 import RedTicketItem from '.././redPacket/components/RedTicketItem.vue'
 import { computed, ref } from 'vue'
-import {useUserCardStore} from '../../store/useUserCardStore.js'
-const userCardStore = useUserCardStore()
+import {useTicketStore} from '../../store/useTicketStore.js'
+const ticketStore = useTicketStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
-
 const selectedItem = (item) => {
-	userCardStore.tapSelected(item)
+	ticketStore.tapSelected(item)
 }
 //不使用红包
 const unuseTicket = () => {
-	userCardStore.unUseTicket()
+	ticketStore.unUseTicket()
 }
+
+onLoad(() => {
+	
+})
 </script>
 
 <style lang="scss">

@@ -1,11 +1,27 @@
 <template>
 	<view class="header-ticket-quote flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<Header :title="'红包'" :middle="true"></Header>
+		<CustomHeader :title="'红包'" :middle="true"></CustomHeader> >
 		<view class="header-tab">
 			<van-tabs animated swipeable>
-				<van-tab :title="item?.name" v-for="(item,index) in ticketList" :key="index">
+				<van-tab title="未使用">
 					<scroll-view scroll-y="true" class="scroll-ticket-quote">
-						<block v-for="(subItem,index) in item?.value" :key="subItem.user_ticket_id">
+						<block v-for="(subItem,index) in unUseTicket" :key="subItem.user_ticket_id">
+							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
+							<!-- <quote-item></quote-item> -->
+						</block>
+					</scroll-view>
+				</van-tab>
+				<van-tab title="已使用">
+					<scroll-view scroll-y="true" class="scroll-ticket-quote">
+						<block v-for="(subItem,index) in hadUseTicket" :key="subItem.user_ticket_id">
+							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
+							<!-- <quote-item></quote-item> -->
+						</block>
+					</scroll-view>
+				</van-tab>
+				<van-tab title="已过期">
+					<scroll-view scroll-y="true" class="scroll-ticket-quote">
+						<block v-for="(subItem,index) in hadExpiredTicket" :key="subItem.user_ticket_id">
 							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
 							<!-- <quote-item></quote-item> -->
 						</block>
@@ -17,26 +33,19 @@
 </template>
 
 <script setup>
-import {onLoad} from '@dcloudio/uni-app'
-import Header from '../card/header.vue'
 import RedTicketItem from './components/RedTicketItem.vue'
 // import QuoteItem from './components/QuoteItem.vue'
-import {useUserCardStore} from '../../store/useUserCardStore.js'
-import { ref } from 'vue'
-import {getTicketListAPI} from '../../api/ticket.js'
-// const userCardStore = useUserCardStore()
+import {useTicketStore} from '../../store/useTicketStore.js'
+import { computed, ref } from 'vue'
+const ticketStore = useTicketStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
-const ticketList = ref([])
-const getTicketList = async () => {
-	const res = await getTicketListAPI()
-	ticketList.value = res.data
-}
+const unUseTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 0))
+const hadUseTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 1))
+const hadExpiredTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 2))
 
 
-onLoad((options) => {
-	getTicketList()
-})
+
 </script>
 
 <style lang="scss">

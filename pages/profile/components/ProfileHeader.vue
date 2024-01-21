@@ -41,7 +41,7 @@ const toLogin = () => {
 
 const toUserInfo = () => {
 	let url = ''
-	!userStore.userInfo ? url = '/indexpkg/login/login' : url = '/subpkg/userinfo/userinfo'
+	!userStore.userInfo ? url = '/indexpkg/login/login' : url = '/profilePackge/userinfo/userinfo'
 	uni.navigateTo({
 		url
 	})

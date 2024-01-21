@@ -36,7 +36,7 @@ export const useAddressStore = defineStore('address', () => {
 	//单击选中地址更新store里地址状态，不更新后端
 	const tapAddress = (id, val = false, type = 'tap') => {
 		addressList.value.forEach(item => item.selected = false)
-		const item = addressList.value.find(i => i.addres_id == id)
+		const item = addressList.value?.find(i => i.addres_id == id)
 		type == 'tap' ? item.selected = true : item.selected = val
 	}
 	return {

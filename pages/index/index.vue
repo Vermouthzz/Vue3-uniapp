@@ -299,7 +299,7 @@ onMounted(() => {
 					margin-right: 22rpx;
 				}
 				.body-list {
-					flex: 1;
+					width: 50%;
 					.rank {
 						flex-wrap: wrap;
 						.rank-item {

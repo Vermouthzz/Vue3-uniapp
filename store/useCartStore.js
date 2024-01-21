@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import {ref, computed} from 'vue'
 import {getCartListAPI, addCartAPI, delCartAPI, updateCartAPI} from '../api/cart.js'
 import {useUserStore} from './useUserStore.js'
-import {useUserCardStore} from './useUserCardStore.js'
+import {useTicketStore} from './useTicketStore.js'
 
 export const useCartStore = defineStore('cart',() => {
 	//-------------state----------------
 	const userStore = useUserStore()
-	const userCardStore = useUserCardStore()
+	const ticketStore = useTicketStore()
 	const cartList = ref([])
 	
 	
@@ -36,7 +36,7 @@ export const useCartStore = defineStore('cart',() => {
 	
 	//每个选中的购物车item需要减去的值(当找到有用的券时)
 	const reNum = computed(() => {
-		let item = userCardStore.optimalTicket(allRetailPrice.value)
+		let item = ticketStore.optimalTicket(allRetailPrice.value)
 		let num = undefined
 		if(item) {
 			num = (item.ticket_price / selectedItems.value.length).toFixed(2)

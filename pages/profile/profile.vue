@@ -103,11 +103,7 @@ const onTapQuoteList = (path) => {
 }
 
 onLoad(() => {
-	// if(!userStore.userinfo) {
-	// 	uni.redirectTo({
-	// 		url: '/indexpkg/login/login'
-	// 	})
-	// }
+	
 })
 </script>
 

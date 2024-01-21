@@ -52,7 +52,7 @@ const props = defineProps(['li_checked','h_checked','ba_checked'])
 const emits = defineEmits(['checkChange','update:ba_checked'])
 const toTicketQuote = (type) => {
 	uni.navigateTo({
-		url: '/subpkg/choose-ticket/choose-ticket'
+		url: '/profilePackge/choose-ticket/choose-ticket'
 	})
 }
 

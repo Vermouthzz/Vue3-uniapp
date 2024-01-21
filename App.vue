@@ -3,6 +3,7 @@
 	import {useAddressStore} from './store/useAddressStore.js'
 	import {useCartStore} from './store/useCartStore.js'
 	import {useUserCardStore} from './store/useUserCardStore.js'
+	import {useTicketStore} from './store/useTicketStore.js'
 	export default {
 		onLaunch: async function() {
 			const userStore = useUserStore()
@@ -10,7 +11,9 @@
 				const addressStore = useAddressStore()
 				const cartStore = useCartStore()
 				const userCardStore = useUserCardStore()
+				const ticketStore = useTicketStore()
 				userCardStore.getUserCardInfo()
+				ticketStore.getTicketList()
 				addressStore.getAddresList()
 				await cartStore.getCartList()
 				// uni.setTabBarBadge({
