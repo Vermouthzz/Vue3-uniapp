@@ -33,15 +33,17 @@
 </template>
 
 <script setup>
-import {onLoad} from '@dcloudio/uni-app'
+import {onLoad, onUnload} from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import {getUserChatRecordAPI} from '../../api/chat.js'
+import {getUserChatRecordAPI, insertUserChatAPI} from '../../api/chat.js'
 import {useUserStore} from '../../store/useUserStore.js'
 const userStore = useUserStore()
 
 //固定接收信息人id
 const receiverId = ref(1001)
 const sendId = userStore.userInfo.socket_id
+
+const agentStatus = ref(false) //客服在线状态
 
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
@@ -62,24 +64,41 @@ const getChatHistory = async () => {
 
 //用户输入数据
 const userMessage = ref('')
-const onSendMessage = () => {
+const onSendMessage = async () => {
 	if(userMessage.value == '') return uni.showToast({ icon: 'error', title: '输入不能为空哦' })
 	const now = new Date()
-	const message = {message: userMessage.value, send_id: sendId, chat_time: now.getTime(), receiver_id: receiverId.value}
+	const message = {message: userMessage.value, send_id: sendId, chat_time: now.getTime(), receiver_id: receiverId.value, is_read: 0}
+	if(agentStatus.value) { 
+		//客服在线时，通过socket传送数据，并且上传到服务器
+		message.is_read = 1
+		const jsonMessage = JSON.stringify(message)
+		socketTask.send({data: jsonMessage })
+	}
+	//不在线则不通过socket，直接传服务器
+	const res = await insertUserChatAPI(message)
 	chatInfo.value.push(message)
-	const jsonMessage = JSON.stringify(message)
-	socketTask.send({data: jsonMessage })
+	
+	
 	userMessage.value = ''
 }
 
 //接受服务端传递的消息
 socketTask.onMessage((e) => {
 	const msg = JSON.parse(e.data)
-	chatInfo.value.push(msg)
+	//判断客服是否在线
+	if(msg.type == 'online') {
+		agentStatus.value = msg.online
+	} else {
+		chatInfo.value.push(msg)
+	}
 })
 
 onLoad(() => {
 	getChatHistory()
+})
+
+onUnload(() => {
+	socketTask.close()
 })
 </script>
 
