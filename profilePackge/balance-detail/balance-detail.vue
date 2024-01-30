@@ -14,7 +14,7 @@
 						</view>
 						<view class="item-order flex-a">
 							<text class="name">订单:</text>
-							<text class="id">--</text>
+							<text class="id">{{item.order_id ? item.order_id : '--'}}</text>
 						</view>
 					</view>
 					<view class="item-right flex">
@@ -24,7 +24,7 @@
 						</view>
 						<view class="item-change flex-c">
 							<text class="sign">{{item.change_type == 1 ? '+' : '-'}}{{item.change_num}}</text>
-							<text class="btm">{{item.change_num}}</text>
+							<text class="btm">{{item.change_type == 0 ? '0.00' : item.change_num}}</text>
 						</view>
 					</view>
 				</view>

@@ -1,6 +1,7 @@
 import http from '../request/index.js'
 
-export const createOrderAPI = (cart,addres,fee,num) => {
+export const createOrderAPI = (cart,addres,fee,num,total,li_num) => {
+	console.log(li_num,total);
 	return http({
 		url: '/order',
 		method: 'PUT',
@@ -8,7 +9,9 @@ export const createOrderAPI = (cart,addres,fee,num) => {
 			cart,
 			addres,
 			fee,
-			num
+			num,
+			total,
+			li_num
 		}
 	})
 }
@@ -37,6 +40,15 @@ export const updateOrderItemStatusAPI = (type,id) => {
 		data: {
 			type,
 			id
+		}
+	})
+}
+
+export const getOrderRecommendList = (id) => {
+	return http({
+		url: '/list/order',
+		data: {
+			order_id: id
 		}
 	})
 }

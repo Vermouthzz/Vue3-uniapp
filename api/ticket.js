@@ -38,3 +38,15 @@ export const updateExchangeTicketAPI = ({id,status,get_time}) => {
 		}
 	})
 }
+
+//用户使用红包
+export const updateUserTicketAPI = (id, status) => {
+	return http({
+		url: 'ticket',
+		method: 'PUT',
+		data: {
+			id,
+			status
+		}
+	})
+}

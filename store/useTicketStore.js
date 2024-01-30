@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import {ref, computed} from 'vue'
 import {useCartStore} from './useCartStore.js'
-import {getTicketListAPI} from '../api/ticket.js'
+import {getTicketListAPI, updateUserTicketAPI} from '../api/ticket.js'
 
 export const useTicketStore = defineStore('ticket', () => {
 	
@@ -39,6 +39,12 @@ export const useTicketStore = defineStore('ticket', () => {
 		} else {
 			return item
 		}
+	}
+	
+	//使用红包逻辑
+	const updateUseTicket = async (status) => {
+		const res = await updateUserTicketAPI(id, status)
+		selectedTicket.value.ticket_status = status
 	}
 	
 	// 单击切换红包

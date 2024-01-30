@@ -15,7 +15,7 @@ export const useOrderStore = defineStore('order', () => {
 		orderList.value = res.data
 		let nowTime = new Date()
 		orderList.value.forEach(item => {
-			let effectiveTime = new Date(item.effective_time)
+			let effectiveTime = new Date(Number(item.effective_time))
 			if(nowTime < effectiveTime) {
 				item.remainTime = effectiveTime - nowTime
 			} else {
@@ -28,21 +28,21 @@ export const useOrderStore = defineStore('order', () => {
 		const res = await getOrderItemAPI(id)
 		orderItem.value = res.list
 		let nowTime = new Date()
-		orderItem.value.remainTime = new Date(orderItem.value.effective_time) - nowTime
+		orderItem.value.remainTime = new Date(Number(orderItem.value.effective_time)) - nowTime
 	}
 	
 	const updateItem = async (type,id) => {
-		if(orderItem.value) orderItem.order_status = type
+		if(orderItem.value) orderItem.value.order_status = type
 		uni.showLoading({ mask: true })
 		const res = await updateOrderItemStatusAPI(type,id)
 		if(res) uni.hideLoading()
 	}
 	
-	const createOrderItem = async (cart,addres,fee,num) => {
-		const res = await createOrderAPI(cart,addres,fee,num)
+	const createOrderItem = async (cart,addres,fee,num,total,li_num) => {
+		const res = await createOrderAPI(cart,addres,fee,num,total,li_num)
 		const id = res.data.id
 		getOrderItem(id)
-		return true
+		return id
 	}
 	
 	return {

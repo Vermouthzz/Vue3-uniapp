@@ -20,11 +20,19 @@ const props = defineProps({
 	middle: {
 		type: Boolean,
 		default: false
+	},
+	two: {
+		type: Boolean,
+		default: false
 	}
 })
 
 const toBack = () => {
-	uni.navigateBack()
+	let num = 1
+	if(props.two) num = 2
+	uni.navigateBack({
+		delta: num
+	})
 }
 
 let navBatHeight = ref(0)

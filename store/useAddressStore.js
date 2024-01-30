@@ -10,6 +10,7 @@ export const useAddressStore = defineStore('address', () => {
 	//----------getter-------------
 	const selectedAddress = computed(() => addressList.value?.find(item => item.is_selected == 1))   //选中的地址)
 	const storeAddress = computed(() => addressList.value?.find(item => item.selected))    //store中选中的地址
+	const showAddress = computed(() => storeAddress.value || selectedAddress.value)
 	
 	//-----------action---------------
 	const getAddresList = async () => {
@@ -48,5 +49,6 @@ export const useAddressStore = defineStore('address', () => {
 		onSelectedAddress,
 		tapAddress,
 		storeAddress,
+		showAddress
 	}
 })

@@ -23,22 +23,22 @@
 				<view class="adress-item flex-a" @tap="toAddres">
 					<view class="adress-item-left flex-c">
 						<view class="item-left-top flex-a">
-							<view class="small-view default" v-if="address.is_default == 1">
+							<view class="small-view default" v-if="addressStore.showAddress.is_default == 1">
 								默认
 							</view>
 							<view class="small-view">
-								{{address.tag}}
+								{{addressStore.showAddress.tag}}
 							</view>
 							<view class="adress-area">
-								{{address.address}}
+								{{addressStore.showAddress.address}}
 							</view>
 						</view>
 						<view class="item-left-adress">
-							<text class="adress-detail">{{address.detail_adrs}}</text>
+							<text class="adress-detail">{{addressStore.showAddress.detail_adrs}}</text>
 						</view>
 						<view class="item-left-people flex-a">
-							<text class="name">{{address.name}}</text>
-							<text class="phone-number">{{address.contact}}</text>
+							<text class="name">{{addressStore.showAddress.name}}</text>
+							<text class="phone-number">{{addressStore.showAddress.contact}}</text>
 						</view>
 					</view>
 					<view class="adress-item-right" >
@@ -59,7 +59,7 @@ const addressStore = useAddressStore()
 const props = defineProps()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
-const address = computed(() => addressStore.storeAddress || addressStore.selectedAddress)
+
 
 const toAddres = () => {
 	uni.navigateTo({

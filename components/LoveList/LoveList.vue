@@ -3,21 +3,36 @@
 		<slot name="title"></slot>
 		<view class="love-list-block flex">
 			<view class="love-list list-left">
-				<block v-for="i in 6" :key="i">
-					<GoodsItem></GoodsItem>
+				<block v-for="(item, index) in leftList" :key="index">
+					<GoodsItem :goodsItem="item"></GoodsItem>
 				</block>
 			</view>
 			<view class="love-list">
-				<block v-for="i in 6" :key="i">
-					<GoodsItem></GoodsItem>
+				<block v-for="(item, index) in rightList" :key="index">
+					<GoodsItem :goodsItem="item"></GoodsItem>
 				</block>
 			</view>
 		</view>
 	</view>
 </template>
 
-<script>
-import GoodsItem from '../GoodsItem/GoodsItem.vue'
+<script setup>
+import { onMounted, ref } from "vue"
+const props = defineProps(['list'])
+const leftList = ref([])
+const rightList = ref([])
+
+const speartFun = () => {
+	leftList.value = props.list?.map((item,index) => {
+		if(index % 2 != 0) return item
+	}).filter(i => i)
+	rightList.value = props.list?.map((item,index) => {
+		if(index % 2 == 0) return item
+	}).filter(i => i)
+}
+onMounted(() => {
+	speartFun()
+})
 </script>
 
 <style lang="scss" scoped>

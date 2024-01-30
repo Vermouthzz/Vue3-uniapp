@@ -6,9 +6,11 @@ export const useProfileHook = () => {
 	const userCardStore = useUserCardStore()
 	const ticketStore = useTicketStore()
 	const unUseTickets = ticketStore.userTicketList.filter(i => i.ticket_status == 0)
+	const li_card = userCardStore.userCard[0].children?.length
+	const h_card = userCardStore.userCard[1].children?.length
 	const quoteList = ref([
-		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card',num: userCardStore.userCard.length},
-		{id: 2, name: '余额', is_dollar: true, path: '/profilePackge/balance/balance', num: userCardStore.userBalance.num},
+		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card',num: li_card + h_card},
+		{id: 2, name: '余额', is_dollar: true, path: '/profilePackge/balance/balance', num: userCardStore.userBalance},
 		{id: 3, name: '红包', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: unUseTickets.length},
 		{id: 4, name: '优惠券', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: 0}
 	])

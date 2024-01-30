@@ -38,7 +38,7 @@
 		</view>
 		<view class="common-block flex-a">
 			<view class="left-block">
-				<van-checkbox class="left-zero-checked" :disabled="userCardStore.userBalance.num <= 0" shape="square" :value="ba_checked" @change="onChange($event,'ba')">余额：￥{{userCardStore.userBalance.num}}</van-checkbox>
+				<van-checkbox class="left-zero-checked" :disabled="userCardStore.userBalance <= 0" shape="square" :value="ba_checked" @change="onChange($event,'ba')">余额：￥{{userCardStore.userBalance}}</van-checkbox>
 			</view>
 		</view>
 	</view>

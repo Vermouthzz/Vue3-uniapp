@@ -21,7 +21,7 @@
 						</view>
 					</view>
 					<view class="total-mid">
-						￥<text class="mid-price">0.90</text>
+						￥<text class="mid-price">{{money}}</text>
 					</view>
 					<view class="total-btm">
 						<view class="safety">
@@ -39,7 +39,7 @@
 								</view>
 								<view class="item-btm flex">
 									<text class="item-left">{{subItem.show_id}}</text>
-									<text class="item-right">有效期至 2024.11.8</text>
+									<text class="item-right">有效期至 {{subItem.effective_time}}</text>
 								</view>
 							</view>
 						</block>
@@ -65,13 +65,16 @@ const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const sign = ref(1)
 const title = computed(() => sign.value == 1 ? '礼品卡':'提货卡')
+const money = computed(() => sign.value == 1 ? userCardStore.userCard[0]?.card_num : userCardStore.userCard[1]?.card_num)
+
+//切换提货卡和礼品卡
 const onTap = (val) => {
 	sign.value = val
 }
 
 const toDetail = () => {
 	uni.navigateTo({
-		url: '/subpkg/balance-detail/balance-detail'
+		url: '/profilePackge/balance-detail/balance-detail'
 	})
 }
 </script>

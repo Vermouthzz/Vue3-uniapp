@@ -1,9 +1,9 @@
 <template>
 	<view class="error-box flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<CustomHeader :title="'支付结果'" :middle="true"></CustomHeader>
+		<CustomHeader :title="'支付结果'" :middle="true" :two="double"></CustomHeader>
 		<view class="result-body flex-c">
 			<view class="result-text">
-				<block v-if="true">
+				<block v-if="orderStore.orderItem.order_status != 1">
 					<view class="error-pay">
 						支付失败
 					</view>
@@ -17,24 +17,24 @@
 				</view>
 			</view>
 			<view class="show-repay flex">
-				<view class="block check-order">
+				<view class="block check-order" @tap="onShowOrder">
 					查看订单
 				</view>
 				<view class="block re-pay">
-					重新支付
+					{{ orderStore.orderItem.order_status == 0 ? '重新支付' : '继续逛'}}
 				</view>
 			</view>
 			<view class="pay-detail flex-c">
 				<view class="addres-user flex">
-					<text class="text">工藤新一</text>
-					<text class="price">139****4611</text>
+					<text class="text">{{addressStore.showAddress.name}}</text>
+					<text class="price">{{contact}}</text>
 				</view>
 				<view class="addres-detail flex">
-					北京市北京市大兴区北京经济技术开发区京东
+					{{addresDetail}}
 				</view>
 				<view class="should-pay flex">
 					<text class="text">实付:</text>
-					<text class="price">￥88.00</text>
+					<text class="price">￥{{orderStore.orderItem.pay_price}}</text>
 				</view>
 			</view>
 		</view>
@@ -42,7 +42,29 @@
 </template>
 
 <script setup>
+import {onLoad} from '@dcloudio/uni-app'
+import { computed, ref } from 'vue';
+import {useAddressStore} from '../../store/useAddressStore.js'
+import {useOrderStore} from '../../store/useOrderStore.js'
+
 const {safeAreaInsets} = uni.getSystemInfoSync()
+
+const addressStore = useAddressStore()
+const orderStore = useOrderStore()
+
+
+const addresDetail = computed(() => Object.values(orderStore.orderItem.adres).join('') + orderStore.orderItem.detail_adrs)
+const contact = computed(() => addressStore.showAddress.contact.slice(0,3) + '****' + addressStore.showAddress.contact.slice(7))
+const onShowOrder = () => {
+	uni.redirectTo({
+		url: '/profilePackge/OrderDetail/OrderDetail'
+	})
+}
+const double = ref(false)
+
+onLoad((options) => {
+	double.value = options.to == 2 ? true : false
+})
 </script>
 
 <style lang="scss">

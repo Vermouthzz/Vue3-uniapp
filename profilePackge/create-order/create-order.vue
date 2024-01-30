@@ -46,6 +46,7 @@ const userCardStore = useUserCardStore()
 //礼品卡userCard[0]、提货卡userCard[1]
 const { userCard } = storeToRefs(userCardStore)
 
+
 //用户余额
 const ba_checked = ref(false)
 
@@ -102,19 +103,28 @@ const hasPayPassword = () => {
 const show = ref(false)
 const password_show = ref(false)
 const onPayFor = async () => {
-	if(userCardStore.userBalance.num < payNum.value) {
-		uni.showToast({
+	if(userCardStore.userBalance < payNum.value) {
+		return uni.showToast({
 			icon: 'error',
 			title: '余额不足'
 		})
-		return
 	}
 	const res = await hasPayPassword()
 	if(!res) return
 	show.value = true
 	uni.showLoading({ mask: true })
-	let flag = orderStore.createOrderItem(cartStore.selectedItems,addressStore.selectedAddress,cartStore.activeFee,payNum.value)
-	if(flag) uni.hideLoading()
+	const li_num = userCard.value[0].checked ? userCard.value[0].card_num : 0
+	try{
+		let id = await orderStore.createOrderItem(cartStore.selectedItems,addressStore.selectedAddress,cartStore.activeFee,payNum.value,cartStore.allRetailPrice,li_num)
+		//消费余额，但是未支付订单
+		if(userCard.value[0].checked) userCardStore.updateCardNum(id,0,-1)
+		uni.hideLoading()
+	}catch(e){
+		uni.showToast({
+			icon: 'error',
+			title: '服务器错误，请稍后再试'
+		})
+	}
 }
 
 

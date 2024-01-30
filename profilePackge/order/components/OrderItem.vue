@@ -49,7 +49,7 @@ const onFinish = () => {
 const toDetail = () => {
 	orderStore.getOrderItem(props.item.order_id)
 	uni.navigateTo({
-		url: `/profilePackge/OrderDetail/OrderDetail`
+		url: `/profilePackge/OrderDetail/OrderDetail?to=1`
 	})
 }
 

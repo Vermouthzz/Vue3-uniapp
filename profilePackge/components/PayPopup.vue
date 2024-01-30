@@ -17,7 +17,7 @@
 			<view class="pay-mode flex">
 				<van-icon name="alipay" color="rgb(23,120,255)" size="50rpx"></van-icon>
 				<view class="pay-item flex-a">
-					<text>余额支付({{userCardStore.userBalance.num}})</text>
+					<text>余额支付({{userCardStore.userBalance}})</text>
 				</view>
 			</view>
 			<view class="pay">
@@ -44,10 +44,7 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
-	price: {
-		type: String,
-		default: '0'
-	},
+	price: [Number, String],
 	id: {
 		type: Number,
 		default: 0
@@ -61,18 +58,22 @@ const onClose = () => {
 	if(props.type) {
 		//还可以添加loding
 		uni.navigateTo({
-			url: `/profilePackge/OrderDetail/OrderDetail?id=${props.id}`
+			url: `/profilePackge/OrderDetail/OrderDetail?id=${props.id}&to=2`
+		})
+	} else {
+		uni.navigateTo({
+			url: `/profilePackge/pay-result/pay-result?to=2`
 		})
 	}
 }
 
 //确认支付
 const confirmPay = async () => {
-	// userCardStore.postNewBalance(userCardStore.userBalance.num - props.price)
-	await Promise.all([updateOrderItemStatusAPI(1,orderStore.orderItem.order_id),updateUserMoneyAPI( userCardStore.userBalance.num, 0, props.price)])
-	onClose()
+	await Promise.all([orderStore.updateItem(1,orderStore.orderItem.order_id),updateUserMoneyAPI(userCardStore.userBalance, 0, props.price),userCardStore.updateCardNum(orderStore.orderItem.order_id,-1,1)])
+	userCardStore.postNewBalance(userCardStore.userBalance - props.price)
+	emits('update:show', false)
 	uni.navigateTo({
-		url: `/profilePackge/pay-result/pay-result`
+		url: `/profilePackge/pay-result/pay-result?to=2`
 	})
 }
 </script>
