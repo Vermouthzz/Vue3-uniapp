@@ -1,6 +1,6 @@
 <template>
 	<cart-header></cart-header>
-	<scroll-view scroll-y="true" class="cart-block flex-c">
+	<scroll-view scroll-y="true" class="cart-block flex-c" @scrolltolower="onLoadMore">
 		<view class="cart-body flex-c">
 			<template v-if="!userStore.userInfo">
 				<view class="not-login-block flex-c-a">
@@ -39,7 +39,7 @@
 						</view>
 					</view>
 					<view class="love-block-cart">
-						<LoveList>
+						<LoveList :list="recommendList">
 							<template #title>
 								<view class="love-title">
 									猜你喜欢
@@ -64,14 +64,14 @@
 
 <script setup>
 import CartItem from './components/CartItem.vue'
-import LoveList from '../../components/LoveList/LoveList.vue'
 import ChangeItem from './components/ChangeItem.vue'
 import CartHeader from './components/CartHeader.vue'
-import {computed, ref } from "vue"
+import { ref,computed } from "vue"
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useTicketStore} from '../../store/useTicketStore.js'
 import { onLoad } from '@dcloudio/uni-app'
+import {getRecommendListAPI} from '../../api/cart.js'
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const ticketStore = useTicketStore()
@@ -110,7 +110,30 @@ const submitPrice = computed(() => {
 	return cartStore.allRetailPrice - ticketStore.optimalTicket(cartStore.allRetailPrice, 'price')
 })
 
+const recommendList = ref([])
+const page = {
+	pageNum: 1,
+	pageSize: 10
+}
+const getRecommendList = async () => {
+	const res = await getRecommendListAPI(page)
+	if(res.result.length == 0) {
+		return uni.showToast({
+			icon: 'fail',
+			title: '已经到底了'
+		})
+	}
+	recommendList.value.push(...res.result)
+}
 
+const onLoadMore = () => {
+	page.pageNum++
+	getRecommendList()
+}
+
+onLoad(() => {
+	getRecommendList()
+})
 
 </script>
 

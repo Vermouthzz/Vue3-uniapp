@@ -1,11 +1,8 @@
 import http from '../request/index.js'
 
-export const getCartListAPI = (id) => {
+export const getCartListAPI = () => {
 	return http({
 		url: '/cart',
-		data: {
-			user_id: id
-		}
 	})
 }
 
@@ -39,6 +36,16 @@ export const updateCartAPI = (list) => {
 		method: 'PUT',
 		data: {
 			list,
+		}
+	})
+}
+
+export const getRecommendListAPI = ({pageNum, pageSize}) => {
+	return http({
+		url: '/list/cart',
+		data: {
+			pageNum,
+			pageSize
 		}
 	})
 }

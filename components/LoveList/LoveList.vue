@@ -17,22 +17,20 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
+import { computed, ref } from "vue"
 const props = defineProps(['list'])
-const leftList = ref([])
-const rightList = ref([])
-
-const speartFun = () => {
-	leftList.value = props.list?.map((item,index) => {
+const leftList = computed(() => {
+	return props.list?.map((item,index) => {
 		if(index % 2 != 0) return item
 	}).filter(i => i)
-	rightList.value = props.list?.map((item,index) => {
+})
+const rightList = computed(() => {
+	return props.list?.map((item,index) => {
 		if(index % 2 == 0) return item
 	}).filter(i => i)
-}
-onMounted(() => {
-	speartFun()
 })
+
+
 </script>
 
 <style lang="scss" scoped>

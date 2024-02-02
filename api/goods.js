@@ -27,3 +27,13 @@ export const getSkuListAPI = (id) => {
 		}
 	})
 }
+
+export const getAboutHotListAPI = (goods_id, category_id) => {
+	return http({
+		url: '/list/goods',
+		data: {
+			goods_id,
+			category_id
+		}
+	})
+}

@@ -27,11 +27,18 @@
 						</view>
 					</view>
 					<!-- 更多推荐板块 -->
-					<goods-recommed></goods-recommed>
+					<block v-if="goodsVal.recommendList.length">
+						<LoveList>
+							<template #name="title">
+								<view class="love-title">
+									更多推荐
+								</view>
+							</template>
+						</LoveList>
+					</block>
 				</view>
 			</scroll-view>
 		</view>
-<!-- 		<goods-popup :goods="goodsVal"></goods-popup> -->
 		<goods-footer></goods-footer>
 	</view>
 </template>
@@ -39,7 +46,6 @@
 <script setup>
 import {ref} from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import GoodsRecommed from './components/GoodsRecommend.vue'
 import GoodsHeader from './components/GoodsHeader.vue'
 import GoodsDetail from './components/GoodsDetail.vue'
 import GoodsDeliver from './components/GoodsDeliver.vue'
@@ -49,10 +55,7 @@ import GoodsAboutHot from './components/GoodsAboutHot.vue'
 import GoodsArgument from './components/GoodsArgument.vue'
 import GoodsComment from './components/GoodsComment.vue'
 import GoodsBrand from './components/GoodsBrand.vue'
-// import GoodsPopup from '../../components/GoodsPopop/GoodsPopop.vue'
-import { useMiddle } from '../../hooks/useMiddle.js'
 import { getGoodsInfoAPI } from '../../api/goods.js'
-import mitter from '../../utils/mitt.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 //获取goods数据
 const goodsVal = ref({})
@@ -60,11 +63,10 @@ const getGoodsInfo = async (id) => {
 	const res = await getGoodsInfoAPI(id)
 	goodsVal.value = res.result
 }
+
 onLoad((options) => {
-	const {
-		id
-	} = options
-	getGoodsInfo(id)
+	const { id } = options
+	getGoodsInfo(id)	
 })
 </script>
 

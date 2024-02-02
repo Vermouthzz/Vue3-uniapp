@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
 import {ref, computed} from 'vue'
 import {getCartListAPI, addCartAPI, delCartAPI, updateCartAPI} from '../api/cart.js'
-import {useUserStore} from './useUserStore.js'
 import {useTicketStore} from './useTicketStore.js'
 
 export const useCartStore = defineStore('cart',() => {
 	//-------------state----------------
-	const userStore = useUserStore()
 	const ticketStore = useTicketStore()
 	const cartList = ref([])
 	
@@ -55,11 +53,11 @@ export const useCartStore = defineStore('cart',() => {
 		} else {
 			await addCartAPI(obj)
 		}
-		getCartList(userStore.userInfo.id)
+		getCartList()
 	}
 	//获取购物车列表
 	const getCartList = async () => {
-		const res = await getCartListAPI(userStore.userInfo.id)
+		const res = await getCartListAPI()
 		cartList.value = res
 	}
 	//删除购物车
@@ -67,7 +65,7 @@ export const useCartStore = defineStore('cart',() => {
 		uni.showLoading({ mask: true })
 		const res = await delCartAPI(id)
 		if(res) uni.hideLoading()
-		getCartList(userStore.userInfo.id)
+		getCartList()
 	}
 	//更新购物车
 	const updateCart = async (cartItem) => {

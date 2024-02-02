@@ -1,4 +1,5 @@
 <template>
+	<IndexPopup></IndexPopup>
 	<CustomHeader :scroll="scroll"></CustomHeader>
 	<scroll-view scroll-y="true" class="scroll-box" @scroll="handleScroll" @scrolltolower="onLoadMore">
 		<Search ></Search>
@@ -33,7 +34,7 @@
 							<view class="title">
 								<text class="title-text">每日抄底</text>
 							</view>
-
+	
 						</view>
 						<view class="new-goods">
 							<view class="title flex-a">
@@ -95,6 +96,7 @@ import Search from './components/Search.vue'
 import CustomHeader from './components/CustomHeader.vue'
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import IndexNav from './components/IndexNav.vue'
+import IndexPopup from './components/IndexPopup.vue'
 import {getHomeListAPI} from '../../api/index.js'
 const swiperImgList = [{
 		id: 1,
@@ -175,6 +177,7 @@ onMounted(() => {
 		color: transparent;
 	}
 	page {
+		position: relative;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
