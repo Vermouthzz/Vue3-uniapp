@@ -159,6 +159,20 @@
                     "style" : {
                         "navigationStyle" : "custom"
                     }
+                },
+                {
+                	"path" : "GoodsList/GoodsList",
+                	"style" : 
+                	{
+                		"navigationStyle": "custom"
+                	}
+                },
+                {
+                	"path" : "rankList/rankList",
+                	"style" : 
+                	{
+                		"navigationStyle" : "custom"
+                	}
                 }
             ]
         },

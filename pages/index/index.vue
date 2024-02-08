@@ -1,26 +1,21 @@
 <template>
-	<IndexPopup></IndexPopup>
+	<!-- <IndexPopup></IndexPopup> -->
 	<CustomHeader :scroll="scroll"></CustomHeader>
 	<scroll-view scroll-y="true" class="scroll-box" @scroll="handleScroll" @scrolltolower="onLoadMore">
 		<Search ></Search>
 		<!-- 导航栏 -->
-		<index-nav></index-nav>
+		<index-nav :list="navList"></index-nav>
 		<!-- 内容栏 -->
 		<view class="content">
 			<scroll-view scroll-x="true" class="scroll-list">
-				<view class="items">猜你喜欢</view>
-				<view class="items">猜你喜欢</view>
-				<view class="items">猜你喜欢</view>
-				<view class="items">猜你喜欢</view>
-				<view class="items">猜你喜欢</view>
-				<view class="items">猜你喜欢</view>
+				<view class="items" @tap="onSwitch(item,index)" :class="{active: index == currentIndex}" v-for="(item, index) in scrollXList" :key="index">{{item.name}}</view>
 			</scroll-view>
 			<view class="content-block flex-c">
 				<view class="block-top flex">
 					<view class="top-left">
 						<swiper class="swiper-a" @change="swiperChange" duration="3" autoplay="true">
 							<swiper-item class="swiper-item-a" v-for="(item,index) in swiperImgList" :key="item.id">
-								<image :src="item.img_url" @tap="onClickImg(item,index)"></image>
+								<image :src="item.img" @tap="onClickImg(item,index)"></image>
 							</swiper-item>
 						</swiper>
 						<view class="dot">
@@ -97,24 +92,8 @@ import CustomHeader from './components/CustomHeader.vue'
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import IndexNav from './components/IndexNav.vue'
 import IndexPopup from './components/IndexPopup.vue'
-import {getHomeListAPI} from '../../api/index.js'
-const swiperImgList = [{
-		id: 1,
-		img_url: 'https://yanxuan-item.nosdn.127.net/e54a19cb355aa22cb8d6b914dd8aa6a9.jpg?type=webp&imageView&quality=65&thumbnail=330x330'
-	},
-	{
-		id: 2,
-		img_url: 'https://yanxuan-item.nosdn.127.net/10bccd52a8a49022cac8506c210be677.jpg?type=webp&imageView&quality=65&thumbnail=330x330'
-	},
-	{
-		id: 3,
-		img_url: 'https://yanxuan-item.nosdn.127.net/8dc0bd2d7e58ace9465aa0cc28998721.png?type=webp&imageView&quality=65&thumbnail=330x330'
-	},
-	{
-		id: 4,
-		img_url: 'https://yanxuan-item.nosdn.127.net/c56dd747c5fd8481ceae603f54286d41.jpg?type=webp&imageView&quality=65&thumbnail=330x330'
-	}
-]
+import {getHomeListAPI, getHomeNavListAPI} from '../../api/index.js'
+const swiperImgList = ref([])
 const current = ref(1)
 //轮播图current改变时调用此函数
 const swiperChange = (e) => {
@@ -130,12 +109,31 @@ const onClickImg = (item, index) => {
 //倒计时效果
 const date = ref('')
 
+//scroll-x列表
+const scrollXList = ref([
+	{ name: '猜你喜欢', id: [] },
+	{ name: '居家生活', ids: [2,4,5,6,7] },
+	{ name: '美食酒水', id: [3,8,9,10,24] },
+	{ name: '个护清洁', id: [5,21,11] },
+	{ name: '鞋饰服包', id: [20,21] },
+	{ name: '运动旅行', id: [15,20,12] },
+	{ name: '母婴亲子', id: [22,14,13] },
+])
+//切换列表
+const onSwitch = (item,index) => {
+	currentIndex.value = index
+	indexData.value.page = 1
+	getHomeList()
+}
+const currentIndex = ref(0)
+
 const scroll = ref(false)
 const handleScroll = (e) => {
 	e.detail.scrollTop > 30 ? scroll.value = true : scroll.value = false
 }
-//获取列表
 
+
+//获取列表
 const leftList = ref([])
 const rightList = ref([])
 const indexData = ref({
@@ -143,10 +141,12 @@ const indexData = ref({
 	pageSize: 12,
 })
 const getHomeList = async () => {
-	const res = await getHomeListAPI(indexData.value)
-	console.log(res);
+	const res = await getHomeListAPI(indexData.value,scrollXList.value[currentIndex.value])
 	leftList.value = res.leftData
 	rightList.value = res.rightData
+	if(res.list) {
+		swiperImgList.value = res.list
+	}
 }
 //获取更多列表
 let flag = ref(true)
@@ -162,7 +162,15 @@ const onLoadMore = async () => {
 	}
 }
 
+//获取Nav列表
+const navList = ref([])
+const getHomeNavList = async () => {
+	const res = await getHomeNavListAPI()
+	navList.value = res.result
+}
+
 onMounted(() => {
+	getHomeNavList()
 	getHomeList()
 })
 </script>
@@ -193,13 +201,16 @@ onMounted(() => {
 			.scroll-list {
 				height: 60rpx;
 				white-space: nowrap;
-
 				.items {
 					display: inline-block;
 					width: 25%;
 					margin-right: 20rpx;
-					font-size: 14px;
-					color: #666;
+					font-size: 24rpx;
+					color: #6c6c6c;
+					&.active {
+						font-size: 32rpx;
+						color: #333;
+					}
 				}
 
 				.items:last-child {
@@ -215,11 +226,12 @@ onMounted(() => {
 						margin-right: 20rpx;
 
 						.swiper-a {
-							height: 480rpx;
-
+							height: 524rpx;
+							width: 344rpx;
 							.swiper-item-a {
 								image {
 									width: 100%;
+									height: 100%;
 									border-radius: 12px;
 								}
 							}
@@ -241,6 +253,7 @@ onMounted(() => {
 
 					.top-right {
 						width: 50%;
+						height: 524rpx;
 						.everyday {
 							width: 100%;
 							height: 49%;

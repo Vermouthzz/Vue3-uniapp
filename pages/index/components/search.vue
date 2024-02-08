@@ -1,10 +1,9 @@
 <template>
 	<view class="search-block-index">
 		<navigator hover-class="none" url="/indexpkg/search/search" class="search-area-index">
-			<!-- <uni-icons class="sea-icon" type="search" size="20"></uni-icons> -->
 			<van-icon name="search" color="#323232" class="sea-icon" size="32rpx" />
 			<input class="search-input" type="text" placeholder="请输入">
-			<button class="btn-search">搜索</button> 
+			<button class="btn-search flex-a">搜索</button> 
 		</navigator>
 	</view>
 </template>
@@ -22,9 +21,9 @@ const toSearch = () => {
 		padding: 0 20rpx;
 		.search-area-index {
 			width: 100%;
-			// height: 56rpx;
+			height: 64rpx;
 			border: 1px solid #d93d46;
-			border-radius: 30px;
+			border-radius: 36rpx;
 			display: flex;
 			box-sizing: border-box;
 			.sea-icon {
@@ -32,18 +31,17 @@ const toSearch = () => {
 			}
 			.search-input {
 				flex: 1;
-				padding: 10rpx 0;
-				font-size: 14px;
+				font-size: 13px;
+				padding: 8rpx 0;
 			}
 			.btn-search {
+				justify-content: center;
+				margin-top: -2rpx;
 				margin-right: -2rpx;
-				margin-top: -4rpx;
 				 //覆盖父元素边框
-				width: 120rpx;
+				width: 112rpx;
 				font-size: 14px;
-				line-height: 70rpx;
-				text-align: center;
-				border-radius: 15px;
+				border-radius: 36rpx;
 				background-color: #f1373d;
 				color: #fff;
 			}

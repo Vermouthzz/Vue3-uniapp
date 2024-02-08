@@ -6,3 +6,11 @@ export const getCateListAPI = () => {
 	})
 }
 
+export const getGoodsListAPI = (id) => {
+	return http({
+		url: '/cate/list',
+		data: {
+			id
+		}
+	})
+}

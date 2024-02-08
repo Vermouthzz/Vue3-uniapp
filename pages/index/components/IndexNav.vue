@@ -1,19 +1,13 @@
 <template>
 	<view class="index-nav">
 		<scroll-view scroll-x="true" class="scroll-cate" @scroll="onNavScroll" show-scrollbar="false">
-			<view class="cate-item flex-c" v-for="i in 10" :key="i">
-				<view class="top-item flex-c-a">
-					<image class="index-image" src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png"></image>
+			<view class="cate-item flex-c" v-for="(item,index) in list" :key="index">
+				<navigator class="top-item flex-c-a" :url="'/indexpkg/GoodsList/GoodsList?id=' + subItem.category_id" v-for="subItem in item" :key="item.category_id">
+					<image class="index-image" :src="subItem.img_url"></image>
 					<view class="item-text">
-						居家日用
+						{{subItem.category_name}}
 					</view>
-				</view>
-				<view class="btm-item flex-c-a">
-					<image class="index-image" src="https://yanxuan.nosdn.127.net/c6fd8835a6400b7da7a016ad85506b69.png"></image>
-					<view class="item-text">
-						居家日用
-					</view>
-				</view>
+				</navigator>
 			</view>
 		</scroll-view>
 		<view class="scroll-line flex-a">
@@ -25,12 +19,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
+const props = defineProps(['list'])
 const moveRpx = ref(0)
 const onNavScroll = (e) => {
 	const width = Math.floor(e.detail.scrollWidth / 2) //px
 	Math.ceil(moveRpx.value = e.detail.scrollLeft * moveLineWidth / width)
 }
+
 let moveLineWidth = 0
 onMounted(() => {
 	const {pixelRatio,screenWidth} = uni.getSystemInfoSync()
