@@ -12,9 +12,11 @@
 			</view>
 			<!-- 三级分类栏 -->
 			<view class="submit-header-btm">
-				<scroll-view class="scroll-x-block" scroll-x="true" scroll-left="">
-					<view class="third-cate-title" v-for="(item,index) in subcateList" :key="item.id" @tap="onSwitchTab(item,index)" :class="{border_btm: goodsId == item.id}">
-						{{item.name}}
+				<scroll-view class="scroll-x-block" scroll-x="true" :scroll-left="scrollX" scroll-with-animation="true">
+					<view class="block" v-for="(item,index) in subcateList" :key="item.id" @tap="onSwitchTab(item,index)">
+						<view class="third-cate-title" :class="{border_btm: goodsId == item.id}">
+							{{item.name}}
+						</view>
 					</view>
 				</scroll-view>
 			</view>
@@ -37,7 +39,7 @@
 </template>
 
 <script setup>
-import {onLoad} from '@dcloudio/uni-app'
+import {onLoad, onReady} from '@dcloudio/uni-app'
 import { ref } from 'vue';
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import {useMiddle } from '../../hooks/useMiddle.js'
@@ -55,10 +57,20 @@ const getSubCateList = async (data) => {
 }
 //切换tab事件
 const goodsId = ref()
+const scrollX = ref(0)
 const onSwitchTab = (item,index) => {
 	goodsId.value = item.id
+	scrollX.value = 0
+	cateItemWidth.value.slice(0, index).forEach(i => scrollX.value += i.width)
 }
 
+const cateItemWidth = ref([])
+onReady(() => {
+	const cateItem = uni.createSelectorQuery().selectAll('.block')
+	cateItem.boundingClientRect(data => {
+		cateItemWidth.value = data
+	}).exec()
+})
 
 onLoad((options) => {
 	goodsId.value = options.goods_id
@@ -93,12 +105,14 @@ page {
 			border-bottom: 1px solid #f4f4f4;
 			.scroll-x-block {
 				white-space: nowrap;
-				.third-cate-title {
+				.block {
 					display: inline-block;
-					margin: 0 20rpx;
-					padding: 8rpx 8rpx 14rpx;
-					&.border_btm {
-						border-bottom: 1px solid #95332f;
+					padding: 0 20rpx;
+					.third-cate-title {
+						padding: 8rpx 8rpx 14rpx;
+						&.border_btm {
+							border-bottom: 1px solid #95332f;
+						}
 					}
 				}
 			}

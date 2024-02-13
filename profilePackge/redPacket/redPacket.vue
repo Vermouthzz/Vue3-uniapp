@@ -5,25 +5,22 @@
 			<van-tabs animated swipeable>
 				<van-tab title="未使用">
 					<scroll-view scroll-y="true" class="scroll-ticket-quote">
-						<block v-for="(subItem,index) in unUseTicket" :key="subItem.user_ticket_id">
+						<block v-for="(subItem,index) in ticketStore.noUseTicket" :key="subItem.user_ticket_id">
 							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
-							<!-- <quote-item></quote-item> -->
 						</block>
 					</scroll-view>
 				</van-tab>
 				<van-tab title="已使用">
 					<scroll-view scroll-y="true" class="scroll-ticket-quote">
-						<block v-for="(subItem,index) in hadUseTicket" :key="subItem.user_ticket_id">
+						<block v-for="(subItem,index) in ticketStore.hadUseTicket" :key="subItem.user_ticket_id">
 							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
-							<!-- <quote-item></quote-item> -->
 						</block>
 					</scroll-view>
 				</van-tab>
 				<van-tab title="已过期">
 					<scroll-view scroll-y="true" class="scroll-ticket-quote">
-						<block v-for="(subItem,index) in hadExpiredTicket" :key="subItem.user_ticket_id">
+						<block v-for="(subItem,index) in ticketStore.hadExpiredTicket" :key="subItem.user_ticket_id">
 							<red-ticket-item :tickets="subItem" :isSuit="subItem.ticket_status == 0"></red-ticket-item>
-							<!-- <quote-item></quote-item> -->
 						</block>
 					</scroll-view>
 				</van-tab>
@@ -34,16 +31,10 @@
 
 <script setup>
 import RedTicketItem from './components/RedTicketItem.vue'
-// import QuoteItem from './components/QuoteItem.vue'
 import {useTicketStore} from '../../store/useTicketStore.js'
 import { computed, ref } from 'vue'
 const ticketStore = useTicketStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
-
-const unUseTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 0))
-const hadUseTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 1))
-const hadExpiredTicket = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 2))
-
 
 
 </script>

@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import {onLoad} from '@dcloudio/uni-app'
+import {onLoad,onShow} from '@dcloudio/uni-app'
 import {computed, ref, watchEffect} from 'vue'
 import Header from '../card/header.vue'
 import OrderItem from './components/OrderItem.vue'
@@ -62,7 +62,7 @@ const List = computed(() => {
 })
 
 
-onLoad((option) => {
+onShow((option) => {
 	activeIndex.value = option.index
 	orderStore.getOrderList()
 })

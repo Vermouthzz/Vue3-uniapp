@@ -6,6 +6,16 @@ export const getUserInfoAPI = () => {
 	})
 }
 
+export const updateUserInfo = () => {
+	return http({
+		url: '/userinfo',
+		method: 'POST',
+		data: {
+			
+		}
+	})
+}
+
 export const verifyPasswordAPI = (password) => {
 	return http({
 		url: '/verify',

@@ -13,7 +13,7 @@
 						<GoodsDeliver :id="goodsVal.goods_id"></GoodsDeliver>
 					</view>
 					<!-- 用户评论板块 -->
-					<GoodsComment></GoodsComment>
+					<GoodsComment :id="goodsVal.goods_id"></GoodsComment>
 					<!-- 品牌信息板块 -->
 					<GoodsBrand :brandInfo="goodsVal.brand_info"></GoodsBrand>
 					<!-- 相关商品、热销榜板块 -->

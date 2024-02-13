@@ -45,7 +45,7 @@
 					 <!-- 左侧list -->
 					<view class="body-list left-list"> 
 						<view class="rank flex">
-							<view class="rank-item flex-c-a" v-for="i in 4" :key="i">
+							<view class="rank-item flex-c-a" @tap="toRankList(i)" v-for="i in 4" :key="i">
 								<view class="r-item-title flex-c-a">
 									<text class="title-weight">严选榜单</text>
 									<text class="title-s">大家都在买</text>
@@ -101,7 +101,7 @@ const swiperChange = (e) => {
 }
 const onClickImg = (item, index) => {
 	uni.previewImage({
-		urls: swiperImgList.map(item => item.img_url),
+		urls: swiperImgList.value.map(item => item.img),
 		count: item.img_url,
 		current: index
 	})
@@ -167,6 +167,12 @@ const navList = ref([])
 const getHomeNavList = async () => {
 	const res = await getHomeNavListAPI()
 	navList.value = res.result
+}
+
+const toRankList = (id) => {
+	uni.navigateTo({
+		url: `/indexpkg/rankList/rankList?id=${id}`
+	})
 }
 
 onMounted(() => {

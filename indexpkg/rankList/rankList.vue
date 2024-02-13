@@ -1,6 +1,6 @@
 <template>
 	<view class="rank-list-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<CustomHeader :title="'网易严选热销百强榜'" :middle="true"></CustomHeader>
+		<CustomHeader :title="'网易严选热销百强榜'" :middle="true" class="fff"></CustomHeader>
 		<scroll-view scroll-y="true" :style="{marginBottom: footerHeight + 'px'}" class="rank-list-body">
 			<view class="rank-bgc">
 				<view class="top-rank">
@@ -19,8 +19,8 @@
 				</view>
 			</view>
 			<view class="rank-list-main">
-				<view class="rank-list-nav flex-a fff">
-					<scroll-view scroll-x="true" class="flex rank-scroll-x" >
+				<view class="rank-list-nav flex-a fff" >
+					<scroll-view scroll-x="true" :scroll-left="scrollX" class="flex rank-scroll-x" scroll-with-animation="true" >
 						<block v-if="flag">
 							<view class="rank-scroll-item" :class="{active: navIndex == index}" v-for="(item,index) in scrollNavList" @tap="tapNavItem(item,index)" :key="index">
 								{{item.name}}
@@ -38,16 +38,21 @@
 					</view>
 				</view>
 				<view class="scroll-item-block">
-					<view class="rank-list-item flex-c fff" v-for="i in 6" :key="i">
+					<view class="rank-list-item flex-c fff" v-for="(item,index) in rankList" :key="index">
 						<view class="top-goods-info flex">
 							<view class="goods-img-block">
-								<image src="https://yanxuan-item.nosdn.127.net/712e114f766a31d9b8e1ab22dde10574.jpg" class="goods-img"></image>
-								<view class="rank-top"></view>
+								<image :src="item.goods_img" class="goods-img"></image>
+								<view class="rank-top" v-if="index < 3">
+									<image :src="rank[index + 1]"></image>
+								</view>
+								<view class="rank-top-else flex-a" v-else>
+									{{index + 1}}
+								</view>
 							</view>
 							<view class="goods-info-block flex-c">
 								<view class="goods-name-block">
 									<text class="goods-name">
-										<text class="sign">自营</text>秘语女士背心式无钢圈文胸上薄下厚无痕内衣
+										<text class="sign">自营</text>{{item.goods_name}}
 									</text>
 								</view>
 								<view class="good-rate flex-a">
@@ -57,8 +62,8 @@
 									<text class="rate">好评率 99.7%</text>
 								</view>
 								<view class="goods-price">
-									<text class="retail-price">￥399</text>
-									<text class="real-price">￥599</text>
+									<text class="retail-price">￥{{item.retail_price}}</text>
+									<text class="real-price">￥{{item.goods_price}}</text>
 								</view>
 							</view>
 							<view class="right-pay">
@@ -67,8 +72,8 @@
 							</view>
 						</view>
 						<view class="user-comment flex-a">
-							<image src="http://127.0.0.1:3000/upload/QIwNRdjgjNSU0f93370b9ab43a78e6a00cbd791d4b7a.jpg" class="user-img"></image>
-							<text class="comment">吼吼吼吼吼吼吼吼吼吼吼吼吼吼吼哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</text>
+							<image :src="item.avator" class="user-img"></image>
+							<text class="comment">{{item.comment}}</text>
 						</view>
 					</view>
 				</view>
@@ -77,10 +82,10 @@
 						更多榜单
 					</view>
 					<view class="other-item-block flex">
-						<view class="other-item flex-a" v-for="i in 9" :key="i">
+						<view class="other-item flex-a" v-for="(item,index) in scrollNavList.slice(1)" :key="index" @tap="toOtherRank">
 							<view class="item-left flex-c">
 								<view class="item-name">
-									床品榜
+									{{item.name}}榜
 								</view>
 								<view class="enter">
 									<text class="text">进入榜单</text>
@@ -96,7 +101,7 @@
 			</view>
 		</scroll-view>
 		<view class="rank-list-footer flex fff">
-			<view class="footer-item flex-a" :class="{active: footerId == item.id}" @tap="tapFooterItem(item)" v-for="(item) in footerList" :key="item.id">
+			<view class="footer-item flex-a" :class="{active: rankId == item.id}" @tap="tapFooterItem(item)" v-for="(item) in footerList" :key="item.id">
 				<van-icon :name="item.icon" class="rank-icon" />
 				<text class="rank-name">{{item.name}}</text>
 			</view>
@@ -131,55 +136,83 @@ const officeList = ref([
 
 const scrollNavList = ref([
 	{ name: '全部', id: 'all' },
-	{ name: '呵呵', id: '1' },
-	{ name: '还会', id: '2' },
-	{ name: '画画', id: '3' },
-	{ name: '画画', id: '4' },
-	{ name: '画画', id: '5' },
-	{ name: '画画', id: '6' },
-	{ name: '画画', id: '7' },
-	{ name: '画画', id: '8' },
-	{ name: '画画', id: '9' },
-	{ name: '画画', id: '10' },
+	{ name: '床品', id: '1' },
+	{ name: '宠物生活', id: '2' },
+	{ name: '男装', id: '3' },
+	{ name: '乳饮酒水', id: '4' },
+	{ name: '家庭清洁', id: '5' },
+	{ name: '母婴亲子', id: '6' },
+	{ name: '运动旅行', id: '7' },
 ])
+
 
 const footerId = ref(1)
 const tapFooterItem = (item) => {
+	if(item.id == footerId.value) return
 	footerId.value = item.id
+	uni.navigateTo({
+		url: `/indexpkg/rankList/rankList?id=${footerId.value}`
+	})
 }
 //nav列表逻辑
+const scrollX = ref(0)  //横向移动距离
 const navIndex = ref(0)
 const tapNavItem = (item,index) => {
 	if(!flag.value) flag.value = true
+	scrollX.value = 0
 	navIndex.value = index
+	NavItemWidth.value.slice(0, index).forEach(i => scrollX.value += i.width)
 }
 const flag = ref(true)
 const onShowNavItem = () => {
 	flag.value = !flag.value
 }
 
-const getRankList = async () => {
-	const res = await getRankListAPI(footerId.value)
+//点击跳转其他rank
+const toOtherRank = (id) => {
+	uni.navigateTo({
+		url: `/indexpkg/rankList/rankList?id=${id}`
+	})
+}
+
+//获取列表数据
+const rankList = ref([])
+const rankId = ref(0)
+const getRankList = async (id) => {
+	const res = await getRankListAPI(id)
+	rankList.value = res.result.list
+	rankId.value = res.result.rank_id
 }
 
 const footerHeight = ref(0)
+const NavItemWidth = ref([])
 onReady(() => {
-	const footer = uni.createSelectorQuery().select('.rank-list-footer')
-	const navItems = uni.createSelectorQuery().select('.rank-scroll-item')
+	const selectorQuery = uni.createSelectorQuery()
+	const footer = selectorQuery.select('.rank-list-footer')
+	const navItems = selectorQuery.selectAll('.rank-scroll-item')
 	footer.boundingClientRect(data => {
 		footerHeight.value = data.height
 	}).exec()
 	navItems.boundingClientRect(data => {
-		console.log(data);
+		NavItemWidth.value = data
 	}).exec()
 })
 
-onLoad(() => {
-	getRankList()
+onLoad((options) => {
+	footerId.value = options.id
+	getRankList(options.id)
 })
 </script>
 
 <style lang="scss">
+::-webkit-scrollbar {
+	display: none;
+	width: 0 !important;
+	height: 0 !important;
+	-webkit-appearance: none;
+	background-color: transparent;
+	color: transparent;
+}
 page {
 	height: 100vh;
 }
@@ -187,10 +220,10 @@ page {
 	position: relative;
 	height: 100%;
 	box-sizing: border-box;
-	background-color: #f0efef;
 	.rank-list-body {
 		flex: 1;
 		overflow: scroll;
+		background-color: #f0efef;
 		.rank-bgc {
 			position: relative;
 			height: 530rpx;
@@ -247,9 +280,11 @@ page {
 			padding: 0 20rpx;
 			box-sizing: border-box;
 			.rank-list-nav {
-				position: relative;
+				position: sticky;
+				top: 0;
 				padding: 26rpx;
 				border-radius: 12rpx;
+				z-index: 1001;
 				.rank-scroll-x {
 					width: 88%;
 					white-space: nowrap;
@@ -302,6 +337,9 @@ page {
 						}
 					}
 				}
+				.show-more-block {
+					
+				}
 			}
 			.scroll-item-block {
 				margin-top: 12rpx;
@@ -323,7 +361,23 @@ page {
 								position: absolute;
 								top: 0;
 								left: 0;
-								background: url('https://yanxuan.nosdn.127.net/f1566323de5e538cfd1c1845685285f2.png?quality=75&type=webp&imageView');
+								image {
+									width: 60rpx;
+									height: 68rpx;
+								}
+							}
+							.rank-top-else {
+								position: absolute;
+								top: 10rpx;
+								left: 8rpx;
+								justify-content: center;
+								width: 60rpx;
+								height: 60rpx;
+								border-radius: 50%;
+								font-size: 22rpx;
+								font-weight: 550;
+								color: #fff;
+								background-color: #d8d8d8;
 							}
 						}
 						.goods-info-block {

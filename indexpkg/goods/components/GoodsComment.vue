@@ -1,6 +1,6 @@
 <template>
-	<view class="user-comment">
-		<view class="comment-title flex-a" @tap="toComment">
+	<view class="user-comment" @tap="toComment">
+		<view class="comment-title flex-a">
 			<view class="comment-title-left">
 				<text>用户评价(6000+)</text>
 			</view>
@@ -9,15 +9,15 @@
 				<text>></text>
 			</view>
 		</view>
-		<comment-block></comment-block>
+		<CommentBlock :show="false"></CommentBlock>
 	</view>
 </template>
 
 <script setup>
-import CommentBlock from '../../../components/CommentBlock/CommentBlock.vue'
+const props = defineProps(['id'])
 const toComment = () => {
 	uni.navigateTo({
-		url: '/goodsPages/comment/comment'
+		url: `/goodsPages/comment/comment?id=${props.id}`
 	})
 }
 </script>

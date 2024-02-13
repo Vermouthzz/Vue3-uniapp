@@ -1,16 +1,13 @@
 <template>
-	<view class="user-header" >
-		<view class="u-top" :style="{paddingTop: top + 'px'}">
-			<van-icon name="arrow-left" size="40rpx" class="u-left" @tap="toBack"></van-icon>
-			<text class="u-title">个人中心</text>
-		</view>
+	<view class="user-header" :style="{paddingTop: safeAreaInsets.top + 'px'}">
+		<CustomHeader :title="个人中心" :middle="true"></CustomHeader>
 		<view class="u-avator">
 			<image class="u-avator-image" :src="userInfo.avator"></image>
 		</view>
 		<view class="u-change" @tap="changeAvator">
 			点击修改头像
 		</view>
-	</view>
+	</view>		
 	<view class="u-body">
 		<view class="detail-bd">
 			<InfoItem></InfoItem>
@@ -32,6 +29,7 @@ import {reactive, ref} from 'vue'
 import {useUserStore} from '../../store/useUserStore.js'
 import InfoItem from './components/InfoItem.vue'
 const {userInfo,clearUserInfo} = useUserStore()
+const {safeAreaInsets} = uni.getSystemInfoSync()
 const toBack = () => {
 	uni.navigateBack()
 }
@@ -48,10 +46,7 @@ const changeAvator = () => {
 		success: (res) => {
 			const path = res.tempFiles[0].path
 			uni.uploadFile({
-				url: 'http://localhost:3000/api/uni/upload',
-				// header: {
-				// 	"content-type": 'multipart/form-data'
-				// },
+				url: '/upload',
 				filePath: path,
 				name: 'file',
 				formData: {
@@ -79,7 +74,7 @@ const onDateChange = (e) => {
 }
 const onSubmit = () => {
 	uni.request({
-		url: 'http://localhost:3000/api/uni/userinfo',
+		url: '/userinfo',
 		data: userInfo,
 		method: 'POST',
 		success: (res) => {

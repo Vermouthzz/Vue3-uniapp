@@ -1,8 +1,11 @@
 import http from '../request/index.js'
 
-export const getRankListAPI = () => {
+export const getRankListAPI = (id) => {
 	return http({
-		url: '/rank'
+		url: '/rank',
+		data: {
+			id
+		}
 	})
 }
 

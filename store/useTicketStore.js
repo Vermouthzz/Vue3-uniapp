@@ -9,23 +9,30 @@ export const useTicketStore = defineStore('ticket', () => {
 	
 	const userTicketList = ref([])
 	
+	//未使用的红包
+	const noUseTicket = computed(() => userTicketList.value.filter(i => i.ticket_status == 0))
+	//已使用的红包
+	const hadUseTicket = computed(() => userTicketList.value.filter(i => i.ticket_status == 1))
+	//已过期的红包
+	const hadExpiredTicket = computed(() => userTicketList.value.filter(i => i.ticket_status == 2))
+	
 	const getTicketList = async () => {
 		const res = await getTicketListAPI()
 		userTicketList.value = res.result
-		if(userTicketList.value.length) userTicketList.value.forEach(item => item.selected = false)
+		if(noUseTicket.value.length) userTicketList.value.forEach(item => item.selected = false)
 	}
 	
 	//默认选中最优惠的红包
 	const defaultSelectedTicket = (price) => {
-		if(!userTicketList.value.length) return
-		let item = userTicketList.value.filter(i => i.ticket_condition <= price).reduce((a,b) => {
+		if(!noUseTicket.value.length) return
+		let item = noUseTicket.value.filter(i => i.ticket_condition <= price).reduce((a,b) => {
 			if(b.ticket_price > a.ticket_price) {
 				a.ticket_id = b.ticket_id
 				a.ticket_price = b.ticket_price
 			}
 			return a
 		},{ticket_id: 0,ticket_price: 0})
-		const sItem = userTicketList.value.find(i => i.ticket_id == item.ticket_id)
+		const sItem = noUseTicket.value.find(i => i.ticket_id == item.ticket_id)
 		return sItem
 	}
 	//选中红包的item
@@ -43,6 +50,7 @@ export const useTicketStore = defineStore('ticket', () => {
 	
 	//使用红包逻辑
 	const updateUseTicket = async (status) => {
+		const id = selectedTicket.value.ticket_id
 		const res = await updateUserTicketAPI(id, status)
 		selectedTicket.value.ticket_status = status
 	}
@@ -56,20 +64,20 @@ export const useTicketStore = defineStore('ticket', () => {
 	}
 	//不使用红包
 	const unUseTicket = () => {
-		userTicketList.value.forEach(item => item.selected = false)
+		noUseTicket.value.forEach(item => item.selected = false)
 	}
 	
 	
 	//展示选中的红包
-	const selectedTicket = computed(() => userTicketList.value.find(i => i.selected))
+	const selectedTicket = computed(() => noUseTicket.value.find(i => i.selected))
 	
 	//选出所有能选的红包
 	const effectiveTickets = computed(() => {
-		return userTicketList.value.filter(item => item.ticket_condition < cartStore.allRetailPrice)
+		return noUseTicket.value.filter(item => item.ticket_condition < cartStore.allRetailPrice)
 	})
 	//选出所有无效红包
 	const uselessTickets = computed(() => {
-		return userTicketList.value.filter(item => item.ticket_condition > cartStore.allRetailPrice)
+		return noUseTicket.value.filter(item => item.ticket_condition > cartStore.allRetailPrice)
 	})
 	
 	return {
@@ -80,6 +88,9 @@ export const useTicketStore = defineStore('ticket', () => {
 		uselessTickets,
 		tapSelected,
 		unUseTicket,
-		getTicketList
+		getTicketList,
+		noUseTicket,
+		hadUseTicket,
+		hadExpiredTicket
 	}
 })
