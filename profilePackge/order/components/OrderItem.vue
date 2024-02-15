@@ -22,10 +22,10 @@
 				<text class="pay-price">￥{{item?.pay_price}}</text>
 			</view>
 			<view class="right flex">
-				<view class="btn-order flex-a cancel-order">
+				<view class="btn-order flex-a cancel-order" @tap.stop="onCancelOrder">
 					取消订单
 				</view>
-				<view class="btn-order flex-a pay-order" @tap="onPay">
+				<view class="btn-order flex-a pay-order" @tap.stop="onPay">
 					付款 <van-count-down @finish="onFinish" :time="item?.remainTime" format="mm:ss" />
 				</view>
 			</view>
@@ -39,21 +39,44 @@
 		</view>
 	</view>
 	<pay-popup v-model:show="show" :price="item.pay_price"></pay-popup>
+	<van-dialog
+	  use-slot
+	  title="取消订单"
+	  :show="dialog"
+	  show-cancel-button
+	  confirm-button-open-type="onConfirm"
+	  @close="onClose"
+	  @confirm="onConfirm"
+	>
+	</van-dialog>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
 import PayPopup from '../../components/PayPopup.vue'
 import {useOrderStore} from '../../../store/useOrderStore.js'
+import {useUserCardStore} from '../../../store/useUserCardStore.js'
+const userCardStore = useUserCardStore()
 const orderStore = useOrderStore()
 const props = defineProps(['item'])
 
 const status = ['已取消','待付款','待发货','已发货','交易成功','交易成功']
 const orderStatus = computed(() => status[props.item?.order_status * 1 + 1])
-const statusColor = computed(() => props.item.order_status == 3 ? '#4b9263' : '#dd2f50')
+const statusColor = computed(() => props.item?.order_status == 3 ? '#4b9263' : '#dd2f50')
 
 const onFinish = () => {
-	orderStore.updateItem(-1,props.item.order_id)
+	orderStore.onCancleOrderListItem(props.item.order_id)
+}
+
+const dialog = ref(false)
+const onCancelOrder = () => {
+	dialog.value = true
+}
+const onClose = () => {
+	dialog.value = false
+}
+const onConfirm = () => {
+	onFinish()
 }
 
 const toDetail = () => {

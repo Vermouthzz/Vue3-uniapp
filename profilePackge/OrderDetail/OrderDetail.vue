@@ -107,15 +107,11 @@ const onCopy = () => {
 	
 }
 
-const updateStatus = () => {
-	orderStore.updateItem(-1,orderStore.orderItem.order_id)
-	if(userCard.value[0].checked) userCardStore.updateCardNum(orderStore.orderItem.order_id,-1,0)
-}
 
 //取消订单
 const cancelFlag = ref(false)
 const onCancelOrder = () => {
-	updateStatus()
+	orderStore.onCancelOrderItem(orderStore.orderItem.order_id)
 	cancelFlag.value = true
 }
 
@@ -157,6 +153,7 @@ page {
 }
 .order-detail-box {
 	height: 100%;
+	box-sizing: border-box;
 	.order-detail-bd {
 		flex: 1;
 		overflow: scroll;

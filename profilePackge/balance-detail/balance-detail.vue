@@ -2,7 +2,7 @@
 	<view class="ba-detail-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<CustomHeader :title="'网易严选-以严谨的态度...'"></CustomHeader>
 		<view class="ba-detail-body">
-			<view class="detail-item-block flex-c" v-for="item in cardList" :key="item.change_id">
+			<view class="detail-item-block flex-c" v-for="(item,index) in cardList" :key="index">
 				<view class="item-date">
 					{{item.change_time}}
 				</view>
@@ -18,13 +18,12 @@
 						</view>
 					</view>
 					<view class="item-right flex">
-						<view class="item-name flex-c">
-							<text>充值</text>
-							<text class="btm">余额</text>
+						<view class="item-name">
+							{{Name(item.change_type)}}
 						</view>
 						<view class="item-change flex-c">
-							<text class="sign">{{item.change_type == 1 ? '+' : '-'}}{{item.change_num}}</text>
-							<text class="btm">{{item.change_type == 0 ? '0.00' : item.change_num}}</text>
+							<text :class="[item.change_type == 0 ? 'dec' : 'add']">{{item.change_num.toFixed(2)}}</text>
+							<text class="btm">{{item.change_type == 0 ? '0.00' : item.change_num.toFixed(2)}}</text>
 						</view>
 					</view>
 				</view>
@@ -42,7 +41,10 @@ const cardList = ref([])
 const getCardList = async () => {
 	const res = await getCardDetailAPI(1)
 	cardList.value = res.data
-	console.log(cardList.value);
+}
+
+const Name = (type) => {
+	return type == -1 ? '退款余额' : type == 0 ? '消费余额' : '充值余额'
 }
 
 onMounted(() => {
@@ -78,11 +80,30 @@ onMounted(() => {
 				.item-right {
 					flex: 1;
 					justify-content: space-between;
-					.sign {
-						margin-left: -20rpx;
+					.item-name {
+						width: 50rpx;
+						line-height: 36rpx;
 					}
-					.btm {
-						margin-top: 10rpx;
+					.item-change {
+						position: relative;
+						.add::before {
+							position: absolute;
+							content: '+';
+							left: -18rpx;
+							top: -2rpx;
+							width: 18rpx;
+							height: 18rpx;
+						}
+						.dec::before {
+							position: absolute;
+							content: '-';
+							left: -12rpx;
+							width: 20rpx;
+							height: 20rpx;
+						}
+						.btm {
+							margin-top: 10rpx;
+						}
 					}
 				}
 			}

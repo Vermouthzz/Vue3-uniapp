@@ -27,7 +27,7 @@
 						</view>
 					</view>
 					<!-- 更多推荐板块 -->
-					<block v-if="goodsVal.recommendList.length">
+					<block v-if="goodsVal.recommendList?.length">
 						<LoveList>
 							<template #name="title">
 								<view class="love-title">

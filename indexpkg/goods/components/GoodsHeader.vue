@@ -4,7 +4,7 @@
 			<van-icon name="arrow-left" size="40rpx" class="left-icon" @tap="toBack"></van-icon>
 			<van-icon name="home-o" size="40rpx" class="right-icon"></van-icon>
 		</view>
-		<view class="header-right-block flex-a" :style="{height: height + 'px'}">
+		<view class="header-right-block flex-a" :style="{height: buttonHeight + 'px'}">
 			<van-icon name="search" size="36rpx"></van-icon>
 			<input class="header-right-input" type="text" placeholder="午餐肉">
 		</view>
@@ -12,10 +12,16 @@
 </template>
 
 <script setup>
-const {height} = uni.getMenuButtonBoundingClientRect()
+import {onReady} from '@dcloudio/uni-app'
+import { ref } from 'vue';
 const toBack = () => {
 	uni.navigateBack()
 }
+const buttonHeight = ref(0)
+onReady(() => {
+	const {height} = uni.getMenuButtonBoundingClientRect()
+	buttonHeight.value = height
+})
 </script>
 
 <style lang="scss">

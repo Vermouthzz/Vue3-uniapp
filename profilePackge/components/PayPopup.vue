@@ -40,12 +40,12 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
-	type: { 
+	type: { //根据type辨别从什么地方拉起支付
 		type: Boolean,
 		default: false
 	},
 	price: [Number, String],
-	id: {
+	id: {  //order_id
 		type: Number,
 		default: 0
 	}
@@ -57,23 +57,27 @@ const onClose = () => {
 	emits('update:show', false)
 	if(props.type) {
 		//还可以添加loding
+		console.log(props.id);
 		uni.navigateTo({
 			url: `/profilePackge/OrderDetail/OrderDetail?id=${props.id}&to=2`
 		})
 	} else {
+		//取消订单
 		uni.navigateTo({
-			url: `/profilePackge/pay-result/pay-result?to=2`
+			url: `/profilePackge/pay-result/pay-result?to=1`
 		})
 	}
 }
 
 //确认支付
 const confirmPay = async () => {
+	let to
+	props.type ? to = 2 : to = 1
 	await Promise.all([orderStore.updateItem(1,orderStore.orderItem.order_id),updateUserMoneyAPI(userCardStore.userBalance, 0, props.price),userCardStore.updateCardNum(orderStore.orderItem.order_id,-1,1)])
 	userCardStore.postNewBalance(userCardStore.userBalance - props.price)
 	emits('update:show', false)
 	uni.navigateTo({
-		url: `/profilePackge/pay-result/pay-result?to=2`
+		url: `/profilePackge/pay-result/pay-result?to=${to}`
 	})
 }
 </script>

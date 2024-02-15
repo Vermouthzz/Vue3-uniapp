@@ -28,10 +28,15 @@ const props = defineProps({
 })
 
 const toBack = () => {
-	let num = 1
-	if(props.two) num = 2
 	uni.navigateBack({
-		delta: num
+		delta: 1,
+		success: () => {
+			if(props.two) {
+				setTimeout(() => {
+					uni.navigateBack()
+				}, 250)
+			}
+		}
 	})
 }
 

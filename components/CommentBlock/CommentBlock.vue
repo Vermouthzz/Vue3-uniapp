@@ -1,27 +1,26 @@
 <template>
 	<view class="comment-detail flex-c">
 		<view class="user-info flex-a">
-			<image class="user-info-image" src="https://yanxuan.nosdn.127.net/static-union/164793255107785e.png"></image>
+			<image class="user-info-image" :src="item.user_avator"></image>
 			<text>{{item.user_name}}</text>
 		</view>
 		<view class="date-order">
-			<text>2023-10-22 12:50</text>
-			<text>纯牛奶</text>
-			<text>12盒*2提</text>
+			<text>{{formatDate(item.date)}}</text>
+			<text class="goods-sku">纯牛奶12盒*12提</text>
 		</view>
 		<view class="comment-text-img">
 			<view class="comment-text">
 				{{item.text}}
 			</view>
-			<view class="comment-img flex">
-				<image class="comment-image" :src="item.img" v-for="(item,index) in imgs" :key="index" @tap="onShowImg(item,index)"></image>
+			<view class="comment-img flex" v-if="commentImgs">
+				<image class="comment-image" :src="item" v-for="(item,index) in commentImgs" :key="index" @tap="onShowImg(item,index)"></image>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 const props = defineProps({
 	show: {
 		type: Boolean,
@@ -32,17 +31,24 @@ const props = defineProps({
 		default: {}
 	}
 })
-const imgs = ref([
-	{ img: 'https://yanxuan.nosdn.127.net/static-union/164793255107785e.png' },
-	{ img: 'https://yanxuan.nosdn.127.net/static-union/164793255107785e.png' },
-	{ img: 'https://yanxuan.nosdn.127.net/static-union/164793255107785e.png' },
-])
+
+const formatDate = (time) => {
+	const date = new Date(Number(time))
+	const year = date.getFullYear()
+	const month = (date.getMonth() + 1).toString().padStart(2, '0')
+	const day = date.getDate().toString().padStart(2,'0')
+	const hours = date.getHours().toString().padStart(2,'0')
+	const mintune = date.getMinutes().toString().padStart(2,'0')
+	return `${year}-${month}-${day} ${hours}:${mintune}`
+}
+
+const commentImgs = computed(() => props.item.picture?.split(','))
 const onShowImg = (item,index) => {
 	if(!props.show) return
 	uni.previewImage({
-		urls: imgs.value.map(item => item.img),
+		urls: commentImgs.value?.map(item => item),
 		current: index,
-		count: item.img
+		count: item
 	})
 }
 </script>
@@ -63,6 +69,9 @@ const onShowImg = (item,index) => {
 			margin: 16rpx 0;
 			font-size: 12px;
 			color: #848484;
+			.goods-sku {
+				margin-left: 8rpx;
+			}
 		}
 		.comment-text-img {
 			.comment-text {
@@ -75,11 +84,11 @@ const onShowImg = (item,index) => {
 			}
 			.comment-img {
 				margin-top: 20rpx;
-				border: 1px solid #f6f6f6;
 				.comment-image {
 					width: 140rpx;
 					height: 140rpx;
 					margin-right: 40rpx;
+					border: 1px solid #f6f6f6;
 					&:last-child {
 						margin: 0;
 					}

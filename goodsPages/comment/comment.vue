@@ -1,8 +1,8 @@
 <template>
 	<view class="comment-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<CustomHeader :title="'评价'"></CustomHeader>
-		<view class="comment-body flex-c">
-			<view class="good-comment flex-c">
+		<scroll-view scroll-y="true" class="comment-scroll flex-c" enable-flex>
+			<view class="goods-comment flex-c">
 				<text>99.9%好评</text>
 				<view class="comment-view-block flex">
 					<view class="comment-view" 
@@ -14,12 +14,10 @@
 					</view>		
 				</view>
 			</view>
-			<scroll-view scroll-y="true" class="comment-scroll" :style="{height: `calc(100% - ${height_}px)`}">
-				<view class="comment-item-block" v-for="(item,index) in commentList" :key="index">
-					<CommentBlock :item="item"></CommentBlock>
-				</view>
-			</scroll-view>
-		</view>
+			<view class="comment-item-block" v-for="(item,index) in commentList" :key="index">
+				<CommentBlock :item="item"></CommentBlock>
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -43,7 +41,7 @@ const page = ref({
 	size: 10,
 	current: 1
 })
-const commentList = ref('')
+const commentList = ref([])
 const getCommentList = async (id) => {
 	const res = await getCommentListAPI(id,page.value)
 	console.log(res);
@@ -64,12 +62,16 @@ onLoad((options) => {
 </script>
 
 <style lang="scss">
-	.comment-block {
+	page {
 		height: 100vh;
+	}
+	.comment-block {
+		height: 100%;
 		box-sizing: border-box;
-		.comment-body {
+		.comment-scroll {
 			flex: 1;
-			.good-comment {
+			overflow: scroll;
+			.goods-comment {
 				margin-top: 30rpx;
 				padding: 0 16rpx;
 				font-size: 13px;
@@ -88,11 +90,8 @@ onLoad((options) => {
 					}
 				}
 			}
-			.comment-scroll {
-				
-				.comment-item-block {
-					
-				}
+			.comment-item-block {
+				border-bottom: 1px solid #f4f4f4;
 			}
 		}
 	}

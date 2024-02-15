@@ -78,7 +78,6 @@
 	
 		.scroll-change {
 			white-space: nowrap;
-	
 			.change-item-block {
 				width: 62%;
 				display: inline-block;

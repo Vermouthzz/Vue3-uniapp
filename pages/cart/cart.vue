@@ -1,6 +1,6 @@
 <template>
 	<cart-header></cart-header>
-	<scroll-view scroll-y="true" class="cart-block flex-c" @scrolltolower="onLoadMore">
+	<scroll-view scroll-y="true" class="cart-block flex-c" @scrolltolower="onLoadMore" enable-flex>
 		<view class="cart-body flex-c">
 			<template v-if="!userStore.userInfo">
 				<view class="not-login-block flex-c-a">

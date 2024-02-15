@@ -70,7 +70,8 @@
 import { computed, ref, watchEffect } from 'vue'
 import {onLoad} from '@dcloudio/uni-app'
 import {getCommentGoodsAPI} from '../../api/comment.js'
-import {updateOrderItemStatusAPI} from '../../api/order.js'
+import {useOrderStore} from '../../store/useOrderStore.js'
+const orderStore = useOrderStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const star = ref(5)
 const starList = ['非常差','差','一般吧','满意','非常满意']
@@ -149,7 +150,7 @@ const onSubmit = async () => {
 					})
 					await Promise.all(uploadTasks)
 				}
-				await updateOrderItemStatusAPI(4,order_id.value)
+				orderStore.updateOrderListItem(4,order_id.value)
 				uni.showToast({
 					icon: 'success',
 					title: '评价成功'

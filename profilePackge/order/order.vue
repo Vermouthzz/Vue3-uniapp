@@ -1,7 +1,7 @@
 <template>
 	<view class="order-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<view class="order-header flex-c">
-			<Header :title="'我的订单'"></Header>
+			<CustomHeader :title="'我的订单'"></CustomHeader>
 			<view class="header-tab flex fff">
 				<view class="tab-item-block flex-a" v-for="(item,index) in orderTabs" :key="index">
 					<view class="tab-item" @tap="onTapTab(index)" :class="{active: index == activeIndex}">
@@ -15,6 +15,9 @@
 				<order-item :item="item"></order-item>
 			</block>
 		</view>
+		<!-- <scroll-view scroll-y="true" >
+			<view></view>
+		</scroll-view> -->
 	</view>
 </template>
 
@@ -61,10 +64,19 @@ const List = computed(() => {
 	}
 })
 
+const firstLoad = ref(false)
+onShow(() => {
+	if(firstLoad.value) {
+		orderStore.getOrderList()
+	}
+})
 
-onShow((option) => {
-	activeIndex.value = option.index
-	orderStore.getOrderList()
+onLoad((option) => {
+	if(!firstLoad.value) {
+		activeIndex.value = option.index
+		orderStore.getOrderList()
+		firstLoad.value = true
+	}
 })
 </script>
 

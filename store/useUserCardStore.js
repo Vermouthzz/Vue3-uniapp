@@ -14,8 +14,9 @@ export const useUserCardStore = defineStore('user-card', () => {
 		return formatDate
 	}
 	
-	const getUserCardInfo = async (id) => {
-		const res = await getUserInfoAPI(id)
+	const getUserCardInfo = async () => {
+		const res = await getUserInfoAPI()
+		console.log(res);
 		userBalance.value = res.balance
 		userCard.value = res.card.map(item => {
 			item.children?.forEach(i => {
