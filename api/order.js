@@ -25,10 +25,13 @@ export const getOrderItemAPI = (id) => {
 	})
 }
 
-
-export const getOrderListAPI = () => {
+//type即为order的状态,5为查询全部orderlist
+export const getOrderListAPI = (type) => {
 	return http({
-		url: '/orders'
+		url: '/orders',
+		data: {
+			type
+		}
 	})
 }
 

@@ -21,9 +21,7 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import AddressItem from './components/AddressItem.vue'
-import CustomHeader from '../../components/CustomHeader/CustomHeader.vue'
 import {ref} from 'vue'
-import {useMiddle} from '../../hooks/useMiddle.js'
 import {useAddressStore} from '../../store/useAddressStore.js'
 const addressStore = useAddressStore()
 const {safeAreaInsets} = uni.getSystemInfoSync() //获取设备信息

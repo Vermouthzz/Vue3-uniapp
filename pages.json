@@ -251,6 +251,7 @@
             // "van-checkbox-group": "/wxcomponents/vant/checkbox-group/index",
             // "van-col": "/wxcomponents/vant/col/index",
             "van-dialog" : "/wxcomponents/vant/dialog/index",
+			"van-empty" : "/wxcomponents/vant/empty/index",
             "van-field" : "/wxcomponents/vant/field/index",
             // "van-goods-action": "/wxcomponents/vant/goods-action/index",
             // "van-goods-action-icon": "/wxcomponents/vant/goods-action-icon/index",

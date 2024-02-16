@@ -2,23 +2,7 @@
 	<view class="order-detail-box flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<CustomHeader :title="'订单详情'" :two="double"></CustomHeader>
 		<scroll-view class="order-detail-bd flex-c" scroll-y="true" enable-flex="true">
-			<view class="detail-address-block fff">
-				<view class="address-item flex-c">
-					<view class="address">
-						<!-- 江西省南昌市新建区白水湖管理处华东交通大学北区 -->
-						{{address}}
-					</view>
-					<view class="phone-name flex">
-						<text class="name">{{orderStore.orderItem.adress_name}}</text>
-						<text>{{phone}}</text>
-					</view>
-				</view>
-				<view class="change-address" v-show="!cancelFlag">
-					<view class="change-item">
-						修改地址
-					</view>
-				</view>
-			</view>
+			<detail-addres></detail-addres>
 			<block v-for="(item,index) in cartStore.selectedItems" :key="index">
 				<packge-item :item="item" :index="index">	
 					<template #title>
@@ -76,25 +60,21 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import {storeToRefs} from 'pinia'
-// import CommonList from '../components/CommonList.vue'
 import PackgeItem from '../create-order/components/PackgeItem.vue'
+import DetailAddres from './components/DetailAddres.vue'
 import PayPopup from '../components/PayPopup.vue'
 import {useCartStore} from '../../store/useCartStore.js'
-import {useAddressStore} from '../../store/useAddressStore.js'
 import { computed, ref } from 'vue'
 import {useOrderStore} from '../../store/useOrderStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {getOrderRecommendList} from '../../api/order.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const orderStore = useOrderStore()
-const addressStore = useAddressStore()
 const cartStore = useCartStore()
 const userCardStore = useUserCardStore()
 const { userCard } = storeToRefs(userCardStore)
 
-//地址
-const address = computed(() => addressStore.selectedAddress.address.split(" ").join('') + addressStore.selectedAddress.detail_adrs)
-const phone = computed(() => orderStore.orderItem.contact?.slice(0,3) + '****' + orderStore.orderItem.contact?.slice(7))
+
 //倒计时
 
 //订单状态
@@ -157,23 +137,6 @@ page {
 	.order-detail-bd {
 		flex: 1;
 		overflow: scroll;
-		.detail-address-block {
-			color: #333;
-			font-size: 14px;
-			.address-item {
-				padding: 48rpx 30rpx 40rpx 	24rpx;
-				.address {
-					margin-bottom: 12rpx;
-				}
-				.phone-name {
-					font-size: 12px;
-					color: #7e7e7e;
-					.name {
-						margin-right: 6rpx;
-					}
-				}
-			}
-		}
 		.change-address {
 			padding: 12rpx 0;
 			border-top: 1px solid #d9d9d9;

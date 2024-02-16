@@ -103,8 +103,8 @@
 
 <script setup>
 import { ref } from "vue"
-import {onLoad} from '@dcloudio/uni-app'
-import {useMiddle} from '../../hooks/useMiddle.js'
+import {onLoad,onReady} from '@dcloudio/uni-app'
+import {middle} from '../../hooks/useMiddle.js'
 import {getRegionAPI} from '../../api/address.js'
 import {useAddressStore} from '../../store/useAddressStore.js'
 const addressStore = useAddressStore()
@@ -164,9 +164,12 @@ const getRegionList = async () => {
 	options.value = res
 }
 
+onReady(() => {
+	middle('.edit-add-title').then(data => top.value = data.top)
+})
+
 onLoad((option) => {
 	type.value = option.type
-	useMiddle('.edit-add-title').then(data => top.value = data.top)
 	getRegionList()
 })
 </script>

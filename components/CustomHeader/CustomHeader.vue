@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import {middle} from '../../hooks/middle.js'
+import {middle} from '../../hooks/useMiddle.js'
 const props = defineProps({
 	title: {
 		type: String,

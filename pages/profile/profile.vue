@@ -16,7 +16,7 @@
 			<view class="order-card fff">
 				<uni-card :is-full="true" :is-shadow="true">
 					<view class="order-block flex">
-						<view class="order-item flex-c-a"  v-for="(item,index) in orderList" :key="index" @tap="toOrder(index)"> 
+						<view class="order-item flex-c-a"  v-for="(item,index) in orderList" :key="index" @tap="toOrder(item,index)"> 
 							<view class="order-item-icon">
 								<van-icon :name="item.icon" size="60rpx"></van-icon>
 							</view>
@@ -79,9 +79,9 @@ const isShow = ref(false)
 const onMyScroll = (e) => {
 	e.detail.scrollTop > 200 ? isShow.value = true : isShow.value = false
 }
-const toOrder = (index) => {
+const toOrder = (item,index) => {
 	uni.navigateTo({
-		url: `/profilePackge/order/order?index=${index}`
+		url: `/profilePackge/order/order?index=${index}&type=${item.type}`
 	})
 }
 

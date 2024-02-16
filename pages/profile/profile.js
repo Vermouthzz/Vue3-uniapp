@@ -16,11 +16,11 @@ export const useProfileHook = () => {
 	])
 	
 	const orderList = ref([
-		{id: 1, name: '全部订单', icon: 'orders-o'},
-		{id: 2, name: '待付款', icon: 'paid'},
-		{id: 3, name: '待发货', icon: 'pending-payment'},
-		{id: 4, name: '已发货', icon: 'logistics'},
-		{id: 4, name: '待评价', icon: 'records-o'}
+		{id: 1, name: '全部订单', icon: 'orders-o', type: 5},
+		{id: 2, name: '待付款', icon: 'paid', type: 0},
+		{id: 3, name: '待发货', icon: 'pending-payment', type: 1},
+		{id: 4, name: '已发货', icon: 'logistics', type: 2},
+		{id: 4, name: '待评价', icon: 'records-o', type: 3}
 	])
 	
 	const serviceList = ref([

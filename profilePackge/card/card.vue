@@ -1,6 +1,6 @@
 <template>
 	<view class="card-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<Header :title="title + '-网易严选'" :middle="false"></Header>
+		<CustomHeader :title="title + '-网易严选'" :middle="false"></CustomHeader>
 		<view class="card-tab flex-c">
 			<view class="tabs flex">
 				<view class="tabs-item" @tap="onTap(item.card_sign)" v-for="item in userCardStore.userCard" :key="item.card_sign">				
@@ -29,7 +29,7 @@
 						</view>
 					</view>
 				</view>
-				<scroll-view scroll-y="true" class="electron-card flex-c" v-for="item in userCardStore.userCard" v-show="sign == item.card_sign" :key="item.card_sign">
+				<scroll-view scroll-y="true" enable-flex class="electron-card flex-c" v-for="item in userCardStore.userCard" v-show="sign == item.card_sign" :key="item.card_sign">
 					<template v-if="item.children">
 						<block v-for="subItem in item.children" :key="subItem.change_id">
 							<view class="electrion-item fff flex-c">
@@ -58,7 +58,6 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import Header from './header.vue'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 const userCardStore = useUserCardStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()

@@ -23,17 +23,13 @@
 </template>
 
 <script setup>
-import {useMiddle} from '../../hooks/useMiddle.js'
 import {onLoad} from '@dcloudio/uni-app'
 import {reactive, ref} from 'vue'
 import {useUserStore} from '../../store/useUserStore.js'
 import InfoItem from './components/InfoItem.vue'
 const {userInfo,clearUserInfo} = useUserStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
-const toBack = () => {
-	uni.navigateBack()
-}
-const top = ref(0)
+
 const onClear = () => {
 	clearUserInfo()
 	uni.navigateBack()
@@ -88,7 +84,7 @@ const onSubmit = () => {
 	})
 }
 onLoad(() => {
-	useMiddle('.u-top').then((data) => top.value = data.top)
+	
 })
 </script>
 

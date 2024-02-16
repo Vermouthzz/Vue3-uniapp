@@ -4,77 +4,74 @@
 			<CustomHeader :title="'我的订单'"></CustomHeader>
 			<view class="header-tab flex fff">
 				<view class="tab-item-block flex-a" v-for="(item,index) in orderTabs" :key="index">
-					<view class="tab-item" @tap="onTapTab(index)" :class="{active: index == activeIndex}">
+					<view class="tab-item" @tap="onTapTab(item,index)" :class="{active: index == currentItem}">
 						{{item.name}}
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="order-body flex-c">
-			<block v-for="item in List" :key="item.order_id">
-				<order-item :item="item"></order-item>
-			</block>
-		</view>
-		<!-- <scroll-view scroll-y="true" >
-			<view></view>
-		</scroll-view> -->
+		<swiper class="swiper-list" :current="currentItem" @change="onChange">
+			<swiper-item class="order-body flex-c"  v-for="item in orderTabs" :key="item.name">
+				<view class="init" v-if="item.init && !item.list.length"></view>
+				<block v-else-if="!item.init && item.list.length">
+					<block v-for="subItem in item.list" :key="subItem.order_id">
+						<order-item :item="subItem" @onReload="getOrderList"></order-item>
+					</block>
+				</block>
+				<van-empty v-else description="还没有任何订单呢" />
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
 <script setup>
-import {onLoad,onShow} from '@dcloudio/uni-app'
+import {onLoad,onShow,onReady} from '@dcloudio/uni-app'
 import {computed, ref, watchEffect} from 'vue'
-import Header from '../card/header.vue'
 import OrderItem from './components/OrderItem.vue'
 import {getOrderListAPI} from '../../api/order.js'
-import {useOrderStore} from '../../store/useOrderStore.js'
-const orderStore = useOrderStore()
+import {useRemainTime} from '../../hooks/useRemainTime.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const orderTabs = ref([
-	{ name: '全部' },
-	{ name: '待付款' },
-	{ name: '待发货' },
-	{ name: '已发货' },
-	{ name: '待评价' }
+	{ name: '全部', type: 5, list: [], init: true },
+	{ name: '待付款', type: 0, list: [], init: true },
+	{ name: '待发货', type: 1, list: [], init: true },
+	{ name: '已发货', type: 2, list: [], init: true },
+	{ name: '待评价', type: 3, list: [], init: true }
 ])
-const activeIndex = ref(0)
-
-
-
-
-
-
-const onTapTab = (val) => {
-	activeIndex.value = val
+const getOrderList = async () => {
+	const type = orderTabs.value[currentItem.value].type
+	const res = await getOrderListAPI(type)
+	orderTabs.value[currentItem.value].list = res.data.map(item => {
+		return {
+			...item,
+			remainTime: useRemainTime(item)
+		}
+	})
+	orderTabs.value[currentItem.value].init = false
+}
+const onTapTab = (item,index) => {
+	currentItem.value = index
+}
+//swiper切换
+const currentItem = ref(0)
+const onChange = (e) => {
+	currentItem.value = e.detail.current
+	getOrderList()
 }
 
-const List = computed(() => {
-	let i = activeIndex.value
-	if(i == 0) {
-		return orderStore.orderList
-	} else if(i == 1) {
-		return orderStore.orderList.filter(item => item.order_status == 0)
-	} else if(i == 2) {
-		return orderStore.orderList.filter(item => item.order_status == 1)
-	} else if(i == 3) {
-		return orderStore.orderList.filter(item => item.order_status == 2)
-	} else if(i == 4) {
-		return orderStore.orderList.filter(item => item.order_status == 3)
-	}
-})
 
 const firstLoad = ref(false)
 onShow(() => {
 	if(firstLoad.value) {
-		orderStore.getOrderList()
+		getOrderList()
 	}
 })
 
 onLoad((option) => {
 	if(!firstLoad.value) {
-		activeIndex.value = option.index
-		orderStore.getOrderList()
+		currentItem.value = option.index
+		getOrderList()
 		firstLoad.value = true
 	}
 })
@@ -115,10 +112,21 @@ page {
 			}
 		}
 	}
-	.order-body {
+	.swiper-list {
 		flex: 1;
-		overflow: scroll;
-		padding-bottom: 16rpx;
+		.order-body {
+			width: 100%;
+			height: 100%;
+			overflow: scroll;
+			padding-bottom: 16rpx;
+			:deep(.van-empty) {
+				margin-top: 100rpx;
+			}
+			.init {
+				height: 100%;
+				background-color: #f4f4f4;
+			}
+		}
 	}
 }
 </style>

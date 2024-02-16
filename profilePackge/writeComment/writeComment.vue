@@ -150,7 +150,7 @@ const onSubmit = async () => {
 					})
 					await Promise.all(uploadTasks)
 				}
-				orderStore.updateOrderListItem(4,order_id.value)
+				orderStore.updateItem(4,order_id.value)
 				uni.showToast({
 					icon: 'success',
 					title: '评价成功'

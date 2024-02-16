@@ -60,8 +60,8 @@
 
 <script setup>
 import { ref } from "vue"
-import {onLoad} from '@dcloudio/uni-app'
-import {useMiddle} from '../../hooks/useMiddle.js'
+import {onReady} from '@dcloudio/uni-app'
+import {middle} from '../../hooks/useMiddle.js'
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
@@ -143,8 +143,8 @@ const handleSubmit = () => {
 		})
 	}
 }
-onLoad(() => {
-	useMiddle('.login-header').then(data => top.value = data.top)
+onReady(() => {
+	middle('.login-header').then(data => top.value = data.top)
 })
 </script>
 

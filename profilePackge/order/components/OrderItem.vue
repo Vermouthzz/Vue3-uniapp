@@ -56,16 +56,19 @@ import { computed, ref } from 'vue';
 import PayPopup from '../../components/PayPopup.vue'
 import {useOrderStore} from '../../../store/useOrderStore.js'
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
+const props = defineProps(['item'])
+const emits = defineEmits(['onReload'])
 const userCardStore = useUserCardStore()
 const orderStore = useOrderStore()
-const props = defineProps(['item'])
+
 
 const status = ['已取消','待付款','待发货','已发货','交易成功','交易成功']
 const orderStatus = computed(() => status[props.item?.order_status * 1 + 1])
 const statusColor = computed(() => props.item?.order_status == 3 ? '#4b9263' : '#dd2f50')
 
 const onFinish = () => {
-	orderStore.onCancleOrderListItem(props.item.order_id)
+	orderStore.onCancelOrderItem(props.item.order_id)
+	emits('onReload')
 }
 
 const dialog = ref(false)
