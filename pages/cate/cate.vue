@@ -6,73 +6,98 @@
 				<input type="text" placeholder="毛巾">
 			</view>
 		</header>
-		<view class="cate-body flex">
-			<scroll-view scroll-y="true" class="aside-scroll flex" >
-				<view class="scroll-item flex" v-for="(i,index) in categoryList" :key="i.category_id" @tap="onChangeList(i,index)">
-					<view class="item-text" :class="{border: activeIndex == index}">
+		<view class="cate-body flex" :style="{height: `calc(100% - ${headerHeight}px)`}">
+			<scroll-view scroll-y="true" class="aside-scroll flex-c" enable-flex >
+				<view class="scroll-item flex" v-for="(i,index) in asideList" :key="i.category_id" @tap="onChangeList(i,index)">
+					<view class="item-text" :class="{border: selectedId == i.category_id}">
 						{{i.category_name}}
 					</view>
 				</view>
 			</scroll-view>
 			<view class="body-right">
-							<view class="right-item" v-show="activeIndex == 0">
-									<view class="banner">
-										<image class="banner-image" src="https://yanxuan.nosdn.127.net/hxm/oly-picture/08ee4f03c9cc67cc7dbdad343043abcb.jpg?type=webp&imageView&quality=75&thumbnail=750x0"></image>
-									</view>
-									<view class="banner-list flex">
-										<view class="item-img-text flex-c-a" v-for="i in 6" :key="i">
-											<image class="item-image" src="https://yanxuan.nosdn.127.net/static-union/1686641811181b03.jpg?quality=75&type=webp&imageView"></image>
-											<text>无限回购</text>
-										</view>
-									</view>
-							</view>
-							<view class="right-item">
-								<scroll-view scroll-y="true" class="right-item-scroll">
-									<block v-for="item in currentList.children" :key="item.id">
-										<view class="title-item" >
-											{{item.name}}
-										</view>
-										<view class="flex-bd flex">
-											<view class="right-bd-item flex-c-a" v-for="subItem in item.children" :key="subItem.id" @tap="toSubcate(subItem)">
-												<image class="right-bd-image" :src="subItem.imgUrl"></image>
-												<text>{{subItem.name}}</text>
-											</view>
-										</view>
-									</block>
-								</scroll-view>
+				<view class="right-item" v-if="selectedId == 1">
+					<view class="banner-recommend">
+						<view class="banner">
+							<image class="banner-image" src="https://yanxuan.nosdn.127.net/hxm/oly-picture/08ee4f03c9cc67cc7dbdad343043abcb.jpg?type=webp&imageView&quality=75&thumbnail=750x0"></image>
+						</view>
+						<view class="banner-list flex">
+							<view class="item-img-text flex-c-a" v-for="(item,index) in cateList" :key="index">
+								<image class="item-image" src="https://yanxuan.nosdn.127.net/static-union/1686641811181b03.jpg?quality=75&type=webp&imageView"></image>
+								<text>无限回购</text>
 							</view>
 						</view>
+					</view>
+				</view>
+				<view class="right-item" v-else>
+					<scroll-view scroll-y="true" class="right-item-scroll">
+						<block v-for="item in cateList" :key="item.id">
+							<view class="title-item" >
+								{{item.category_name}}
+							</view>
+							<view class="flex-bd flex">
+								<view class="right-bd-item flex-c-a" v-for="subItem in item.children" :key="subItem.id" @tap="toSubcate(subItem)">
+									<image class="right-bd-image" :src="subItem.img_url"></image>
+									<text>{{subItem.category_name}}</text>
+								</view>
+							</view>
+						</block>
+					</scroll-view>
+				</view>			
+			</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import {onLoad} from '@dcloudio/uni-app'
+import { ref } from "vue";
+import {onLoad,onReady} from '@dcloudio/uni-app'
 import {getCateListAPI} from '../../api/cate.js'
 const {safeAreaInsets} = uni.getSystemInfoSync() //获取设备信息
 
 //获取分类列表数据
-const categoryList = ref([])
+const cateList = ref([])
+const asideList = ref([])
 const getCategoryList = async () => {
-	const res = await getCateListAPI()
-	categoryList.value = res
+	const res = await getCateListAPI(selectedId.value)
+	cateList.value = res.result.cateList
+	asideList.value = res.result.asideList
 }
 //切换侧边栏操作
-const currentList = ref({})
-const activeIndex = ref(0)
+const selectedId = ref(1)
 const onChangeList = (val,index) => {
-	activeIndex.value = index
-	currentList.value = val
+	selectedId.value = val.category_id
+	getCategoryList()
 }
 const toSubcate = (item) => {
-	const name = currentList.value.category_name
+	// console.log(item);
+	const index = cateList.value.findIndex(i => i.category_id == item.parent_id)
+	const cateItem = cateList.value[index]
+	const indexArr = cateList.value.map(i => i.children.length)
+	const itemIndex = indexArr.reduce((pre,cur,i) => {
+		if(index > i) {
+			pre += cur
+		}
+		return pre
+	}, 0)
+	const childIndex = cateList.value[index].children.findIndex(i => i.category_id == item.category_id)
+	const res = childIndex + itemIndex
+	// console.log(cateItem);
+	// console.log(cateList.value);
+	const name = cateItem.category_name 
 	uni.navigateTo({
-		url: `/catepkg/subCate/subCate?id=${item.parentId}&parent_id=${item.firParentId}&goods_id=${item.id}&title=${name}`,
+		url: `/catepkg/subCate/subCate?index=${res}&parent_id=${cateItem.parent_id}&goods_id=${item.category_id}&title=${name}`,
 	})
 }
 
-onMounted(() => {
+const headerHeight = ref(0)
+onReady(() => {
+	const header = uni.createSelectorQuery().select('.custom-header')
+	header.boundingClientRect(res => {
+		headerHeight.value = res.height
+	}).exec()
+})
+
+onLoad(() => {
 	getCategoryList()
 })
 </script>
@@ -80,7 +105,6 @@ onMounted(() => {
 <style lang="scss">
 page {
 	height: 100%;
-	overflow: hidden;
 }
 .category-block {
 	height: 100%;
@@ -98,18 +122,18 @@ page {
 		}
 	}
 	.cate-body {
-		margin-top: 10rpx;
-		height: 100%;
+		padding-top: 10rpx;
+		box-sizing: border-box;
 		.aside-scroll {
 			width: 170rpx;
 			height: 100%;
-			box-sizing: border-box;
+			// padding-bottom: 182rpx;
 			border-right: 1px solid #dadada;
-			padding-bottom: 130rpx;
+			box-sizing: border-box;
 			.scroll-item {
 				position: relative;
 				justify-content: center;
-				padding: 30rpx 20rpx;
+				padding: 24rpx 20rpx;
 				margin: 2rpx 0;
 				.item-text {
 					font-size: 14px;
@@ -117,7 +141,7 @@ page {
 						content: '';
 						position: absolute;
 						left: 0;
-						top: 26rpx;
+						top: 20rpx;
 						width: 6rpx;
 						height: 44rpx;
 						background-color: #d71d21;
@@ -128,52 +152,54 @@ page {
 		}
 		.body-right {
 			flex: 1;
-			padding: 30rpx 20rpx 0;
 			.right-item {
 				height: 100%;
-				.banner {
-					.banner-image {
-						width: 100%;
-						height: 260rpx;
-					}
-				}
-				.banner-list {
-					flex-wrap: wrap;
-					justify-content: space-between;
-					.item-img-text {
-						margin-top: 20rpx;
-						text {
-							font-size: 10px;
+				box-sizing: border-box;
+				.banner-recommend {
+					padding: 26rpx 30rpx 0;
+					.banner {
+						.banner-image {
+							width: 100%;
+							height: 192rpx;
 						}
-						.item-image {
-							width: 160rpx;
-							height: 160rpx;
-							margin-bottom: 4rpx;
-							border-radius: 12px;
+					}
+					.banner-list {
+						flex-wrap: wrap;
+						justify-content: space-between;
+						.item-img-text {
+							margin-top: 20rpx;
+							text {
+								font-size: 10px;
+							}
+							.item-image {
+								width: 144rpx;
+								height: 144rpx;
+								margin-bottom: 4rpx;
+								border-radius: 12px;
+							}
 						}
 					}
 				}
 				.right-item-scroll {
 					height: 100%;
+					padding: 10rpx 0 0rpx 20rpx;
 					box-sizing: border-box;
-					padding-bottom: 96rpx;
 					.title-item {
 						font-size: 14px;
 						font-weight: 500;
-						// color: #313131;
-						padding-bottom: 8rpx;
+						padding: 12rpx 0;
 						border-bottom: 1px solid #dadada;
 					}
 					.flex-bd {
 						flex-wrap: wrap;
+						padding: 20rpx 0;
 						.right-bd-item {
-							width: 33%;
-							margin-top: 20rpx;
-							margin-bottom: 56rpx;
+							padding: 0 30rpx;
+							margin-bottom: 30rpx;
 							.right-bd-image {
 								width: 120rpx;
 								height: 120rpx;
-								margin-bottom: 30rpx;
+								margin-bottom: 12rpx;
 							}
 							text {
 								font-size: 12px;

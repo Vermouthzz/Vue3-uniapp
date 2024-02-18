@@ -1,6 +1,6 @@
 <template>
 	<view class="hot-search flex-c">
-		<view class="title">
+		<view class="title flex-a">
 			{{title}}
 			<slot name="delete">
 				
@@ -25,6 +25,9 @@ const onTapItem = (item) => {
 
 <style lang="scss">
 	.hot-search {
+		.title {
+			justify-content: space-between;
+		}
 		.hot-search-list {
 			flex-wrap: wrap;
 			.hot-search-item {

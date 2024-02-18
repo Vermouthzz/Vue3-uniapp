@@ -25,10 +25,9 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import {storeToRefs} from 'pinia'
-import { computed, nextTick, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import PayPopup from '../components/PayPopup.vue'
 import Dialog from '../../wxcomponents/vant/dialog/dialog'
-import PasswordPopup from '../../components/PasswordPopup/PasswordPopup.vue'
 import PackgeItem from './components/PackgeItem.vue'
 import Discount from './components/Discount.vue'
 import CreateHeader from './components/CreateHeader.vue'
@@ -140,8 +139,6 @@ page {
 .scroll-order {
 	flex: 1;
 	overflow: scroll;
-	
-	
 }
 
 .create-order-btm {

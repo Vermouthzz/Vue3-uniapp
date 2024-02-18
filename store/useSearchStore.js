@@ -10,11 +10,17 @@ export const useSearchStore = defineStore('search', () => {
 			searchList.value.splice(index,1)
 		}
 		searchList.value.unshift(val)
+		if(searchList.value.length == 11) searchList.value.pop()
+	}
+	
+	const onDeleteHistory = () => {
+		searchList.value = []
 	}
 	
 	return {
 		searchList,
-		addSearchItem
+		addSearchItem,
+		onDeleteHistory
 	}
 },{
 	persist: {

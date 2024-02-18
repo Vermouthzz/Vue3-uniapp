@@ -22,12 +22,18 @@
 					<!-- 搜索历史板块 -->
 					<HotSearch :title="'搜索历史'" :list="searchStore.searchList"
 							   :item="searchValue" @itemChange="onItemChange"
-					/>
+					>
+						<template #delete>
+							<view class="delete-history flex-a" @tap="onDelete">
+								<van-icon name="delete-o" size="42rpx" />
+							</view>
+						</template>
+					</HotSearch>
 					<!-- 热门搜索板块 -->
-					<HotSearch :title="'热门搜索'" :item="searchValue" />
+					<HotSearch :title="'热门搜索'" :item="searchValue"  :list="hotSearchList" @itemChange="onItemChange" />
 				</view>
 				<!-- 热门分类板块 -->
-				<HotCate></HotCate>
+				<HotCate :list="cateSearchList"></HotCate>
 			</template>
 			<template v-else>
 				<SearchDetail :list="searchResult"></SearchDetail>
@@ -37,15 +43,17 @@
 </template>
 
 <script setup>
+import {onLoad} from '@dcloudio/uni-app'
 import HotCate from './components/HotCate.vue'
 import HotSearch from './components/HotSearch.vue'
 import SearchDetail from "./SearchDetail.vue"
 import {useSearchStore} from '../../store/useSearchStore.js'
 import { computed, ref, provide, watch } from 'vue'
-import {getSearchResultAPI} from '../../api/search.js'
+import {getSearchResultAPI,getHotCateSearchAPI} from '../../api/search.js'
 const searchStore = useSearchStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
+const first = ref(true)
 const type = ref(1)
 provide('type',type)
 watch(type,(type,preType) => {
@@ -67,6 +75,7 @@ const onTapRight = () => {
 const onItemChange = (val) => {
 	searchValue.value = val
 	searchStore.addSearchItem(val)
+	first.value = true
 	getSearchResultList()
 }
 
@@ -74,8 +83,13 @@ const show = ref(true) //控制searchDetail显示
 const onChange = (e) => {
 	searchValue.value = e.detail
 	if(searchValue.value == '') {
-		show.value = true
+		first.value = show.value = true
 	}
+}
+
+//删除搜索历史
+const onDelete = () => {
+	searchStore.onDeleteHistory()
 }
 
 
@@ -83,12 +97,23 @@ const onChange = (e) => {
 const searchResult = ref([])
 const getSearchResultList = async () => {
 	uni.showLoading({ mask:true })
-	const res = await getSearchResultAPI(searchValue.value,type.value)
+	const res = await getSearchResultAPI(searchValue.value,type.value,first.value)
 	searchResult.value = res.list
-	show.value = false
+	first.value = show.value = false
 	uni.hideLoading()
 }
 
+//获取热门搜索，热门分类
+const hotSearchList = ref([])
+const cateSearchList = ref([])
+const getHotCateSearchList = async () => {
+	const res = await getHotCateSearchAPI()
+	hotSearchList.value = res.result.hotSearchList
+	cateSearchList.value = res.result.hotCateList
+}
+onLoad(() => {
+	getHotCateSearchList()
+})
 </script>
 
 <style lang="scss">
@@ -115,11 +140,12 @@ page {
 		}
 	}
 	.scroll-search {
-		
-		// overflow: scroll;
 		.search-body {
 			padding: 0 36rpx;
 			margin-top: 16rpx;
+			.delete-history {
+				justify-content: center;
+			}
 		}
 	}
 }

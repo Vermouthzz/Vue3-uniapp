@@ -1,5 +1,5 @@
 <template>
-	<view class="order-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
+	<view class="order-block flex-c" :style="{paddingTop: `${safeAreaInsets.top}px`, paddingBottom: `${safeAreaInsets.bottom}px`}">
 		<view class="order-header flex-c">
 			<CustomHeader :title="'我的订单'"></CustomHeader>
 			<view class="header-tab flex fff">

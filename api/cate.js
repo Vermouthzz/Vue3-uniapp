@@ -1,8 +1,11 @@
 import http from '../request/index.js'
 
-export const getCateListAPI = () => {
+export const getCateListAPI = (id) => {
 	return http({
 		url: '/category',
+		data: {
+			id
+		}
 	})
 }
 

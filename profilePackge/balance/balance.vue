@@ -1,6 +1,6 @@
 <template>
 	<view class="balance-block" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<Header :title="'我的余额'"></Header>
+		<CustomHeader :title="'我的余额'"></CustomHeader>
 		<view class="balance-bd">
 			<view class="balance flex-c-a">
 				<view class="balance-top">
@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-import Header from '../card/header.vue'
 import LoveList from '../../components/LoveList/LoveList.vue'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 const userCardStore = useUserCardStore()

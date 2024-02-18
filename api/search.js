@@ -1,14 +1,20 @@
 import http from '../request/index.js'
 
-export const getSearchResultAPI = (name,type) => {
+export const getSearchResultAPI = (name,type,first) => {
 	return http({
 		url: '/search',
 		method: 'GET',
 		data: {
 			name,
-			type
+			type,
+			first
 		}
 	})
 }
 
+export const getHotCateSearchAPI = () => {
+	return http({
+		url: '/hot/cate'
+	})
+}
 

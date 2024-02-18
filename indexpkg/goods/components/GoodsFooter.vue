@@ -1,12 +1,12 @@
 <template>
-	<view class="goods-footer flex" :style="{marginBottom: safeAreaInsets.bottom + 'px'}">
+	<view class="goods-footer flex">
 		<view class="left-icons flex">
 			<view class="icon flex-c-a" @tap="toTabPage('index/index')">
 				<van-icon name="home-o" size="44rpx" color="#ce4345"></van-icon>
 				<text class="icon-text">首页</text>
 			</view>
 			<view class="icon flex-c-a">
-				<van-icon name="home-o" size="44rpx"></van-icon>
+				<van-icon name="service-o" size="44rpx"></van-icon>
 				<text class="icon-text">客服</text>
 			</view>
 			<view class="icon flex-c-a" @tap="toTabPage('cart/cart')">
@@ -27,9 +27,7 @@ const cartStore = useCartStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const toTabPage = (path) => {
-	uni.switchTab({
-		url: `/pages/${path}`
-	})
+	uni.switchTab({ url: `/pages/${path}` })
 }
 </script>
 
@@ -37,7 +35,6 @@ const toTabPage = (path) => {
 	.goods-footer {
 		justify-content: space-around;
 		width: 100%;
-		height: 160rpx;
 		padding: 16rpx 16rpx 0;
 		margin-top: 6rpx;
 		box-sizing: border-box;

@@ -10,7 +10,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import {onReady} from '@dcloudio/uni-app'
 import {middle} from '../../hooks/useMiddle.js'
 const props = defineProps({
 	title: {
@@ -41,8 +42,9 @@ const toBack = () => {
 }
 
 let navBatHeight = ref(0)
-middle().then(data => navBatHeight.value = data)  //垂直居中
-
+onReady(() => {
+	middle().then(data => navBatHeight.value = data)  //垂直居中
+})
 </script>
 
 <style lang="scss">

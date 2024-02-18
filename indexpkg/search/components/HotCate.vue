@@ -4,10 +4,10 @@
 			热门分类
 		</view>
 		<view class="hot-cate-list flex">
-			<view class="hot-cate-item flex-c-a" v-for="l in 7" :key="l">
-				<image class="hot-cate-image" src="https://yanxuan.nosdn.127.net/559d2a240ec20b096590a902217009ff.png"></image>
+			<view class="hot-cate-item flex-c-a" v-for="(item,index) in list" :key="index">
+				<image class="hot-cate-image" :src="item.img_url"></image>
 				<view class="name">
-					肉类零食
+					{{item.category_name}}
 				</view>
 			</view>
 		</view>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-
+const props = defineProps(['list'])
 </script>
 
 <style lang="scss">

@@ -21,26 +21,17 @@
 					复制
 				</view>
 			</view>
-			<view class="price-fee fff flex-c">
-				<view class="item-block flex" v-for="(item,index) in orderStore.orderItem.spec.discount_info" :key="index">
-					<text class="item-left">{{item.name}}：</text>
-					<text class="item-right">{{item.value}}</text>
-				</view>
-				<view class="item-block flex all_price">
-					<text class="item-left">{{orderStore.orderItem.spec.pay.name}}：</text>
-					<text class="item-right">{{orderStore.orderItem.spec.pay.value}}<text v-show="orderStore.orderItem.li_nums > 0">(含礼品卡￥{{orderStore.orderItem.li_nums}})</text></text>
-				</view>
-		</view>
-		<view class="recommend">
-			<LoveList :list="recommendList">
-				<template #title>
-					<view class="love-title">
-						人气推荐
-					</view>
-				</template>
-			</LoveList>
-		</view>
-		<view class="btm"></view>
+			<detail-pay :spec="orderStore.orderItem.spec" :li_nums="orderStore.orderItem.li_nums"></detail-pay>
+			<view class="recommend">
+				<LoveList :list="recommendList">
+					<template #title>
+						<view class="love-title">
+							人气推荐
+						</view>
+					</template>
+				</LoveList>
+			</view>
+			<view class="btm"></view>
 		</scroll-view>
 		<view class="order-detail-footer flex-a fff" v-show="orderStore.orderItem.order_status == 0">
 			<text>实付：￥{{orderStore.orderItem.pay_price}}</text>
@@ -59,23 +50,15 @@
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
-import {storeToRefs} from 'pinia'
 import PackgeItem from '../create-order/components/PackgeItem.vue'
 import DetailAddres from './components/DetailAddres.vue'
+import DetailPay from './components/DetailPay.vue'
 import PayPopup from '../components/PayPopup.vue'
-import {useCartStore} from '../../store/useCartStore.js'
 import { computed, ref } from 'vue'
 import {useOrderStore} from '../../store/useOrderStore.js'
-import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {getOrderRecommendList} from '../../api/order.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const orderStore = useOrderStore()
-const cartStore = useCartStore()
-const userCardStore = useUserCardStore()
-const { userCard } = storeToRefs(userCardStore)
-
-
-//倒计时
 
 //订单状态
 const orderStatus = computed(() => {
@@ -115,8 +98,8 @@ const getRecommendList = async () => {
 const double = ref(false)
 
 onLoad((options) => {
-	 double.value = options.to == 2 ? true : false
-	 getRecommendList()
+	double.value = options.to == 2 ? true : false
+	getRecommendList()
 })
 </script>
 
@@ -170,33 +153,6 @@ page {
 				line-height: 46rpx;
 				padding: 0 24rpx;
 				border: 1px solid #333;
-			}
-		}
-		.price-fee {
-			padding: 16rpx 0rpx 16rpx 20rpx;
-			margin-top: 12rpx;
-			.item-block {
-				margin-bottom: 10rpx;
-				font-size: 13px;
-				.item-left {
-					flex: 1;
-					color: #7a7a7a;
-				}
-				.item-right {
-					flex: 2;
-					margin-left: 20rpx;
-				}
-				&:last-of-type {
-					margin: 0;
-				}
-			}
-			.all_price {
-				padding-bottom: 18rpx;
-				border-bottom: 1px solid #d6d6d6;
-				color: #a4323c;
-				.item-left {
-					color: #a4323c;
-				}
 			}
 		}
 		.btm {

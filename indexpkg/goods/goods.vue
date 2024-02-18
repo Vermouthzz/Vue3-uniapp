@@ -1,5 +1,5 @@
 <template>
-	<view class="goods-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
+	<view class="goods-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px', paddingBottom: safeAreaInsets.bottom + 'px'}">
 		<goods-header></goods-header>
 		<view class="goods-body flex-c">
 			<scroll-view scroll-y="true" class="goods-scroll" enable-flex="true">
@@ -74,12 +74,11 @@ onLoad((options) => {
 	page {
 		height: 100%;
 		overflow: hidden;
-		box-sizing: border-box;
 	}
 
 	.goods-block {
 		height: 100%;
-
+		box-sizing: border-box;
 		.goods-body {
 			flex: 1;
 			margin-top: 12rpx;

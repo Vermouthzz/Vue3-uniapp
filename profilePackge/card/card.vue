@@ -6,9 +6,6 @@
 				<view class="tabs-item" @tap="onTap(item.card_sign)" v-for="item in userCardStore.userCard" :key="item.card_sign">				
 					<text class="item" :class="{ active_border: sign == item.card_sign }">{{item.card_name}}</text>
 				</view>
-				<!-- <view class="tabs-item" @tap="onTap(1)">
-					<text class="item" :class="{ active_border: !flag }">提货卡</text>
-				</view> -->
 			</view>
 			<view class="tab-content">
 				<view class="card-total flex-c-a" :style="{backgroundColor: sign == 1 ? '#a92d2b' : '#ad782d'}">
