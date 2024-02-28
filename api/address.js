@@ -1,8 +1,11 @@
 import http from '../request/index.js'
 
-export const getRegionAPI = () => {
+export const getRegionAPI = (id) => {
 	return http({
-		url: '/region'
+		url: '/region',
+		data: {
+			id
+		}
 	})
 }
 

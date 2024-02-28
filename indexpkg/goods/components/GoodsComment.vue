@@ -9,12 +9,12 @@
 				<text>></text>
 			</view>
 		</view>
-		<CommentBlock :show="false"></CommentBlock>
+		<CommentBlock :show="false" :item="item"></CommentBlock>
 	</view>
 </template>
 
 <script setup>
-const props = defineProps(['id'])
+const props = defineProps(['id','item'])
 const toComment = () => {
 	uni.navigateTo({
 		url: `/goodsPages/comment/comment?id=${props.id}`

@@ -1,19 +1,22 @@
 <template>
 	<view class="search-block-index">
 		<navigator hover-class="none" url="/indexpkg/search/search" class="search-area-index">
-			<van-icon name="search" color="#323232" class="sea-icon" size="32rpx" />
-			<input class="search-input" type="text" placeholder="请输入">
-			<button class="btn-search flex-a">搜索</button> 
+			<i class="iconfont icon-search"></i>
+			<input class="search-input" type="text" placeholder="我是">
+			<view class="btn-search flex-a">搜索</view>
 		</navigator>
 	</view>
 </template>
 
 <script setup>
-const toSearch = () => {
-	uni.navigateTo({
-		url: 'search'
-	})
-}
+import { computed, ref } from 'vue'
+const props = defineProps(['list'])
+
+// const index = ref(0)
+// const placeHolder = computed(() => props.list[index.value])
+// const searchInterval = setInterval(() => {
+// 	index.value > props.list.length - 1 ? index.value = 0 : index.value++
+// }, 3000)
 </script>
 
 <style lang="scss" scoped>
@@ -26,21 +29,20 @@ const toSearch = () => {
 			border-radius: 36rpx;
 			display: flex;
 			box-sizing: border-box;
-			.sea-icon {
+			.iconfont {
 				margin: 16rpx 10rpx 10rpx 16rpx;
 			}
 			.search-input {
 				flex: 1;
-				font-size: 13px;
-				padding: 8rpx 0;
+				height: 100%;
+				font-size: 26rpx;
 			}
 			.btn-search {
 				justify-content: center;
-				margin-top: -2rpx;
-				margin-right: -2rpx;
 				 //覆盖父元素边框
 				width: 112rpx;
-				font-size: 14px;
+				height: 100%;
+				font-size: 26rpx;
 				border-radius: 36rpx;
 				background-color: #f1373d;
 				color: #fff;

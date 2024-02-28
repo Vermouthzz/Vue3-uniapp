@@ -2,7 +2,6 @@
 	<view class="detail-address-block fff">
 		<view class="address-item flex-c">
 			<view class="address">
-				<!-- 江西省南昌市新建区白水湖管理处华东交通大学北区 -->
 				{{address}}
 			</view>
 			<view class="phone-name flex">
@@ -10,7 +9,7 @@
 				<text>{{phone}}</text>
 			</view>
 		</view>
-		<view class="change-address" v-show="!cancelFlag">
+		<view class="change-address" v-show="flag">
 			<view class="change-item">
 				修改地址
 			</view>
@@ -19,10 +18,16 @@
 </template>
 
 <script setup>
-import {useAddressStore} from '../../../store/useAddressStore.js'
-const addressStore = useAddressStore()
+import {computed} from 'vue'
+import {useOrderStore} from '../../../store/useOrderStore.js'
+const porps = defineProps(['flag'])
+const emits = defineEmits(['update:flag'])
+const orderStore = useOrderStore()
 //地址
-const address = computed(() => addressStore.selectedAddress.address.split(" ").join('') + addressStore.selectedAddress.detail_adrs)
+const address = computed(() => {
+	const obj = orderStore.orderItem.adres
+	return `${obj.province}${obj.city}${obj.district}${orderStore.orderItem.detail_adrs}`
+})
 const phone = computed(() => orderStore.orderItem.contact?.slice(0,3) + '****' + orderStore.orderItem.contact?.slice(7))
 </script>
 

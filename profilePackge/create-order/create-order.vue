@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-y="true" class="scroll-order">
 		<create-header></create-header>
-		<block v-for="(item,index) in cartStore.selectedItems" :key="index">
+		<block v-for="(item,index) in createOrderStore.createOrderList" :key="index">
 			<packge-item :item="item" :index="index"></packge-item>
 		</block>
 		<!-- 优惠券、红包板块 -->
@@ -37,7 +37,10 @@ import {useAddressStore} from '../../store/useAddressStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {useOrderStore} from '../../store/useOrderStore.js'
 import {useUserStore} from '../../store/useUserStore.js'
+import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
+import {getCreateOrderAPI} from '../../api/order.js'
 const userStore = useUserStore()
+const createOrderStore = useCreateOrderStore()
 const orderStore = useOrderStore()
 const addressStore = useAddressStore()
 const cartStore = useCartStore()
@@ -46,22 +49,23 @@ const userCardStore = useUserCardStore()
 const { userCard } = storeToRefs(userCardStore)
 
 
+
 //用户余额
 const ba_checked = ref(false)
 
 const onCheckChange = (val,type) => {
 	userCardStore.onCheckedChange(val, type)
 }
-
 // 应付总金额
 const payNum = computed(() => {
 	let li_num = 0, h_num = 0
+	//是否选中礼品卡和提货卡
 	if(userCard.value[0].checked) li_num = userCard.value[0].card_num
 	if(userCard.value[1].checked) h_num = userCard.value[1].card_num
 	if( userCardStore.selectedTicket) { //如果选中红包
-		return cartStore.allRetailPrice - li_num - h_num - userCardStore.selectedTicket.ticket_price
+		return createOrderStore.totalPrice - li_num - h_num - userCardStore.selectedTicket.ticket_price
 	} else { //未选中红包
-		return cartStore.allRetailPrice - li_num - h_num
+		return createOrderStore.totalPrice - li_num - h_num
 	}
 })
 const change = () => {
@@ -125,7 +129,6 @@ const onPayFor = async () => {
 		})
 	}
 }
-
 
 </script>
 

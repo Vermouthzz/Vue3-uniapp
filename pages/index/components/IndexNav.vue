@@ -39,37 +39,37 @@ onMounted(() => {
 	margin-top: 16rpx;
 	padding: 0 12rpx;
 	box-sizing: border-box;
-			.scroll-cate {
-				white-space: nowrap;
-				.cate-item {
-					width: 20%;
-					display: inline-block;
-					.index-image {
-						width: 100rpx;
-						height: 100rpx;
-					}
-					.item-text {
-						margin-top: 10rpx;
-						font-size: 11px;
-					}
-				}
+	.scroll-cate {
+		white-space: nowrap;
+		.cate-item {
+			width: 20%;
+			display: inline-block;
+			.index-image {
+				width: 100rpx;
+				height: 100rpx;
 			}
-			.scroll-line {
-				justify-content: center;
-				margin-top: 30rpx;
-				.line {
-					position: relative;
-					height: 6rpx;
-					width: 80rpx;
-					background-color: #efefef;
-					.move-line {
-						position: absolute;
-						top: 0;
-						width: 50%;
-						height: 100%;
-						background-color: red;
-					}
-				}
+			.item-text {
+				margin-top: 10rpx;
+				font-size: 11px;
 			}
 		}
+	}
+	.scroll-line {
+		justify-content: center;
+		margin-top: 30rpx;
+		.line {
+			position: relative;
+			height: 6rpx;
+			width: 80rpx;
+			background-color: #efefef;
+			.move-line {
+				position: absolute;
+				top: 0;
+				width: 50%;
+				height: 100%;
+				background-color: red;
+			}
+		}
+	}
+}
 </style>

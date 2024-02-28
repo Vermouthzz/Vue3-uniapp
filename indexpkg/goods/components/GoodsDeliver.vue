@@ -33,7 +33,6 @@
 			</view>
 		</view>
 	</view>
-	<goods-popup :goods="skuList" v-model:show="isShow"></goods-popup>
 	<van-action-sheet :show="showAddress" title="配送至" @close="onShowAddress('close')" :round="false">
 	  <scroll-view scroll-y="true" class="address-block" >
 	  	<view class="address-item" v-for="item in addressStore.addressList" :key="item.addres_id">
@@ -46,22 +45,18 @@
 <script setup>
 import {computed, ref} from 'vue'
 import mitter from '../../../utils/mitt.js'
-import {getSkuListAPI} from '../../../api/goods.js'
-import GoodsPopup from '../../../components/GoodsPopop/GoodsPopop.vue'
 import {useAddressStore} from '../../../store/useAddressStore.js'
 const addressStore = useAddressStore()
-const props = defineProps()
+const props = defineProps(['show'])
+const emits = defineEmits(['update:show'])
 const selectName = ref('')
 mitter.on('selectName',data => {
 	selectName.value = data
 })
-const skuList = ref([])
+
 const isShow = ref(false)
 const onShowPopup = async () => {
-	const res = await getSkuListAPI(props.id)
-	skuList.value = res.data
-	mitter.emit('popup',{isCart: false})
-	isShow.value = true
+	emits('update:show', true)
 }
 
 const showAddress = ref(false)

@@ -21,16 +21,31 @@
 				// 	text: cartStore.itemValues.length + ''
 				// })
 			}
-			console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			// #ifdef H5
+				uni.hideTabBar({});
+				// #endif
 		},
 		onHide: function() {
 			uni.pageScrollTo({
 				scrollTop: 1,
 				duration: 0
 			})
+		},
+		data() {
+			return {
+				isMatch: false,
+				observer: null
+			}
+		},
+		methods: {
+			initObserver() {
+				this.observer = uni.createMediaQueryObserver(this)
+				this.observer.observe({
+					
+				})
+			}
 		}
 	}
 </script>
@@ -38,4 +53,11 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import url("static/css/common.css");
+	@import url("iconfont/iconfont.css");
+	/* #ifdef H5 */
+	#app {
+		max-width: 420px;
+		margin: 0 auto;
+	}
+	/* #endif */
 </style>

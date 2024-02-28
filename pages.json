@@ -286,12 +286,11 @@
             "van-datetime-picker" : "/wxcomponents/vant/datetime-picker/index"
         }
     },
-    // "van-rate": "/wxcomponents/vant/rate/index",
-    // "van-collapse": "/wxcomponents/vant/collapse/index",
-    // "van-collapse-item": "/wxcomponents/vant/collapse-item/index",
-    // "van-picker": "/wxcomponents/vant/picker/index"
     "uniIdRouter" : {},
     "tabBar" : {
+		// #ifdef H5
+		
+		// #endif 
         "selectedColor" : "#d81e06",
         "list" : [
             {
@@ -304,7 +303,7 @@
                 "text" : "分类",
                 "pagePath" : "pages/cate/cate",
                 "selectedIconPath" : "static/cate-ac.png",
-                "iconPath" : "static/cart.png"
+                "iconPath" : "static/cate.png"
             },
             {
                 "text" : "购物车",

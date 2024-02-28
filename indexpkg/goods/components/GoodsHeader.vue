@@ -1,11 +1,11 @@
 <template>
 	<view class="goods-header flex">
 		<view class="header-left-block flex-a" >
-			<van-icon name="arrow-left" size="40rpx" class="left-icon" @tap="toBack"></van-icon>
-			<van-icon name="home-o" size="40rpx" class="right-icon"></van-icon>
+			<i class="iconfont icon-left" @tap="toBack"></i>
+			<i class="iconfont icon-home right-icon"></i>
 		</view>
 		<view class="header-right-block flex-a" :style="{height: buttonHeight + 'px'}">
-			<van-icon name="search" size="36rpx"></van-icon>
+			<i class="iconfont icon-search"></i>
 			<input class="header-right-input" type="text" placeholder="午餐肉">
 		</view>
 	</view>

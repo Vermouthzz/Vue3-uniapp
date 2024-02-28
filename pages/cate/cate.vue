@@ -65,27 +65,23 @@ const getCategoryList = async () => {
 //切换侧边栏操作
 const selectedId = ref(1)
 const onChangeList = (val,index) => {
+	if(selectedId.value == val.category_id) return
 	selectedId.value = val.category_id
 	getCategoryList()
 }
 const toSubcate = (item) => {
-	// console.log(item);
 	const index = cateList.value.findIndex(i => i.category_id == item.parent_id)
 	const cateItem = cateList.value[index]
 	const indexArr = cateList.value.map(i => i.children.length)
 	const itemIndex = indexArr.reduce((pre,cur,i) => {
-		if(index > i) {
-			pre += cur
-		}
+		if(index > i) pre += cur
 		return pre
 	}, 0)
 	const childIndex = cateList.value[index].children.findIndex(i => i.category_id == item.category_id)
-	const res = childIndex + itemIndex
-	// console.log(cateItem);
-	// console.log(cateList.value);
+	const resIndex = childIndex + itemIndex
 	const name = cateItem.category_name 
 	uni.navigateTo({
-		url: `/catepkg/subCate/subCate?index=${res}&parent_id=${cateItem.parent_id}&goods_id=${item.category_id}&title=${name}`,
+		url: `/catepkg/subCate/subCate?index=${resIndex}&parent_id=${cateItem.parent_id}&goods_id=${item.category_id}&title=${name}`,
 	})
 }
 

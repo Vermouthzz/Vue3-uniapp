@@ -1,7 +1,7 @@
 <template>
 	<view class="common-header flex" :style="{lineHeight: navBatHeight + 'px'}">
 		<view class="left-icon" @tap="toBack">
-			<van-icon name="arrow-left"></van-icon>
+			<i class="iconfont icon-left"></i>
 		</view>
 		<view class="common-header-title" :class="{middle: props.middle}">
 			{{title}}

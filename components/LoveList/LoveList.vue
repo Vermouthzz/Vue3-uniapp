@@ -1,8 +1,9 @@
 <template>
-	<view class="love-block flex-c-a fff">
+	<view class="love-block flex-c fff">
 		<slot name="title"></slot>
 		<view class="love-list-block flex">
 			<view class="love-list list-left">
+				<slot name="rank"></slot>
 				<block v-for="(item, index) in leftList" :key="index">
 					<GoodsItem :goodsItem="item"></GoodsItem>
 				</block>
@@ -29,8 +30,6 @@ const rightList = computed(() => {
 		if(index % 2 == 0) return item
 	}).filter(i => i)
 })
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -40,7 +39,6 @@ const rightList = computed(() => {
 		background-color: #fff;
 		box-sizing: border-box;
 		.love-list-block {
-			width: 100%;
 			justify-content: space-between;
 			box-sizing: border-box;
 			.list-left {

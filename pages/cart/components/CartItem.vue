@@ -31,13 +31,12 @@
 		</view>
 		<view slot="right" class="btn-del flex-a" @tap="onDelCartItem">删除</view>
 	</van-swipe-cell>
-	<GoodsPopop v-model:show="isShow" :goods="skuList"></GoodsPopop>
+	<GoodsPopop v-model:show="isShow" :goods="skuList" :isCart="true"></GoodsPopop>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import mitter from '../../../utils/mitt.js'
-import GoodsPopup from '../../../components/GoodsPopop/GoodsPopop.vue'
 import {useCartStore} from '../../../store/useCartStore.js'
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
 import {getSkuListAPI} from '../../../api/goods.js'

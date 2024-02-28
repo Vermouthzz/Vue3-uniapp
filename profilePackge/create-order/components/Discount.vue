@@ -5,7 +5,7 @@
 				商品金额
 			</view>
 			<view class="number-right">
-				￥{{cartStore.allPrice}}
+				￥{{createOrderStore.totalPrice}}
 			</view>
 		</view>
 		<view class="common-item flex-a driver-fee">
@@ -45,7 +45,7 @@
 				活动优惠
 			</view>
 			<view class="number-right red-price">
-				-￥{{cartStore.activeFee}}
+				-￥{{createOrderStore.activeFee}}
 			</view>
 		</view>
 	</view>
@@ -55,7 +55,9 @@
 import { ref } from 'vue';
 import {useCartStore} from '../../../store/useCartStore.js'
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
+import {useCreateOrderStore} from '../../../store/useCreateOrderStore.js'
 const userCardStore = useUserCardStore()
+const createOrderStore = useCreateOrderStore()
 const cartStore = useCartStore()
 const props = defineProps(['li_checked','h_checked'])
 

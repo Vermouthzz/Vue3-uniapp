@@ -53,19 +53,21 @@ import { computed, ref, watchEffect} from "vue"
 import mitter from '../../utils/mitt.js'
 import Set from '../../hooks/Set.js'
 import {useCartStore} from '../../store/useCartStore.js'
+import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
 const emits = defineEmits(['update:show'])
 const cartStore = useCartStore()
-const props = defineProps()
-const isCart = ref(true)
+const createOrderStore = useCreateOrderStore()
+const props = defineProps(['goods', 'isCart', 'show'])
+
 const num = ref(1)
 let pathMap = {}
 const selectName = ref('')
 watchEffect(() => {
-	if(props.goods) {
-		pathMap = getEffectiveList(props.goods.sku)
-		initDisabledStatus(props.goods.sku_list,pathMap)
-		if(isCart.value) initSelectitem()
-		selectName.value = getSelectedArr(props.goods.sku_list).join('')
+	if(Object.values(props.goods).length) {
+		pathMap = getEffectiveList(props.goods?.sku)
+		initDisabledStatus(props.goods?.sku_list,pathMap)
+		if(props.isCart) initSelectitem()
+		selectName.value = getSelectedArr(props.goods?.sku_list).join('')
 	}
 })
 
@@ -84,9 +86,6 @@ const initSelectitem = () => {
 	}	
 }
 
-mitter.on('popup',data => {
-	isCart.value = data.isCart
-})
 const onSubmitSku = async (type) => {
 	if(Object.values(selectSku).length === 0) {
 		uni.showToast({
@@ -105,6 +104,10 @@ const onSubmitSku = async (type) => {
 			cartStore.updateCart(item)
 			break
 		case 'buy':
+			createOrderStore.getCreateOrderInfo(selectSku.id, num.value)
+			uni.navigateTo({
+				url: `/profilePackge/create-order/create-order?id=${selectSku.id}&count=${num.value}`
+			})
 			break
 	}
 	onClose()
@@ -155,7 +158,7 @@ const onSelectSku = (item,list) => {
 }
 
 const getSelectedSku = () => {
-	const selectArr = getSelectedArr(props.goods.sku_list).filter(i => i)//过滤掉undefined
+	const selectArr = getSelectedArr(props.goods.sku_list).filter(i => i != '')//过滤掉undefined
 	//如果选中对象集合长度等于规格长度
 	if(selectArr.length === props.goods.sku_list?.length) {
 		const skuId = pathMap[selectArr.join(sign)][0]
@@ -177,7 +180,7 @@ const getSelectedArr = (skuList) => {
 		if(selectedVal) {
 			selectedArr[index] = selectedVal.name
 		} else {
-			selectedArr[index] = undefined
+			selectedArr[index] = ''
 		}
 	})
 	return selectedArr
@@ -246,7 +249,7 @@ const updateDisabledStatus = (skuList,pathMap) => {
 						flex: 1;
 						overflow: scroll;
 						.popup-body {
-							padding: 0 20rpx;
+							padding: 0 20rpx 24rpx;
 							.top {
 								font-size: 12px;
 								margin-bottom: 10rpx;

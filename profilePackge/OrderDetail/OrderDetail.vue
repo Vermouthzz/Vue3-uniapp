@@ -2,15 +2,9 @@
 	<view class="order-detail-box flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<CustomHeader :title="'订单详情'" :two="double"></CustomHeader>
 		<scroll-view class="order-detail-bd flex-c" scroll-y="true" enable-flex="true">
-			<detail-addres></detail-addres>
-			<block v-for="(item,index) in cartStore.selectedItems" :key="index">
-				<packge-item :item="item" :index="index">	
-					<template #title>
-						<view class="wait-pay">
-							{{orderStatus}}
-						</view>
-					</template>
-				</packge-item>
+			<detail-addres v-model:flag="cancelFlag"></detail-addres>
+			<block v-for="(item,index) in orderStore.orderItem.children" :key="index">
+				<order-packge :item="item" :index="index"></order-packge>
 			</block>
 			<view class="order-id-block fff flex">
 				<view class="id-left flex-c">
@@ -44,13 +38,13 @@
 				</view>
 			</view>
 		</view>
-		<pay-popup v-model:show="show" :price="orderStore.orderItem.pay_price.toFixed(2)"></pay-popup>
+		<pay-popup v-model:show="show" :price="orderStore.orderItem.pay_price?.toFixed(2)"></pay-popup>
 	</view>
 </template>
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
-import PackgeItem from '../create-order/components/PackgeItem.vue'
+import OrderPackge from './components/OrderPackge.vue'
 import DetailAddres from './components/DetailAddres.vue'
 import DetailPay from './components/DetailPay.vue'
 import PayPopup from '../components/PayPopup.vue'
@@ -72,7 +66,9 @@ const onCopy = () => {
 
 
 //取消订单
-const cancelFlag = ref(false)
+const cancelFlag = computed(() => {
+	orderStore.orderItem.order_status == 0 ? true : false
+})
 const onCancelOrder = () => {
 	orderStore.onCancelOrderItem(orderStore.orderItem.order_id)
 	cancelFlag.value = true

@@ -29,7 +29,7 @@ const {safeAreaInsets} = uni.getSystemInfoSync() //获取设备信息
 
 const toAdd  = () => {
 	uni.navigateTo({
-		url: '/subpkg/add-edit/add-edit?type=1'
+		url: '/profilePackge/add-edit/add-edit?type=1'
 	})
 }
 

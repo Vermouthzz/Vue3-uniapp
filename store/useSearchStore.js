@@ -3,6 +3,7 @@ import {ref} from 'vue'
 
 export const useSearchStore = defineStore('search', () => {
 	const searchList = ref([])
+	const searchData = ref([])
 	
 	const addSearchItem = (val) => {
 		const index = searchList.value.findIndex(i => i == val)
@@ -11,6 +12,10 @@ export const useSearchStore = defineStore('search', () => {
 		}
 		searchList.value.unshift(val)
 		if(searchList.value.length == 11) searchList.value.pop()
+	}
+	
+	const addSearchData = (val) => {
+		searchData.value = val
 	}
 	
 	const onDeleteHistory = () => {

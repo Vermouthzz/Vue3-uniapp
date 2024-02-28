@@ -1,6 +1,6 @@
 <template>
 	<view class="price-fee fff flex-c">
-		<view class="item-block flex" v-for="(item,index) in spec.discount_info" :key="index">
+		<view class="item-block flex" v-for="(item,index) in spec?.discount_info" :key="index">
 			<text class="item-left">{{item.name}}：</text>
 			<text class="item-right">{{item.value}}</text>
 		</view>

@@ -18,7 +18,7 @@
 					<view class="order-block flex">
 						<view class="order-item flex-c-a"  v-for="(item,index) in orderList" :key="index" @tap="toOrder(item,index)"> 
 							<view class="order-item-icon">
-								<van-icon :name="item.icon" size="60rpx"></van-icon>
+								<i class="iconfont" :class="[`icon-${item.icon}`]"></i>
 							</view>
 							<view class="order-item-text">
 								{{item.name}}
@@ -34,7 +34,7 @@
 					</view>
 					<view class="fuwu-block flex">
 						<view class="fuwu-item flex-c-a" @tap="toPages(item.path)" v-for="(item, index) in serviceList" :key="item.icon">
-							<van-icon :name="item.icon" color="#f98a68" size="42rpx"></van-icon>
+							<i class="iconfont" :class="[`icon-${item.icon}`]"></i>
 							<view class="fuwu-item-text">
 								{{item.name}}
 							</view>
@@ -148,6 +148,9 @@ page {
 					width: 20%;
 					margin-top: 6px;
 					margin-bottom: -8px;
+					.iconfont {
+						font-size: 50rpx;
+					}
 					.order-item-text {
 						margin-top: 8rpx;
 						font-size: 12px;
@@ -190,10 +193,14 @@ page {
 					&:nth-child(5n) {
 						margin-right: 0;
 					}
-						.fuwu-item-text {
-							margin-top: 10rpx;
-							font-size: 11px;
-							color: #4a4a4a;
+					.fuwu-item-text {
+						margin-top: 10rpx;
+						font-size: 11px;
+						color: #4a4a4a;
+					}
+					.iconfont {
+						font-size: 42rpx;
+						color: #f98a68;
 					}
 				}
 			}

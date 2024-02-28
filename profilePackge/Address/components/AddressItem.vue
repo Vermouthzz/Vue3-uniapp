@@ -67,7 +67,7 @@ const handelLongpress = () => {
 
 const toEdit = () => {
 	uni.navigateTo({
-		url: `/subpkg/add-edit/add-edit?type=2&id=${props.list.addres_id}`
+		url: `/profilePackge/add-edit/add-edit?type=2&id=${props.list.addres_id}`
 	})
 }
 

@@ -34,6 +34,7 @@ export const useOrderStore = defineStore('order', () => {
 			...res.list,
 			remainTime: useRemainTime(res.list)
 		}
+		console.log(orderItem.value);
 	}
 	
 	//更新订单item状态

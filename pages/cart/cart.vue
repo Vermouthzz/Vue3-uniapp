@@ -70,11 +70,13 @@ import { ref,computed } from "vue"
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useTicketStore} from '../../store/useTicketStore.js'
+import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
 import { onLoad } from '@dcloudio/uni-app'
 import {getRecommendListAPI} from '../../api/cart.js'
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const ticketStore = useTicketStore()
+const createOrderStore = useCreateOrderStore()
 
 
 const top = ref(0)
@@ -100,9 +102,11 @@ const onAllChange = (e) => {
 //结算功能
 const onClickButton = () => {
 	if(!cartStore.selectedItems.length) return uni.showToast({title:'请选择商品结算', icon: 'error'})
+	//选中最佳的红包
 	ticketStore.optimalTicket(cartStore.allRetailPrice,'selected')
+	createOrderStore.getCreateOrderList(cartStore.selectedItems)
 	uni.navigateTo({
-		url: '/profilePackge/create-order/create-order'
+		url: `/profilePackge/create-order/create-order`
 	})
 }
 //结算总金额

@@ -1,5 +1,5 @@
 <template>
-	<header class="index-header" :style="{paddingTop: safeAreaInsets.top + 'px'}">
+	<header class="index-header">
 		<block v-if="!scroll">
 			<image class="index-header-img" src="https://yanxuan.nosdn.127.net/static-union/164793255107785e.png"></image>
 		</block>
@@ -10,13 +10,13 @@
 </template>
 
 <script setup>
-	import Search from './Search.vue'
-	const props = defineProps({
-		scroll: {
-			type: Boolean,
-		}
-	})
-	const { safeAreaInsets } = uni.getSystemInfoSync()
+import Search from './Search.vue'
+const props = defineProps({
+	scroll: {
+		type: Boolean,
+	}
+})
+
 </script>
 
 <style lang="scss">

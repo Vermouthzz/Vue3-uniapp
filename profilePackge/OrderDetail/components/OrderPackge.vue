@@ -1,29 +1,28 @@
 <template>
 	<view class="pakge-block flex-c">
 		<view class="pakge-top flex-a">
-			<text class="pakge-name">包裹{{props.index + 1}}</text>
-			<slot name="title">
-				<text class="pakge-time">支付后预计48小时内发货</text>
-			</slot>
+			<text class="pakge-name">包裹{{index + 1}}</text>
+			<view class="order-status">
+				待收货
+			</view>
 		</view>
 		<view class="pakge-item flex">
-			<image :src="item.sku_item.pic" class="pakge-item-left"></image>
+			<image :src="item.pic" class="pakge-item-left"></image>
 			<view class="pakge-item-right flex-c">
 				<view class="item-name-service flex">
 					<view class="item-text">
-						<text class="item-service">{{item.sku_item.service}}</text>
-						<text class="item-name">{{item.sku_item.title}}</text>
+						<text class="item-name">{{item.goods_name}}</text>
 					</view>
 					<view class="item-count">
 						x{{item.count}}
 					</view>
 				</view>
 				<view class="item-guige">
-					{{item.spec.map(i => i.value).join(' ')}}
+					{{item.spec}}
 				</view>
 				<view class="item-price">
-					<text class="real-price">￥{{item.sku_item.price}}</text>
-					<text class="discount-price">￥{{item.sku_item.retail_price}}</text>
+					<text class="real-price">￥{{item.price}}</text>
+					<text class="discount-price">￥{{item.retail_price}}</text>
 				</view>
 			</view>
 		</view>
@@ -34,23 +33,30 @@
 </template>
 
 <script setup>
-const props = defineProps(['item','index'])
+import { computed } from 'vue';
+const props = defineProps(['item', 'index'])
+
+const status = ['已取消','待付款','待发货','已发货','交易成功','交易成功']
+const orderStatus = computed(() => status[props.item?.order_status * 1 + 1])
+const statusColor = computed(() => props.item?.order_status == 3 ? '#4b9263' : '#dd2f50')
+
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.pakge-block {
 		padding-left: 16rpx;
 		margin-top: 16rpx;
 		background-color: #fff;
+		box-sizing: border-box;
 		.pakge-top {
-			padding: 20rpx 0;
+			justify-content: space-between;
+			padding: 20rpx 24rpx 20rpx 0;
 			border-bottom: 1px solid #ebebeb;
 			.pakge-name {
 				margin-right: 16rpx;
 			}
-			.pakge-time {
-				color: #c82320;
-				font-size: 13px;
+			.order-status {
+				color: v-bind('statusColor');
 			}
 		}
 		.pakge-item {
@@ -72,10 +78,6 @@ const props = defineProps(['item','index'])
 						-webkit-line-clamp: 2;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						.item-service {
-							margin-right: 4rpx;
-							color: #db9133;
-						}
 					}
 					.item-count {
 						margin: 0 20rpx 0 80rpx;

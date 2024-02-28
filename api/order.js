@@ -55,3 +55,13 @@ export const getOrderRecommendList = (id) => {
 		}
 	})
 }
+
+export const getCreateOrderAPI = (ids) => {
+	return http({
+		url: '/order/create',
+		method: 'POST',
+		data: {
+			ids
+		}
+	})
+}

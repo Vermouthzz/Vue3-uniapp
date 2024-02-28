@@ -15,19 +15,28 @@
 			</view>
 		</view>
 		<view class="right-buy flex">
-			<button class="add-cart common-btn">加入购物车</button>
-			<button class="buy-goods common-btn">立即购买</button>
+			<button class="add-cart common-btn" @tap="onShowPopup('add')">加入购物车</button>
+			<button class="buy-goods common-btn" @tap="onShowPopup('buy')">立即购买</button>
 		</view>
 	</view>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import {useCartStore} from '../../../store/useCartStore.js'
+const porps = defineProps(['show'])
+const emits = defineEmits(['update:show'])
 const cartStore = useCartStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const toTabPage = (path) => {
 	uni.switchTab({ url: `/pages/${path}` })
+}
+
+const isShow = ref(false)
+const skuList = ref([])
+const onShowPopup = (type) => {
+	emits('update:show', true)
 }
 </script>
 

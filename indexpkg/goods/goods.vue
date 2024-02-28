@@ -10,10 +10,10 @@
 						<!-- 热销、邮费、配送板块 -->
 						<GoodsHotfee></GoodsHotfee>
 						<!-- 配送板块 -->
-						<GoodsDeliver :id="goodsVal.goods_id"></GoodsDeliver>
+						<GoodsDeliver :id="goodsVal.goods_id" v-model:show="show"></GoodsDeliver>
 					</view>
 					<!-- 用户评论板块 -->
-					<GoodsComment :id="goodsVal.goods_id"></GoodsComment>
+					<GoodsComment :id="goodsVal.goods_id" :item="goodsVal.commentInfo"></GoodsComment>
 					<!-- 品牌信息板块 -->
 					<GoodsBrand :brandInfo="goodsVal.brand_info"></GoodsBrand>
 					<!-- 相关商品、热销榜板块 -->
@@ -39,7 +39,8 @@
 				</view>
 			</scroll-view>
 		</view>
-		<goods-footer></goods-footer>
+		<goods-footer v-model:show="show"></goods-footer>
+		<GoodsPopop v-model:show="show" :goods="skuList" :isCart="false"></GoodsPopop>
 	</view>
 </template>
 
@@ -55,14 +56,23 @@ import GoodsAboutHot from './components/GoodsAboutHot.vue'
 import GoodsArgument from './components/GoodsArgument.vue'
 import GoodsComment from './components/GoodsComment.vue'
 import GoodsBrand from './components/GoodsBrand.vue'
-import { getGoodsInfoAPI } from '../../api/goods.js'
+import { getGoodsInfoAPI, getSkuListAPI } from '../../api/goods.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 //获取goods数据
 const goodsVal = ref({})
 const getGoodsInfo = async (id) => {
 	const res = await getGoodsInfoAPI(id)
 	goodsVal.value = res.result
+	console.log(goodsVal.value);
+	getSkuList(goodsVal.value.goods_id)
 }
+const skuList = ref([])
+const getSkuList = async (id) => {
+	const res = await getSkuListAPI(id)
+	skuList.value = res.data
+}
+
+const show = ref(false)
 
 onLoad((options) => {
 	const { id } = options
