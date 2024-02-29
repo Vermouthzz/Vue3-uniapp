@@ -58,5 +58,8 @@ onReady(() => {
 }
 .left-icon {
 	margin: 0 16rpx;
+	.iconfont {
+		font-size: 34rpx;
+	}
 }
 </style>

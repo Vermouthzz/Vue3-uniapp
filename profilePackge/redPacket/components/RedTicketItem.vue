@@ -17,7 +17,7 @@
 					<van-count-down :time="validTime" format="DD天HH 时" />
 				</view>
 				<view class="forbid-date" v-else>
-					{{startEnd}};还有{{surplusTime}}天过期
+					{{startEnd}}
 				</view>
 			</view>
 			<view class="to-use">
@@ -43,7 +43,7 @@ import { computed, ref } from 'vue'
 import {useTimeHook} from './hooks/useTimeHooks.js'
 const {startEnd,validTime,surplusTime} = useTimeHook(props.tickets)
 const props = defineProps({
-	isUse: {
+	isUse: {  //是否使用
 		type: Boolean,
 		default: false
 	},
@@ -51,7 +51,7 @@ const props = defineProps({
 		type: Boolean,
 		default: true
 	},
-	isSelected: {
+	isSelected: {  //是否选择
 		type: Boolean,
 		default: false
 	},
@@ -59,17 +59,13 @@ const props = defineProps({
 		type: Object,
 		default: {}
 	},
-	dateFormat: {
+	dateFormat: {  //控制时间
 		type: Boolean,
 		default: true
 	},
-	// condition: {
-		
-	// }
 })
 const isTap = ref(false)
 const onShowMore = () => {
-	if(!props.isSuit) return
 	isTap.value = !isTap.value
 }
 

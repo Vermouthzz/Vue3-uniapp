@@ -2,7 +2,7 @@
 	<view class="category-block flex-c">
 		<header class="custom-header" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 			<view class="search flex-a">
-				<uni-icons class="search-icon" type="search" size="20"></uni-icons>
+				<i class="iconfont icon-search search-icon"></i>
 				<input type="text" placeholder="毛巾">
 			</view>
 		</header>
@@ -70,18 +70,8 @@ const onChangeList = (val,index) => {
 	getCategoryList()
 }
 const toSubcate = (item) => {
-	const index = cateList.value.findIndex(i => i.category_id == item.parent_id)
-	const cateItem = cateList.value[index]
-	const indexArr = cateList.value.map(i => i.children.length)
-	const itemIndex = indexArr.reduce((pre,cur,i) => {
-		if(index > i) pre += cur
-		return pre
-	}, 0)
-	const childIndex = cateList.value[index].children.findIndex(i => i.category_id == item.category_id)
-	const resIndex = childIndex + itemIndex
-	const name = cateItem.category_name 
 	uni.navigateTo({
-		url: `/catepkg/subCate/subCate?index=${resIndex}&parent_id=${cateItem.parent_id}&goods_id=${item.category_id}&title=${name}`,
+		url: `/catepkg/subCate/subCate?goods_id=${item.category_id}`,
 	})
 }
 

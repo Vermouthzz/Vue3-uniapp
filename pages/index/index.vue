@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" class="index-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}" @scroll="handleScroll" @scrolltolower="onLoadMore" enable-flex>
+	<scroll-view scroll-y="true" class="index-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}" @scroll="handleScroll" @scrolltolower="onLoadMore" enable-flex :scroll-top="scrollTop">
 		<view class="index-body flex-c" >
 			<view class="sticky fff">
 				<index-header :scroll="scroll"></index-header>
@@ -13,48 +13,24 @@
 					<view class="items" @tap="onSwitch(item,index)" :class="{active: index == currentIndex}" v-for="(item, index) in scrollXList" :key="index">{{item.name}}</view>
 				</scroll-view>
 				<view class="content-block flex-c">
-					<view class="block-top flex">
-						<view class="top-left">
-							<swiper class="swiper-a" @change="swiperChange" duration="3" autoplay="true">
-								<swiper-item class="swiper-item-a" v-for="(item,index) in swiperImgList" :key="item.id">
-									<image class="swipet-item-img" :src="item.img" @tap="onClickImg(item,index)"></image>
-								</swiper-item>
-							</swiper>
-							<view class="dot">
-								<text>{{current}}</text>
-								<text>/</text>
-								<text>{{swiperImgList.length}}</text>
-							</view>
-						</view>
-						<view class="top-right flex-c">
-							<view class="everyday">
-								<view class="title">
-									<text class="title-text">每日抄底</text>
-								</view>
-							</view>
-							<view class="new-goods">
-								<view class="title flex-a">
-									<text class="title-text">新品首发</text>
-									<view class="new-every">
-										每日上新
-									</view>
-								</view>
-							</view>
-						</view>
-					</view>
+					<template v-if="currentIndex == 0">
+						<new-every :imgs="swiperImgList"></new-every>
+					</template>
 					<LoveList :list="homeList">
-						<template #rank v-if="currentIndex == 0">
-							<view class="rank flex">
-							    <view class="rank-item flex-c-a" @tap="toRankList(i)" v-for="i in 4" :key="i">
-							      <view class="r-item-title flex-c-a">
-							        <text class="title-weight">严选榜单</text>
-							        <text class="title-s">大家都在买</text>
-							      </view>
-							      <image class="r-item-img" src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330" mode="widthFix">
-							      </image>
-							    </view>
-							  </view>
-						</template>
+						<view v-if="currentIndex == 0">
+							<template #rank>
+								<view class="rank flex">
+								    <view class="rank-item flex-c-a" @tap="toRankList(i)" v-for="i in 4" :key="i">
+								      <view class="r-item-title flex-c-a">
+								        <text class="title-weight">严选榜单</text>
+								        <text class="title-s">大家都在买</text>
+								      </view>
+								      <image class="r-item-img" src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330" mode="widthFix">
+								      </image>
+								    </view>
+								  </view>
+							</template>
+						</view>
 					</LoveList>
 				</view>
 			</view>
@@ -67,10 +43,11 @@
 </template>
 
 <script setup>
-import {onLoad} from '@dcloudio/uni-app'
+import {onLoad, onReady} from '@dcloudio/uni-app'
 import {onMounted,ref} from "vue"
 import CustomTabbar from './components/CustomTabbar.vue'
 import Search from './components/Search.vue'
+import NewEvery from './components/NewEvery.vue'
 import IndexHeader from './components/IndexHeader.vue'
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import IndexNav from './components/IndexNav.vue'
@@ -78,22 +55,8 @@ import IndexPopup from './components/IndexPopup.vue'
 import {getHomeListAPI, getHomeNavListAPI} from '../../api/index.js'
 import {useIndexStore} from '../../store/useIndexStore.js'
 const indexStore = useIndexStore()
-const { safeAreaInsets } = uni.getSystemInfoSync()
+const { safeAreaInsets,screenWidth } = uni.getSystemInfoSync()
 const swiperImgList = ref([])
-const current = ref(1)
-//轮播图current改变时调用此函数
-const swiperChange = (e) => {
-	current.value = e.detail.current + 1
-}
-const onClickImg = (item, index) => {
-	uni.previewImage({
-		urls: swiperImgList.value.map(item => item.img),
-		count: item.img_url,
-		current: index
-	})
-}
-//倒计时效果
-const date = ref('')
 
 //scroll-x列表
 const scrollXList = ref([
@@ -105,15 +68,15 @@ const scrollXList = ref([
 	{ name: '运动旅行', id: [15,20,12], list: [] },
 	{ name: '母婴亲子', id: [22,14,13], list: [] },
 ])
+const scrollTop = ref(0)
 //切换列表
 const currentIndex = ref(0) //当前列表
 const onSwitch = (item,index) => {
 	currentIndex.value = index
+	scrollTop.value = headerHeight.value + Math.ceil(screenWidth / 750 * 94)
 	indexData.value.page = 1
 	getHomeList()
 }
-
-
 //滑动距离
 const scroll = ref(false)
 const handleScroll = (e) => {
@@ -160,6 +123,11 @@ const toRankList = (id) => {
 		url: `/indexpkg/rankList/rankList?id=${id}`
 	})
 }
+const headerHeight = ref(0)
+onReady(() => {
+	const header = uni.createSelectorQuery().select('.sticky')
+	header.boundingClientRect(res => headerHeight.value = res.height).exec()
+})
 
 onLoad(() => {
 	getHomeNavList()
@@ -220,92 +188,6 @@ onLoad(() => {
 					}
 				}
 				.content-block {
-					.block-top {
-						.top-left {
-							position: relative;
-							width: 50%;
-							margin-right: 20rpx;
-				
-							.swiper-a {
-								height: 524rpx;
-								width: 344rpx;
-								.swiper-item-a {
-									.swipet-item-img {
-										width: 100%;
-										height: 100%;
-										border-radius: 24rpx;
-									}
-								}
-							}
-				
-							.dot {
-								position: absolute;
-								right: 20rpx;
-								bottom: 16rpx;
-								width: 70rpx;
-								border-radius: 5px;
-								background-color: #111d3c;
-								text-align: center;
-								opacity: 0.5;
-								font-size: 12px;
-								color: #fff;
-							}
-						}
-				
-						.top-right {
-							width: 50%;
-							height: 524rpx;
-							.everyday {
-								width: 100%;
-								height: 49%;
-								margin-bottom: 20rpx;
-								border-radius: 12px;
-								background-color: #ffe6e4;
-				
-								.date {
-									display: inline-block;
-									width: 40rpx;
-									height: 40rpx;
-									margin: 4rpx 6rpx 0 6rpx;
-									line-height: 40rpx;
-									border-radius: 50%;
-									text-align: center;
-									background-color: #343334;
-									color: #fff;
-									font-size: 12px;
-								}
-							}
-				
-							.new-goods {
-								width: 100%;
-								height: 49%;
-								border-radius: 12px;
-								background-color: #feeddc;
-				
-								.new-every {
-									width: 120rpx;
-									height: 32rpx;
-									line-height: 32rpx;
-									border-radius: 5px;
-									color: #fff;
-									font-size: 12px;
-									margin-top: 4rpx;
-									padding: 4rpx 0;
-									background-color: #f3a649;
-									text-align: center;
-								}
-							}
-						}
-				
-						.title {
-							padding: 30rpx 18rpx;
-				
-							.title-text {
-								font-weight: 700;
-								margin-right: 8rpx;
-							}
-						}
-					}
 					:deep(.love-block) {
 						padding: 0;
 					}

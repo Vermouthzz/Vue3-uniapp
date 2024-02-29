@@ -5,19 +5,20 @@ export const getTicketListAPI = (type = 1) => {
 	return http({
 		url: '/tickets',
 		data: {
-			type
+			type	
 		}
 	})
 }
 
 
-//可兑换红包list
+//获取可兑换红包list
 export const getExchangeTicketAPI = () => {
 	return http({
 		url: '/tickets/sign'
 	})
 }
 
+//获取红包信息
 export const getTicketInfoAPI = (id) => {
 	return http({
 		url: '/ticket',

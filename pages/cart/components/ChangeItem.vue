@@ -34,7 +34,8 @@
 								class="price-line">￥28</text>
 						</view>
 						<view class="cart-icon flex-a">
-							<van-icon name="shopping-cart-o" size="44rpx" color="#c43043"></van-icon>
+							<!-- <van-icon name="shopping-cart-o" size="44rpx" color="#c43043"></van-icon> -->
+							<i class="iconfont icon-cart"></i>
 						</view>
 					</view>
 				</view>

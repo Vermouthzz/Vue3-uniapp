@@ -81,8 +81,8 @@ onMounted(() => {
 					flex: 1;
 					justify-content: space-between;
 					.item-name {
-						width: 50rpx;
-						line-height: 36rpx;
+						width: 54rpx;
+						line-height: 40rpx;
 					}
 					.item-change {
 						position: relative;

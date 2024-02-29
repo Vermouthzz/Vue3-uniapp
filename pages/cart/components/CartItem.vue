@@ -9,8 +9,8 @@
 				<view class="item-pro-top">
 					<text class="_red">{{props.cartItem?.sku_item.service}}</text>{{props.cartItem?.sku_item.title}}
 				</view>
-				<view class="item-choose" @tap="openPopup">
-					{{goodsSpec}}<van-icon class="arrow-down" name="arrow-down" size="20rpx" />
+				<view class="item-choose flex" @tap="openPopup">
+					{{goodsSpec}}<i class="iconfont icon-down arrow-down"></i>
 				</view>
 				<view class="item-end">
 					距优惠结束

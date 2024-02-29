@@ -54,6 +54,7 @@
 	/*每个页面公共css */
 	@import url("static/css/common.css");
 	@import url("iconfont/iconfont.css");
+	
 	/* #ifdef H5 */
 	#app {
 		max-width: 420px;

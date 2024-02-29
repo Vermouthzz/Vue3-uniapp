@@ -73,6 +73,7 @@ import {useTicketStore} from '../../store/useTicketStore.js'
 import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
 import { onLoad } from '@dcloudio/uni-app'
 import {getRecommendListAPI} from '../../api/cart.js'
+
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const ticketStore = useTicketStore()

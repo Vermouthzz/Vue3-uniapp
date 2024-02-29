@@ -77,7 +77,9 @@ const onTapGift = async (val) => {
 	flag = false
 	const nowTime = new Date()
 	if(integralInfo.value.sign_date) {
-		if(integralInfo.value.is_sign == 1) {
+		const signDate = new Date(integralInfo.value.sign_date * 1).getDate()
+		console.log(signDate,nowTime.getDate());
+		if(signDate == nowTime.getDate()) {
 			uni.showToast({
 				icon: 'error',
 				title: '今天您已经签到过了',

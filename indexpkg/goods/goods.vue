@@ -63,7 +63,6 @@ const goodsVal = ref({})
 const getGoodsInfo = async (id) => {
 	const res = await getGoodsInfoAPI(id)
 	goodsVal.value = res.result
-	console.log(goodsVal.value);
 	getSkuList(goodsVal.value.goods_id)
 }
 const skuList = ref([])

@@ -1,7 +1,7 @@
 <template>
 	<view class="comment-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
 		<CustomHeader :title="'评价'"></CustomHeader>
-		<scroll-view scroll-y="true" class="comment-scroll flex-c" enable-flex>
+		<scroll-view scroll-y="true" class="comment-scroll flex-c" enable-flex @scrolltolower="onLoadMore">
 			<view class="goods-comment flex-c">
 				<text>99.9%好评</text>
 				<view class="comment-view-block flex">
@@ -34,27 +34,32 @@ const list = ref([
 ])
 const activeType = ref(1)
 const handleSwitch = (item) => {
+	page.value.pageNum = 1
 	activeType.value = item.type
 }
 
 const page = ref({
-	size: 10,
-	current: 1
+	pageSize: 10,
+	pageNum: 1
 })
 const commentList = ref([])
 const getCommentList = async (id) => {
-	const res = await getCommentListAPI(id,page.value)
-	console.log(res);
+	const res = await getCommentListAPI(id,page.value,activeType.value)
 	commentList.value = res.result
 }
 
-const height_ = ref(0)
-onReady(() => {
-	const top = uni.createSelectorQuery().select('.good-comment')
-	top.boundingClientRect(res => {
-		height_.value = res.height
-	}).exec()
-})
+//下拉加载更多
+const onLoadMore = () => {
+	page.value.pageNum++
+}
+
+// const height_ = ref(0)
+// onReady(() => {
+// 	const top = uni.createSelectorQuery().select('.good-comment')
+// 	top.boundingClientRect(res => {
+// 		height_.value = res.height
+// 	}).exec()
+// })
 
 onLoad((options) => {
 	getCommentList(options.id)

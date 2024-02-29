@@ -20,7 +20,7 @@
 					<block v-if="item.list.length">
 						<view class="second-cate-block flex-c">
 							<view class="second-cate-title flex-a">
-								{{secondTitle}}
+								{{thirdTitle}}
 							</view>
 							<!-- 三级分类item -->
 							<view class="third-cate-block flex">
@@ -39,7 +39,7 @@
 
 <script setup>
 import {onLoad, onReady} from '@dcloudio/uni-app'
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import {getSubcateListAPI} from '../../api/cate.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
@@ -48,7 +48,7 @@ const title = ref('标题')
 //获取分类商品数据
 const subcateList = ref([])
 const subcateNav = ref([])
-const secondTitle = ref('')
+const thirdTitle = ref('')  //三级分类标题
 const getSubCateList = async (id, parent_id) => {
 	const res = await getSubcateListAPI(id, parent_id)
 	if(res.result.navList.length) {
@@ -59,9 +59,11 @@ const getSubCateList = async (id, parent_id) => {
 			}
 		})
 	}
+	currentItem.value = res.result.index  //当前swiperItem
 	const item = subcateNav.value.find(i => i.category_id == id)
 	item.list = res.result.goodsData
-	secondTitle.value = res.result.secondTitle
+	thirdTitle.value = res.result.thirdTitle
+	title.value = res.result.secondTitle
 }
 //控制nav滚动
 const scrollX = ref(0)
@@ -76,16 +78,20 @@ const goodsId = ref()
 const onSwitchTab = (item,index) => {
 	currentItem.value = index
 	goodsId.value = item.category_id
-	navScroll(index)
 }
 
 const swiperChange = (e) => {
 	currentItem.value = e.detail.current
 	const item = subcateNav.value[currentItem.value]
-	navScroll(currentItem.value)
-	getSubCateList(item.category_id, -1)
+	getSubCateList(item.category_id)
 }
 
+//监听当前item的变化，并调用scroll
+watchEffect(() => {
+	if(currentItem.value) {
+		navScroll(currentItem.value)
+	}
+})
 const cateItemWidth = ref([])
 onReady(() => {
 	const cateItem = uni.createSelectorQuery().selectAll('.block')
@@ -95,10 +101,8 @@ onReady(() => {
 })
 
 onLoad((options) => {
-	currentItem.value = options.index
 	goodsId.value = options.goods_id
-	title.value = options.title
-	getSubCateList(options.goods_id, options.parent_id)
+	getSubCateList(options.goods_id)
 })
 </script>
 

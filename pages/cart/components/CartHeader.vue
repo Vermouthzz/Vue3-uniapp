@@ -4,9 +4,9 @@
 			购物车
 		</view>
 		<view class="location flex" @tap="onShowAddress">
-			<van-icon name="location-o" size="24rpx" />
+			<i class="iconfont icon-iclocal"></i>
 			<text class="address-text">{{addressStore.selectedAddress?.address.split(' ').join('')}}</text>
-			<van-icon name="arrow" size="24rpx" />
+			<i class="iconfont icon-right"></i>
 		</view>
 	</view>
 	<van-action-sheet :show="showAddress" title="配送至" @close="onShowAddress('close')" :round="false">
@@ -44,7 +44,14 @@ const onShowAddress = (type = 'open') => {
 	.location {
 		padding-bottom: 16rpx;
 		.address-text {
+			margin-left: 2rpx;
 			font-size: 11px;
+		}
+		.iconfont {
+			font-size: 24rpx;
+		}
+		.icon-right {
+			margin-top: 2rpx;
 		}
 	}
 }

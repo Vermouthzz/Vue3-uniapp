@@ -14,18 +14,16 @@
 			</view>
 			<!-- 订单付款栏 -->
 			<view class="order-card fff">
-				<uni-card :is-full="true" :is-shadow="true">
-					<view class="order-block flex">
-						<view class="order-item flex-c-a"  v-for="(item,index) in orderList" :key="index" @tap="toOrder(item,index)"> 
-							<view class="order-item-icon">
-								<i class="iconfont" :class="[`icon-${item.icon}`]"></i>
-							</view>
-							<view class="order-item-text">
-								{{item.name}}
-							</view>
+				<view class="order-block flex">
+					<view class="order-item flex-c-a"  v-for="(item,index) in orderList" :key="index" @tap="toOrder(item,index)"> 
+						<view class="order-item-icon">
+							<i class="iconfont" :class="[`icon-${item.icon}`]"></i>
+						</view>
+						<view class="order-item-text">
+							{{item.name}}
 						</view>
 					</view>
-				</uni-card>
+				</view>
 			</view>
 			<!-- 我的服务栏 -->
 			<view style="margin-top: 15px;" class="fuwu-card flex-c card">

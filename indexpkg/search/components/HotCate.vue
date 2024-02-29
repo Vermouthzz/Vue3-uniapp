@@ -4,7 +4,7 @@
 			热门分类
 		</view>
 		<view class="hot-cate-list flex">
-			<view class="hot-cate-item flex-c-a" v-for="(item,index) in list" :key="index">
+			<view class="hot-cate-item flex-c-a" v-for="(item,index) in list" :key="index" @tap="toCateList(item)">
 				<image class="hot-cate-image" :src="item.img_url"></image>
 				<view class="name">
 					{{item.category_name}}
@@ -16,6 +16,11 @@
 
 <script setup>
 const props = defineProps(['list'])
+const toCateList = (item) => {
+	uni.navigateTo({
+		url: `/catepkg/subCate/subCate?goods_id=${item.category_id}`
+	})
+}
 </script>
 
 <style lang="scss">

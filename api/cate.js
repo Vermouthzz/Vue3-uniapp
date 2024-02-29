@@ -8,12 +8,14 @@ export const getCateListAPI = (id) => {
 		}
 	})
 }
-
-export const getSubcateListAPI = (id, parent_id) => {
+/* 
+ query: id
+ 传递当前三级分类id
+ */
+export const getSubcateListAPI = (id) => {
 	return http({
 		url: '/subcate',
 		data: {
-			parent_id,
 			id
 		}
 	})
