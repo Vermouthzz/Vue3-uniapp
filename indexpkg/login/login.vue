@@ -1,8 +1,8 @@
 <template>
 	<view class="login-box">
-		<header class="login-header flex" :style="{paddingTop : top + 'px'}">
+		<header class="login-header flex" :style="{paddingTop : safeAreaInsets.top + 'px'}">
 			<view class="h-left">
-				<navigator url="/pages/index/index"><van-icon name="home-o" size="36rpx"></van-icon></navigator>
+				<navigator url="/pages/index/index"><i class="iconfont icon-home"></i></navigator>
 			</view>
 			<view class="h-mid">
 				<navigator url="/pages/index/index">网易严选</navigator>
@@ -65,7 +65,7 @@ import {middle} from '../../hooks/useMiddle.js'
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
-const top = ref(0)
+const { safeAreaInsets,screenWidth } = uni.getSystemInfoSync()
 const isAgree = ref(false) //是否同意协议
 const isRegister = ref(false) //是否注册
 const userStore = useUserStore()
@@ -73,7 +73,8 @@ const userCardStore = useUserCardStore()
 const cartStore = useCartStore()
 const toRegister = () => {
 	isRegister.value = !isRegister.value
-	formData.value = {}
+	formData.value.acconut = ''
+	formData.value.password = ''
 }
 const formData = ref({
 	acconut: '',
@@ -144,7 +145,7 @@ const handleSubmit = () => {
 	}
 }
 onReady(() => {
-	middle('.login-header').then(data => top.value = data.top)
+
 })
 </script>
 

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1163149",
+      "name": "定位",
+      "font_class": "dingwei",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "159971",
+      "name": "cart",
+      "font_class": "cart1",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
       "icon_id": "8106269",
       "name": "safety",
       "font_class": "safety",
@@ -137,13 +151,6 @@
       "font_class": "down",
       "unicode": "e69b",
       "unicode_decimal": 59035
-    },
-    {
-      "icon_id": "12865651",
-      "name": "cart",
-      "font_class": "cart",
-      "unicode": "e6e6",
-      "unicode_decimal": 59110
     },
     {
       "icon_id": "34452925",

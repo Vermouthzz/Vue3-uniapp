@@ -1,5 +1,5 @@
 <template>
-	<van-swipe-cell  class="adress-item-block" :right-width="65" :async-close="true" @close="onCloseSwipe">
+	<van-swipe-cell  class="adress-item-block" :right-width="65" async-close @close="onCloseSwipe">
 		<van-cell-group>
 			<view class="adress-item flex-a" @tap="onTapItem" @longpress="handelLongpress">
 				<view class="adress-item-left flex-c">
@@ -27,7 +27,7 @@
 				</view>
 			</view>
 		</van-cell-group>
-		<view slot="right" class="btn-del flex-a" @tap="onDelAddres">删除</view>
+		<view slot="right" class="btn-del flex-a">删除</view>
 	</van-swipe-cell>
 	<van-dialog
 	  use-slot
@@ -44,19 +44,43 @@ import { computed, ref } from 'vue';
 import {useAddressStore} from '../../../store/useAddressStore.js'
 const addressStore = useAddressStore()
 const props = defineProps(['list'])
-const show = ref(false)
 
 const phoneNumber = computed(() => {
 	// return props.list.contact.replace(/^(\d{3})(\d{4})(\d{4})/, '$1****$2')
-	return props.list.contact.substring(0,4) + '****' + props.list.contact.substring(8)
+	return props?.list.contact.substring(0,4) + '****' + props.list.contact.substring(8)
 })
-const onDelAddres = () => {
-	show.value = true
+
+
+const show = ref(false)
+const onCloseSwipe = async (e) => {
+	const {instance,position} = e.detail
+	if(position == "right") {
+		show.value = true
+		return new Promise((resolve, reject) => {
+			let timer = setInterval(() => {
+				if(!show.value) {
+					clearInterval(timer)
+					instance.close()
+					resolve()
+				}
+			},1000)
+		})
+	} else {
+		instance.close()
+	}
 }
-const onCloseSwipe = (e) => {
-	const {instance} = e.detail
-	instance.close()
+const onClose = (e) => {
+	//点击确认按钮
+	if(e.detail == 'confirm') {
+		addressStore.delAddress(props.list.addres_id)
+		uni.showToast({
+			icon: 'success',
+			title: '删除成功'
+		})
+	}
+	show.value = false
 }
+
 
 const onTapItem = () => {
 	addressStore.tapAddress(props.list.addres_id)
@@ -71,13 +95,6 @@ const toEdit = () => {
 	})
 }
 
-const onClose = (e) => {
-	//点击确认按钮
-	if(e.detail == 'confirm') {
-		// addressStore.delAddress(props.list.addres_id)
-	}
-	show.value = false
-}
 </script>
 
 <style lang="scss" scoped>

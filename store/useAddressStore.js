@@ -15,11 +15,16 @@ export const useAddressStore = defineStore('address', () => {
 	//-----------action---------------
 	const getAddresList = async () => {
 		const res = await getAddressAPI()
-		addressList.value = res
+		addressList.value = res.result
 	}
 	
 	const updateAddress = async (obj) => {
 		const res = await updateAddressItemAPI(obj)
+		getAddresList()
+	}
+	
+	const addUserAddress = async (obj) => {
+		await addAddressAPI(obj)
 		getAddresList()
 	}
 	
@@ -49,6 +54,7 @@ export const useAddressStore = defineStore('address', () => {
 		onSelectedAddress,
 		tapAddress,
 		storeAddress,
-		showAddress
+		showAddress,
+		addUserAddress
 	}
 })

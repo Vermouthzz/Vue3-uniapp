@@ -17,20 +17,21 @@
 						<new-every :imgs="swiperImgList"></new-every>
 					</template>
 					<LoveList :list="homeList">
-						<view v-if="currentIndex == 0">
-							<template #rank>
-								<view class="rank flex">
-								    <view class="rank-item flex-c-a" @tap="toRankList(i)" v-for="i in 4" :key="i">
-								      <view class="r-item-title flex-c-a">
-								        <text class="title-weight">严选榜单</text>
-								        <text class="title-s">大家都在买</text>
-								      </view>
-								      <image class="r-item-img" src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330" mode="widthFix">
-								      </image>
-								    </view>
-								  </view>
-							</template>
-						</view>
+						<!-- <view v-if="currentIndex == 0">
+							
+						</view> -->
+						<template #rank>
+							<view class="rank flex">
+							    <view class="rank-item flex-c-a" @tap="toRankList(i)" v-for="i in 4" :key="i">
+							      <view class="r-item-title flex-c-a">
+							        <text class="title-weight">严选榜单</text>
+							        <text class="title-s">大家都在买</text>
+							      </view>
+							      <image class="r-item-img" src="https://yanxuan-item.nosdn.127.net/879d6919fa093140c38336eec736e4b1.png?type=webp&imageView&quality=65&thumbnail=330x330" mode="widthFix">
+							      </image>
+							    </view>
+							  </view>
+						</template>
 					</LoveList>
 				</view>
 			</view>

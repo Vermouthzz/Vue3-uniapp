@@ -16,16 +16,12 @@ export const getAddressAPI = () => {
 	})
 }
 
-export const addAddressAPI = (obj,arr,checked) => {
+export const addAddressAPI = (formData) => {
 	return http({
 		url: '/address',
 		method: 'POST',
 		data: {
-			name: obj.name,
-			contact: obj.contact,
-			detail_adr: obj.adress,
-			ids: arr,
-			checked
+			...formData
 		}
 	})
 }
@@ -51,12 +47,12 @@ export const updateAddressListAPI = (val,id) => {
 	})
 }
 
-export const updateAddressItemAPI = (id) => {
+export const updateAddressItemAPI = (formData) => {
 	return http({
 		url: '/address',
 		method: 'PUT',
 		data: {
-			id
+			...formData
 		}
 	})
 }

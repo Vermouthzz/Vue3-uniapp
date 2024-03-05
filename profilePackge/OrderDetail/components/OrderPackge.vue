@@ -52,6 +52,7 @@ const statusColor = computed(() => props.item?.order_status == 3 ? '#4b9263' : '
 			justify-content: space-between;
 			padding: 20rpx 24rpx 20rpx 0;
 			border-bottom: 1px solid #ebebeb;
+			font-size: 26rpx;
 			.pakge-name {
 				margin-right: 16rpx;
 			}

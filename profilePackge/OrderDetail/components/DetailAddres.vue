@@ -24,10 +24,7 @@ const porps = defineProps(['flag'])
 const emits = defineEmits(['update:flag'])
 const orderStore = useOrderStore()
 //地址
-const address = computed(() => {
-	const obj = orderStore.orderItem.adres
-	return `${obj.province}${obj.city}${obj.district}${orderStore.orderItem.detail_adrs}`
-})
+const address = computed(() => `${orderStore.orderItem.address}${orderStore.orderItem.detail_adrs}`)
 const phone = computed(() => orderStore.orderItem.contact?.slice(0,3) + '****' + orderStore.orderItem.contact?.slice(7))
 </script>
 

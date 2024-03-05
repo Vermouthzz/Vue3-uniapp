@@ -17,7 +17,7 @@
 							联系方式
 						</view>
 						<view class="item-input">
-							<view class="select-phone">
+							<view class="select-phone flex-a">
 								<text>+86</text>
 								<uni-icons type="bottom" size="12" color="#696969"></uni-icons>
 							</view>
@@ -28,12 +28,12 @@
 						<view class="item-lable">
 							所在地区
 						</view>
-						<view class="item-input" @tap="onCloseOpen('open')">
-							<text v-if="fieldValue">{{fieldValue}}</text>
-							<text v-else>请输入省份城市区县</text>
+						<view class="item-input">
+							<text v-if="formData.adress">{{formData.adress}}</text>
+							<text v-else>获取您的地址</text>
 						</view>
 						<view class="location">
-							
+							<i class="iconfont icon-dingwei" @tap="handleQQMap"></i>
 						</view>
 					</view>
 					<view class="form-item">
@@ -47,20 +47,20 @@
 				</form>
 			</view>
 			<view class="adress-lable">
-				<view class="lable-block">
+				<view class="lable-block flex-a">
 					<view class="lable">
 						标签
 					</view>
-					<view class="lable-item-block">
-						<view class="lable-item" v-for="i in 3" :key="i" >
-							学校
+					<view class="lable-item-block flex">
+						<view class="lable-item flex-c-a" :class="{active: i.selected}" v-for="i in tags" :key="i.name" @tap="onSelectTag(i)" >
+							{{i.name}}
 						</view>
-						<view class="lable-item plus">
+						<view class="lable-item flex-c-a plus" @tap="handleAddTag">
 							+	
 						</view>
 					</view>
 				</view>
-				<view class="smart-adress">
+				<view class="smart-adress flex-c">
 					<view class="smart-title">
 						智能识别地址:
 					</view>
@@ -68,8 +68,8 @@
 						粘贴整段文字如:北京市大兴区科创十一街京东集团总部,吴祖扬,15588480581
 					</view>
 				</view>
-				<view class="set-default">
-					<view class="default-text">
+				<view class="set-default flex">
+					<view class="default-text flex-c">
 						<view class="big-text">
 							设置默认地址
 						</view>
@@ -78,88 +78,64 @@
 						</view>
 					</view>
 					<view class="default-btn flex-a">
-						 <van-switch :checked="checked" active-color="#f8611b" size="24px" @change="checkChange" />
+						 <van-switch :checked="isDefault" active-color="#f8611b" size="24px" @change="checkChange" />
 					</view>
 				</view>
 			</view>
 			<view class="submit-block" @tap="submitTap">
 				<button class="btn-submit">确定</button>
 			</view>
-			<van-popup :show="show" position="bottom">
-				<van-cascader
-				  v-if="show"
-				  swipeable
-				  :value="cascaderVal"
-				  title="地址"
-				  :options="options"
-				  active-color="#ee0a24"
-				  @close="onCloseOpen"
-				  @finish="onFinish"
-				  @change="onChange"
-				/>
-			</van-popup>
 		</view>
 	</view>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watchEffect } from "vue"
 import {onLoad,onReady} from '@dcloudio/uni-app'
-import {middle} from '../../hooks/useMiddle.js'
-import {getRegionAPI} from '../../api/address.js'
 import {useAddressStore} from '../../store/useAddressStore.js'
+const QQMapWX = require('../../static/TencentMap/qqmap-wx-jssdk.js')
+// import QQMapWX from '../../static/TencentMap/qqmap-wx-jssdk.js'
 const addressStore = useAddressStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
-const top = ref(0)
+const tags = ref([
+	{ name: '家', selected: false },
+	{ name: '学校', selected: false },
+	{ name: '公司', selected: false },
+])
 const type = ref('1')
+const addresId = ref(0)
+const isDefault =  ref(false)
 const formData = ref({
 	name: '',
 	contact: '',
 	adress: '',
-	detail_adrs: ''
+	detail_adrs: '',
+	tag: ''
 })
-const options = ref([])
-const cascaderVal = ref(0)
-const show = ref(false)
-const ids = ref([])
-const checked = ref(false)
+
+watchEffect(() => {
+	
+})
+
 const checkChange = (e) => {
-	checked.value = e.detail
+	isDefault.value = e.detail
 }
-
-function addChildren(option, children, id) {
-	options.value.forEach(item => {
-		if(item.value == id) {
-			item.children = children
-		}
+//用户添加自定义标签
+const handleAddTag = () => {
+	
+}
+//用户点击选择标签
+const onSelectTag = (item) => {
+	tags.value.forEach(i => {
+		i.selected = false
+		if(i.name == item.name) i.selected = true
 	})
-}
-
-const onCloseOpen = (type = 'close') => {
-	type == 'open' ? show.value = true : show.value = false
-}
-const fieldValue = ref('')
-const onFinish = (e) => {
-	const { selectedOptions, value } = e.detail;
-	selectedOptions.forEach(item => ids.value.push(item.value))
-	fieldValue.value = selectedOptions.map((option) => option.text || option.name).join(' ');
-	cascaderVal.value = value
-	if(e.type === 'finish') {
-		show.value = false
-	}
-}
-
-const onChange = (e) => {
-	const { value, tabIndex, selectedOptions } = e.detail
-	valueId.value = value
-	getRegionAPI(valueId.value).then(res => {
-		addChildren(selectedOptions, res.result, value)
-	})
+	formData.value.tag = item.name
 }
 
 const submitTap = () => {
 	for(let key in formData.value) {
-		if(formData.value[key] == "" || ids.value.length == 0) {
+		if(formData.value[key] == "") {
 			uni.showToast({
 				icon: 'error',
 				title: '请填写完整信息'
@@ -167,41 +143,48 @@ const submitTap = () => {
 			return 
 		}
 	}
-	console.log(formData.value);
-	console.log(ids.value);
-	if(type.value == '1') {
-		addAddressAPI()
-	} else {
-		updateAddressAPI(formData.value,ids.value,checked.value)
-	}
+	type.value == '1' ? addressStore.addUserAddress(Object.assign(formData.value,{isDefault: isDefault.value})) 
+	: addressStore.updateAddress(Object.assign(formData.value, {isDefault: isDefault.value, id: addresId.value}))
+	setTimeout(() => uni.navigateBack(), 500)
 }
 
-const valueId = ref(1) 
-const getRegionList = async () => {
-	const res = await getRegionAPI(valueId.value)
-	res.result.forEach(item => {
-		options.value.push({
-			text: item.text,
-			value: item.value,
-			children: item.children || null
-		})
+
+//初始化腾讯位置map
+let qqmapsdk
+const initTencentMap = () => {
+	qqmapsdk = new QQMapWX({
+		key: 'AQABZ-EIAWB-CLAUP-NI3BT-Z4XT2-VPFDK'
 	})
 }
 
-onReady(() => {
-	middle('.edit-add-title').then(data => top.value = data.top)
-})
+const handleQQMap = () => {
+	uni.chooseLocation({
+		success: (data) => {
+			//逆解析地址
+			qqmapsdk.reverseGeocoder({
+				location: {
+					latitude: data.latitude,
+					longitude: data.longitude
+				},
+				success: (res) => {
+					formData.value.adress = res.result.address
+				}
+			})
+		}
+	})
+}
 
 onLoad((option) => {
 	type.value = option.type
 	if(option.id) {
 		const item = addressStore.addressList.find(item => item.addres_id == option.id)
+		formData.value.id = option.id
 		formData.value.name = item.name
 		formData.value.contact = item.contact
 		formData.value.adress = item.address
 		formData.value.detail_adrs = item.detail_adrs
 	}
-	getRegionList(valueId.value)
+	initTencentMap()
 })
 </script>
 
@@ -232,10 +215,14 @@ page {
 					margin-left: 50rpx;
 					font-size: 13px;
 					.select-phone {
-						display: flex;
-						align-items: center;
 						margin-right: 10rpx;
 						color: #696969;
+					}
+				}
+				.location {
+					margin:  0 30rpx 0 auto;
+					.icon-dingwei {
+						font-size: 32rpx;
 					}
 				}
 			}
@@ -243,33 +230,29 @@ page {
 		.adress-lable {
 			margin-top: 20rpx;
 			.lable-block {
-				display: flex;
-				align-items: center;
 				padding: 20rpx;
 				.lable {
 					margin-right: 80rpx;
 					font-size: 13px;
 				}
 				.lable-item-block {
-					display: flex;
 					flex-wrap: wrap;
 					width: 440rpx;
 					.lable-item {
-						display: flex;
-						align-items: center;
-						justify-content: center;
 						width: 112rpx;
 						padding: 4rpx 0;
 						margin: 0 20rpx 20rpx 0;
 						font-size: 13px;
 						border: 1px solid #c8c8c8;
 						border-radius: 40rpx;
+						&.active {
+							color: #fff;
+							background-color: #CC9756;
+						}
 					}
 				}
 			}
 			.smart-adress {
-				display: flex;
-				flex-direction: column;
 				margin: 20rpx 0 40rpx;
 				.smart-title {
 					font-size: 14px;
@@ -284,11 +267,8 @@ page {
 				}
 			}
 			.set-default {
-				display: flex;
 				justify-content: space-between;
 				.default-text {
-					display: flex;
-					flex-direction: column;
 					.big-text {}
 					.alert-text {
 						margin-top: 10rpx;
