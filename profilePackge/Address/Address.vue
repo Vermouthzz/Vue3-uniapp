@@ -7,10 +7,12 @@
 			</view>
 		</view>
 		<view class="footer flex" :style="{bottom: safeAreaInsets.bottom + 'px'}">
+			<!-- #ifdef MP -->
 			<view class="btn-comm btn-from">
 				<van-icon name="wechat" color="#06bb07" size="36rpx" />
 				<text>微信导入</text>
 			</view>
+			<!-- #endif -->
 			<view class="btn-comm btn-add" @tap="toAdd">
 				新增收货地址
 			</view>
@@ -33,9 +35,6 @@ const toAdd  = () => {
 	})
 }
 
-// onLoad(() => {
-// 	addressStore.getAddresList()
-// })
 </script>
 
 <style lang="scss">
@@ -70,15 +69,17 @@ page {
 		left: 0;
 		justify-content: space-between;
 		padding: 14rpx 20rpx;
-		box-sizing: border-box;
 		.btn-comm {
 			display: flex;
+			flex: 1;
+			justify-content: center;
 			align-items: center;
 			font-size: 14px;
 			padding: 12rpx 90rpx;
 			border-radius: 50rpx;
 		}
 		.btn-from {
+			margin-right: 10rpx;
 			color: black;
 			border: 1px solid #d6d6d6;
 		}

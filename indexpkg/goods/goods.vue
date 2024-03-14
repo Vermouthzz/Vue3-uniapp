@@ -90,7 +90,6 @@ onLoad((options) => {
 		box-sizing: border-box;
 		.goods-body {
 			flex: 1;
-			margin-top: 12rpx;
 			overflow: scroll;
 			background-color: #f4f4f4;
 

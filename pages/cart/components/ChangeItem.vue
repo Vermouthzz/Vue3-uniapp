@@ -10,7 +10,7 @@
 				</view>
 				<view class="get-change">
 					去换购
-					<van-icon name="arrow" size="24rpx"></van-icon>
+					<i class="iconfont icon-right"></i>
 				</view>
 			</div>
 		</view>

@@ -1,28 +1,36 @@
 <template>
 	<view class="online-service-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}">
-		<CustomHeader :title="'在线客服'"></CustomHeader>
-		<view class="online-server-body flex-c">
+		<view class="header">
+			<CustomHeader :title="'在线客服'"></CustomHeader>
 			<view class="sign">
 				<text class="name">网易严选</text>
 			</view>
-			<scroll-view scroll-y="true" class="communicate-block">
+		</view>
+		<scroll-view scroll-y="true" class="online-server-body">
+			<view class="communicate-block">
 				<view class="communicate">
 					<block v-if="chatInfo.length">
 						<view class="message-block flex" :class="{message_block_right: item.send_id == sendId}" v-for="(item,index) in chatInfo" :key="index">
 							<image v-if="item.send_id == receiverId" src="http://127.0.0.1:3000/upload/QIwNRdjgjNSU0f93370b9ab43a78e6a00cbd791d4b7a.jpg" class="user-avator"></image>
 							<image v-else :src="userStore.userInfo.avator" class="user-avator"></image>
 							<view class="message" :class="{message_left: item.send_id == receiverId, message_right: item.send_id == sendId}">
-								<van-icon v-if="item.send_id == receiverId" size="32rpx" class="before-icon" name="arrow-left" />
+								<i class="iconfont icon-left" v-if="item.send_id == receiverId"></i>
 								{{item.message}}
 							</view>
 						</view>
 					</block>
 <!-- 					<view class="first-message">
 						hello!您的客服小优为您服务
+					</view>
+					<view class="first-message">
+						hello!您的客服小优为您服务
+					</view>
+					<view class="first-message">
+						hello!您的客服小优为您服务
 					</view> -->
 				</view>
-			</scroll-view>
-		</view>
+			</view>
+		</scroll-view>
 		<view class="send-message flex">
 			<input class="send-input" type="text" v-model="userMessage">
 			<view class="send-btn" @tap="onSendMessage">
@@ -33,7 +41,7 @@
 </template>
 
 <script setup>
-import {onLoad, onUnload} from '@dcloudio/uni-app'
+import {onLoad, onUnload } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import {getUserChatRecordAPI, insertUserChatAPI} from '../../api/chat.js'
 import {useUserStore} from '../../store/useUserStore.js'
@@ -93,6 +101,7 @@ socketTask.onMessage((e) => {
 	}
 })
 
+
 onLoad(() => {
 	getChatHistory()
 })
@@ -104,11 +113,13 @@ onUnload(() => {
 
 
 <style lang="scss">
-.online-service-block {
+page {
 	height: 100vh;
+}
+.online-service-block {
+	height: 100%;
 	box-sizing: border-box;
-	.online-server-body {
-		flex: 1;
+	.header {
 		.sign {
 			height: 106rpx;
 			background-color: #aa2c2a;
@@ -120,11 +131,14 @@ onUnload(() => {
 				color: #fff;
 			}
 		}
+	}
+	.online-server-body {
+		flex: 1;
+		overflow: scroll;
 		.communicate-block {
-			flex: 1;
 			.communicate {
 				height: 100%;
-				padding: 50rpx 40rpx 0;
+				padding: 50rpx 40rpx 10rpx;
 				box-sizing: border-box;
 				.first-message {
 					width: 406rpx;
@@ -153,11 +167,12 @@ onUnload(() => {
 						border: 1px solid #dadada;
 						border-radius: 16rpx;
 						font-size: 13px;
-						.before-icon {
+						.icon-left {
 							position: absolute;
 							left: -24rpx;
 							top: 32rpx;
 							color: #dadada;
+							font-size: 36rpx;
 						}
 					}
 					.message_left::before {

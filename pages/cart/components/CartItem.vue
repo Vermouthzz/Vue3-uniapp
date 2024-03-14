@@ -1,13 +1,18 @@
 <template>
 	<van-swipe-cell :right-width="65" async-close @close="onCloseSwipe">
-		<view class="cart-item">
-			<view class="cart-item-left">
+		<view class="cart-item flex">
+			<view class="cart-item-left flex-a">
 				<van-checkbox :value="props.cartItem.selected" @change="onChangeCheck" checked-color="#f81e31"></van-checkbox>
 				<image class="cart-item-img" :src="props.cartItem?.sku_item.pic"></image>
 			</view>
-			<view class="cart-item-pro">
-				<view class="item-pro-top">
-					<text class="_red">{{props.cartItem?.sku_item.service}}</text>{{props.cartItem?.sku_item.title}}
+			<view class="cart-item-pro flex-c">
+				<view class="item-pro-top flex">
+					<view class="goods-name">
+						<text class="goods-service">
+							{{cartItem?.sku_item.service_name}}
+						</text>
+						{{props.cartItem?.sku_item.title}}
+					</view>
 				</view>
 				<view class="item-choose flex" @tap="openPopup">
 					{{goodsSpec}}<i class="iconfont icon-down arrow-down"></i>
@@ -29,7 +34,14 @@
 				</view>
 			</view>
 		</view>
+		<!-- #ifdef MP -->
 		<view slot="right" class="btn-del flex-a" @tap="onDelCartItem">删除</view>
+		<!-- #endif -->
+		 <!-- #ifdef APP -->
+		 <template #right>
+			<view class="btn-del flex-a" @tap="onDelCartItem">删除</view>
+		  </template>
+		 <!-- #endif -->
 	</van-swipe-cell>
 	<GoodsPopop v-model:show="isShow" :goods="skuList" :isCart="true"></GoodsPopop>
 </template>
@@ -43,7 +55,12 @@ import {getSkuListAPI} from '../../../api/goods.js'
 const userCardStore = useUserCardStore()
 const cartStore = useCartStore()
 
-const props = defineProps()
+const props = defineProps({
+	cartItem: {
+		type: Object,
+		default: {}
+	}
+})
 const goods_num = ref(1)
 
 
@@ -87,41 +104,40 @@ const onChangeCheck = (e) => {
 	props.cartItem.selected = e.detail
 	cartStore.updateCart(props.cartItem)
 }
+
 </script>
 
 
 <style lang="scss" scoped>
 	._red {
-		color: #de2e43;
-		margin-right: 4rpx;
+		
 	}
 	.cart-item {
 		position: relative;
-		display: flex;
 		margin-bottom: 40rpx;
 		.cart-item-left {
-			display: flex;
-			align-items: center;
-			margin-right: 16rpx;
-
+			margin: 16rpx 16rpx 16rpx 0;
 			.cart-item-img {
-				width: 200rpx;
-				height: 200rpx;
+				width: 160rpx;
+				height: 160rpx;
 				vertical-align: top;
 			}
 		}
 
 		.cart-item-pro {
-			display: flex;
-			flex-direction: column;
+			width: 66%;
 			justify-content: space-between;
-
 			.item-pro-top {
-				width: 80%;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				font-size: 14px;
+				font-size: 28rpx;
+				.goods-name {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					.goods-service {
+						color: #de2e43;
+						margin-right: 4rpx;
+					}
+				}
 			}
 
 			.item-choose {

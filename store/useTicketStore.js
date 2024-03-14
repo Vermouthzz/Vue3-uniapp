@@ -23,9 +23,18 @@ export const useTicketStore = defineStore('ticket', () => {
 	}
 	
 	//默认选中最优惠的红包
-	const defaultSelectedTicket = (price) => {
+	const defaultSelectedTicket = (price, service) => {
 		if(!noUseTicket.value.length) return
-		let item = noUseTicket.value.filter(i => i.ticket_condition <= price).reduce((a,b) => {
+		let priceCondition = noUseTicket.value.filter(i => i.ticket_condition <= price)
+		let suitableCoupons = []
+		if(Array.isArray(service)) {
+			suitableCoupons = priceCondition.filter(coupon => {
+			        return service.every(serviceItem => coupon.suit_goods.includes(serviceItem));
+			    });
+		} else {
+			 suitableCoupons = priceCondition.filter(coupon => coupon.suit_goods.includes(service));
+		}
+		const item = suitableCoupons.reduce((a,b) => {
 			if(b.ticket_price > a.ticket_price) {
 				a.ticket_id = b.ticket_id
 				a.ticket_price = b.ticket_price
@@ -36,8 +45,8 @@ export const useTicketStore = defineStore('ticket', () => {
 		return sItem
 	}
 	//选中红包的item
-	const optimalTicket = (price,type = 'else') => {
-		const item = defaultSelectedTicket(price)
+	const optimalTicket = (price,type = 'else', service) => {
+		const item = defaultSelectedTicket(price, service)
 		if(type == 'price') {
 			if(!item) return 0
 			return item.ticket_price
@@ -71,21 +80,11 @@ export const useTicketStore = defineStore('ticket', () => {
 	//展示选中的红包
 	const selectedTicket = computed(() => noUseTicket.value.find(i => i.selected))
 	
-	//选出所有能选的红包
-	const effectiveTickets = computed(() => {
-		return noUseTicket.value.filter(item => item.ticket_condition < cartStore.allRetailPrice)
-	})
-	//选出所有无效红包
-	const uselessTickets = computed(() => {
-		return noUseTicket.value.filter(item => item.ticket_condition > cartStore.allRetailPrice)
-	})
 	
 	return {
 		userTicketList,
 		selectedTicket,
 		optimalTicket,
-		effectiveTickets,
-		uselessTickets,
 		tapSelected,
 		unUseTicket,
 		getTicketList,

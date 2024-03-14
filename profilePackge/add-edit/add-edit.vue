@@ -19,7 +19,7 @@
 						<view class="item-input">
 							<view class="select-phone flex-a">
 								<text>+86</text>
-								<uni-icons type="bottom" size="12" color="#696969"></uni-icons>
+								<!-- <uni-icons type="bottom" size="12" color="#696969"></uni-icons> -->
 							</view>
 							<input type="text" placeholder="请填写收货人姓名" v-model="formData.contact">
 						</view>
@@ -93,8 +93,10 @@
 import { ref, watchEffect } from "vue"
 import {onLoad,onReady} from '@dcloudio/uni-app'
 import {useAddressStore} from '../../store/useAddressStore.js'
-const QQMapWX = require('../../static/TencentMap/qqmap-wx-jssdk.js')
 // import QQMapWX from '../../static/TencentMap/qqmap-wx-jssdk.js'
+// #ifdef MP
+const QQMapWX = require('../../static/TencentMap/qqmap-wx-jssdk.js')
+// #endif
 const addressStore = useAddressStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const tags = ref([

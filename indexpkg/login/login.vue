@@ -1,56 +1,41 @@
 <template>
 	<view class="login-box">
-		<header class="login-header flex" :style="{paddingTop : safeAreaInsets.top + 'px'}">
-			<view class="h-left">
-				<navigator url="/pages/index/index"><i class="iconfont icon-home"></i></navigator>
-			</view>
-			<view class="h-mid">
-				<navigator url="/pages/index/index">网易严选</navigator>
-			</view>
-		</header>
 		<view class="body flex-c"> 
 			<view class="content">
 				<view class="img-logo">
 					<image class="content-image" src="https://yanxuan.nosdn.127.net/static-union/164793255107785e.png"></image>
 				</view>
 				<view class="login-info">
-					<view class="titles">
-						{{ isRegister ? '免费注册' : '欢迎登录' }}
-					</view>
 					<view class="login-register-block flex-c">
-						<uni-forms ref="form" modelValue="formData">
-							<view class="form-item-login">
-								<uni-forms-item >
-									<view class="item-input">
-										<input type="text" v-model="formData.acconut" placeholder="请输入您的账号">
-									</view>
-								</uni-forms-item>
+						<form class="login-form" >
+							<view class="username flex-a">
+								<i class="iconfont icon-profile"></i>
+								<input v-model="formData.acconut" type="text" class="name-input">
+								<i class="iconfont icon-clear_circle"></i>
 							</view>
-							<view class="form-item-login">
-								<uni-forms-item class="form-item">
-									<view class="item-input">
-										<input type="text" v-model="formData.password" placeholder="请输入您的密码">
-									</view>
-								</uni-forms-item>
+							<view class="password flex-a">
+								<i class="iconfont icon-Password"></i>
+								<input v-model="formData.password" type="safe-password" class="password-input">
+
 							</view>
-						</uni-forms>
-						<view class="not-reg flex-a">
-							<view class="not item">
-								忘记密码
+							<view class="not-reg flex-a">
+								<view class="not item">
+									忘记密码
+								</view>
+								<view class="reg item" @tap="toRegister">
+									{{isRegister ? '去登陆' : '免费注册' }}
+								</view>
 							</view>
-							<view class="reg item" @tap="toRegister">
-								{{isRegister ? '去登陆' : '免费注册' }}
+							<view class="agree flex-a">
+								<view class="radio">
+									<checkbox  @tap="oncheck" />
+								</view>
+								我已阅读并同意用户协议和隐私协议 	
 							</view>
-						</view>
-						<view class="agree flex-a">
-							<view class="radio">
-								<checkbox  @tap="oncheck" />
+							<view class="submit-block">
+								<button @tap="handleSubmit" class="btn-login-reg">{{isRegister ? '注册' : '登录' }}</button>
 							</view>
-							我已阅读并同意用户协议和隐私协议 	
-						</view>
-						<view class="submit-block">
-							<button @tap="handleSubmit" class="btn-login-reg">{{isRegister ? '注册' : '登录' }}</button>
-						</view>
+						</form>
 					</view>
 				</view>
 			</view>
@@ -60,16 +45,15 @@
 
 <script setup>
 import { ref } from "vue"
-import {onReady} from '@dcloudio/uni-app'
-import {middle} from '../../hooks/useMiddle.js'
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
-const { safeAreaInsets,screenWidth } = uni.getSystemInfoSync()
+import {useAddressStore} from '../../store/useAddressStore.js'
 const isAgree = ref(false) //是否同意协议
 const isRegister = ref(false) //是否注册
 const userStore = useUserStore()
 const userCardStore = useUserCardStore()
+const addressStore = useAddressStore()
 const cartStore = useCartStore()
 const toRegister = () => {
 	isRegister.value = !isRegister.value
@@ -104,7 +88,6 @@ const handleSubmit = () => {
 				password: formData.value.password
 			},
 			success: (res) => {
-				console.log(res);
 				if(res.data.status === '200') {
 					uni.showToast({
 						icon: 'success',
@@ -124,16 +107,15 @@ const handleSubmit = () => {
 				account: formData.value.acconut,
 				password: formData.value.password
 			},
-			success: (result) => {
+			success: async (result) => {
 				if(result.data.status === '200') {
 					const {data: res} = result
 					userStore.setUserInfo(res.data)
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'
-					})
-					cartStore.getCartList()
-					userCardStore.getUserCardInfo(res.data.user_id)
+					})	
+					await Promise.all([cartStore.getCartList(),userCardStore.getUserCardInfo(res.data.user_id),addressStore.getAddresList()])
 					setTimeout(() => {
 						uni.switchTab({
 							url: '/pages/profile/profile'
@@ -144,27 +126,22 @@ const handleSubmit = () => {
 		})
 	}
 }
-onReady(() => {
-
-})
 </script>
 
 <style lang="scss">
 page {
 	height: 100%;
-	background-color: #f2f5f4;
+	background-color: #f2f2f2;
 	}
 	.login-box {
 		height: 100%;
 		padding: 0 40rpx;
-		.login-header {
-			padding: 0 5px;
-			background-color: #fafafa;
-			border-bottom: 1px solid ;
-		}
 		.body {
+			height: 100%;
 			.content {
+				margin-top: 80rpx;
 				.img-logo {
+					text-align: center;
 					margin-top: 60rpx;
 					.content-image {
 						width: 334rpx;
@@ -179,28 +156,42 @@ page {
 					}
 					.login-register-block {
 						margin-top: 60rpx;
-						.form-item-login {
-							margin-bottom: 40rpx;
-							.item-input {
-								padding-bottom: 30rpx;
-								border-bottom: 1px solid #bbb;
+						.login-form {
+							padding: 0 80rpx;
+							.username,.password {
+								padding: 6rpx 0;
+								border-bottom: 1px solid #ccc;
+								margin-bottom: 32rpx;
 							}
-						}
-						.not-reg {
-							justify-content: space-between;
-							margin-top: -30rpx;
-							font-size: 12px;
-							.item {
-								padding: 10rpx 20rpx;
+							.icon-profile,.icon-Password {
+								margin-right: 16rpx;
+								font-size: 42rpx;
 							}
-						}
-						.agree {
-							margin: 40rpx 0 30rpx;
-							font-size: 14px;
-						}
-						.submit-block {
-							.btn-login-reg {
-								background-color: #ffeef1;
+							.icon-clear_circle {
+								margin-right: 6rpx;
+								font-size: 24rpx;
+								color: #ccc;
+							}
+							.name-input,.password-input {
+								flex: 1;
+							}
+							.not-reg {
+								justify-content: space-between;
+								font-size: 12px;
+								.item {
+									padding: 10rpx 20rpx;
+								}
+							}
+							.agree {
+								margin: 60rpx 0 40rpx;
+								font-size: 26rpx;
+							}
+							.submit-block {
+								.btn-login-reg {
+									color: #fff;
+									border-radius: 48rpx;
+									background-color: #CC9756;
+								}
 							}
 						}
 					}

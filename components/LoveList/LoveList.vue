@@ -10,7 +10,8 @@
 			</view>
 			<view class="love-list">
 				<block v-for="(item, index) in rightList" :key="index">
-					<GoodsItem :goodsItem="item"></GoodsItem>
+					<GoodsItem :goodsItem="item">
+					</GoodsItem>
 				</block>
 			</view>
 		</view>

@@ -121,7 +121,7 @@ const onPay = () => {
 				margin-right: 20rpx;
 			}
 			.goods-name-sku {
-				width: 420rpx;
+				flex: 1;
 				margin-top: 24rpx;
 				.goods-sku {
 					margin-top: 4rpx;
@@ -130,9 +130,11 @@ const onPay = () => {
 				}
 			}
 			.packge {
+				align-items: flex-end;
 				flex-shrink: 0;
 				margin: 24rpx 24rpx 0 30rpx;
 				.order-status {
+					margin-top: 6rpx;
 					font-size: 13px;
 					color: v-bind(statusColor);
 				}

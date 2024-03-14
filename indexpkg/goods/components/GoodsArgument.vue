@@ -15,7 +15,7 @@
 		</view>
 		<view class="tap-more" @tap="showMore" v-show="!isShow">
 			<text>点击查看更多</text>
-			<uni-icons type="bottom" size="12" color="#616161"></uni-icons>
+			<i class="iconfont icon-down"></i>
 		</view>
 	</view>
 </template>
@@ -74,6 +74,10 @@ const showMore = () => {
 			padding: 20rpx 0;
 			font-size: 12px;
 			color: #616161;
+			.icon-down {
+				font-size: 24rpx;
+				color: #616161;
+			}
 		}
 	}
 </style>

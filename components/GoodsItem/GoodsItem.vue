@@ -13,14 +13,17 @@
 				<text class="rank-text">休闲零食肉类零食热销榜第2名</text>
 			</view>
 			<view class="goods-price">
-				<text class="retail-price" v-show="retailPrice != goodsItem.retail_price">到手￥</text>
+				<text class="retail-price" v-show="retailPrice != goodsItem.retail_price">到手<text class="yuan">￥</text></text>
 				<text class="hot-price"><text class="int">{{retailPrice || goodsItem.retail_price}}</text></text>
 				<text class="real-price">￥{{goodsItem.goods_price}}</text>
 			</view>
 		</view>
-		<slot name="footer">
-			
-		</slot>
+		<view class="service-body flex-a" v-if="goodsItem.service_id != 0">
+			<view class="left-service">{{goodsItem.service_name}}</view>
+			<view class="end-time">
+				距离结束{{13小时}}
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -37,9 +40,12 @@ const props = defineProps({
 	}
 })
 
+function calculateTime() {
+	
+}
 
 const retailPrice = computed(() => {
-	return props.goodsItem.retail_price - ticketStore.optimalTicket(props.goodsItem.retail_price,'price')
+	return props.goodsItem.retail_price - ticketStore.optimalTicket(props.goodsItem.retail_price,'price',1)
 })
 
 
@@ -77,24 +83,47 @@ const toGoodsDetail = () => {
 		.goods-rank {
 			margin: 5px 0;
 			color: #9d9d9d;
-			font-size: 12px;
+			font-size: 22rpx;
 		}
 		.goods-price {
-			font-size: 12px;
+			color: #fd1f33;
 			.retail-price {
-				color: #fd1f33;
+				font-size: 22rpx;
+				.yuan {
+					font-weight: 550;
+					font-size: 18rpx;
+				}
 			}
 			.hot-price {
-				color: #fd1f33;
-				font-size: 14px;
+				font-size: 20rpx;
 				.int {
-					font-size: 16px;
+					font-size: 30rpx;
 				}
 			}
 			.real-price {
 				color: #9b9b9b;
+				font-size: 22rpx;
 				text-decoration: line-through;
 			}
+		}
+	}
+	.service-body {
+		width: 100%;
+		padding: 4rpx;
+		margin-top: 16rpx;
+		background-color: #fde9eb;
+		border-radius: 24rpx;
+		.left-service {
+			padding: 8rpx 12rpx;
+			color: #fff;
+			font-size: 22rpx;
+			background-color: #ff1e2d;
+			border-radius: 24rpx;
+		}
+		.end-time {
+			margin-left: 6rpx;
+			font-size: 18rpx;
+			color: #d2293f;
 		}
 	}
 }

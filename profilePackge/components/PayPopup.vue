@@ -57,7 +57,6 @@ const onClose = () => {
 	emits('update:show', false)
 	if(props.type) {
 		//还可以添加loding
-		console.log(props.id);
 		uni.navigateTo({
 			url: `/profilePackge/OrderDetail/OrderDetail?id=${props.id}&to=2`
 		})

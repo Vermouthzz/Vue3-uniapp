@@ -6,12 +6,14 @@ export const getUserInfoAPI = () => {
 	})
 }
 
-export const updateUserInfo = () => {
+export const updateUserInfo = (name,sign, gender) => {
 	return http({
 		url: '/userinfo',
 		method: 'POST',
 		data: {
-			
+			name,
+			sign,
+			gender
 		}
 	})
 }

@@ -10,7 +10,7 @@
 				<view @tap="toLogin">点击登录账号</view>
 			</view>
 			<view class="profile-info flex-c" v-else>
-				<text>{{userStore.userInfo.nickname}}</text>
+				<text class="username">{{userStore.userInfo.nickname}}</text>
 				<view>{{userStore.userInfo.sign}}</view>
 			</view>
 		</view>
@@ -30,7 +30,12 @@
 <script setup>
 import {useUserStore} from '../../../store/useUserStore.js'
 const userStore = useUserStore()
-const props = defineProps()
+const props = defineProps({
+	flag: {
+		type: Boolean,
+		default: false
+	}
+})
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const toLogin = () => {
@@ -64,8 +69,11 @@ const toUserInfo = () => {
 			}
 			.profile-info {
 				justify-content: space-around;
-				text {
-					font-size: 20px;
+				.username {
+					font-size: 40rpx;
+					/* #ifdef MP */
+					font-size: 30rpx;
+					/* #endif */
 				}
 			}
 		}

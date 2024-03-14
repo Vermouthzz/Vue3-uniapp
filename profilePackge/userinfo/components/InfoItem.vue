@@ -1,17 +1,19 @@
 <template>
 	<van-cell-group>
 	  <van-field
-	    value="1233"
+	    :value="userInfo.account"
 	    label="账号"
 		readonly
 	  />
 	  <van-field
-	    value="hhh"
+	    :value="userInfo.nickname"
+		@change="onChangeName"
 	    label="用户名"
 	  />
 	  <van-field
-	    value="hhh"
+	    :value="userInfo.sign"
 	    label="个性签名"
+		@change="onChangeSign"
 	  />
 	  <view class="info-item flex">
 	  	<view class="item-left">
@@ -19,33 +21,35 @@
 	  	</view>
 		<view class="item-right">
 			<van-radio-group
-			  value="{{ radio }}"
+			  :value="userInfo.gender"
 			  @change="onChange"
 			  direction="horizontal"
 			>
-			  <van-radio name="1">男</van-radio>
-			  <van-radio name="2">女</van-radio>
+			  <van-radio name="男">男</van-radio>
+			  <van-radio name="女">女</van-radio>
 			</van-radio-group>
-		</view>
-	  </view>
-	  <view class="info-item flex">
-	  	<view class="item-left">
-	  		生日
-	  	</view>
-		<view class="item-right">
-			<!-- <van-datetime-picker
-			  type="date"
-			  :value="11"
-			  @input="onInput"
-			/> -->
-			<view v-if="false">{{11}}</view>
-			<view class="placeholder" v-else>请选择日期</view>
 		</view>
 	  </view>
 	</van-cell-group>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+const props = defineProps({
+	userInfo: {
+		type: Object,
+		default: {}
+	}
+})
+const onChange = (e) => {
+	props.userInfo.gender = e.detail
+}
+const onChangeName = (e) => {
+	props.userInfo.nickname = e.detail
+}
+const onChangeSign = (e) => {
+	props.userInfo.sign = e.detail
+}
 </script>
 
 <style lang="scss">

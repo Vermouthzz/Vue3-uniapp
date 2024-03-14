@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import {onLoad,onShow,onReady} from '@dcloudio/uni-app'
+import {onLoad,onShow} from '@dcloudio/uni-app'
 import {computed, ref, watchEffect} from 'vue'
 import OrderItem from './components/OrderItem.vue'
 import {getOrderListAPI} from '../../api/order.js'
@@ -42,7 +42,7 @@ const orderTabs = ref([
 const getOrderList = async () => {
 	const type = orderTabs.value[currentItem.value].type
 	const res = await getOrderListAPI(type)
-	orderTabs.value[currentItem.value].list = res.data.map(item => {
+	orderTabs.value[currentItem.value].list = res.data?.map(item => {
 		return {
 			...item,
 			remainTime: useRemainTime(item)
@@ -90,6 +90,9 @@ page {
 	box-sizing: border-box;
 	.order-header {
 		background-color: #fafafa;
+		:deep(.common-header) {
+			background-color: #f3f3f3;
+		}
 		.header-top {
 			margin-top: 22rpx;
 			.title {

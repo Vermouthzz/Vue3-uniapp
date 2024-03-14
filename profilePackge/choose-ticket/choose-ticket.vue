@@ -4,8 +4,8 @@
 		<view class="choose-ticket-bd flex-c">
 			<scroll-view scroll-y="true" class="scroll-ticket">
 				<view class="suit-ticket">
-					<template v-if="userCardStore.effectiveTickets.length">
-						<view class="item" @tap="selectedItem(item)" v-for="item in userCardStore.effectiveTickets" :key="item.ticket_id">
+					<template v-if="effectiveTickets.length">
+						<view class="item" @tap="selectedItem(item)" v-for="item in effectiveTickets" :key="item.ticket_id">
 							<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSelected="item.selected"></red-ticket-item>
 						</view>
 					</template>
@@ -17,8 +17,8 @@
 						<text class="line">——</text>
 					</view>
 					<view class="unsuit-item-block">
-						<template v-if="userCardStore.uselessTickets.length">
-							<block v-for="item in userCardStore.uselessTickets" :key="item.ticket_id">
+						<template v-if="uselessTickets.length">
+							<block v-for="item in uselessTickets" :key="item.ticket_id">
 								<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSuit="false"></red-ticket-item>
 							</block>
 						</template>
@@ -40,7 +40,9 @@ import {onLoad} from '@dcloudio/uni-app'
 import RedTicketItem from '.././redPacket/components/RedTicketItem.vue'
 import { computed, ref } from 'vue'
 import {useTicketStore} from '../../store/useTicketStore.js'
+import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
 const ticketStore = useTicketStore()
+const createOrderStore = useCreateOrderStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
 const selectedItem = (item) => {
@@ -49,7 +51,14 @@ const selectedItem = (item) => {
 //不使用红包
 const unuseTicket = () => {
 	ticketStore.unUseTicket()
+	setTimeout(() => (uni.navigateBack()), 500)
 }
+const effectiveTickets = computed(() => {
+	return ticketStore.noUseTicket.filter(item => item.ticket_condition < createOrderStore.totalRetailPrice)
+})
+const uselessTickets = computed(() => {
+	return ticketStore.noUseTicket.filter(item => item.ticket_condition > createOrderStore.totalRetailPrice)
+})
 
 onLoad(() => {
 	

@@ -18,15 +18,17 @@ export const useCreateOrderStore = defineStore('create-order', () => {
 		createOrderList.value.length = 0
 		arr.forEach(item => createOrderList.value.push(...item))
 	}
-	
-	//商品总金额
-	const totalPrice = computed(() => createOrderList.value.reduce((pre,cur) => pre += cur.sku_item.retail_price, 0))
-	const activeFee = computed(() => createOrderList.value.reduce((pre,cur) => pre += cur.sku_item.price - cur.sku_item.retail_price, 0))
+	//商品原价总和
+	const totalPrice = computed(() => createOrderList.value.reduce((pre,cur) => pre += cur.sku_item.price * cur.count, 0))
+	//商品零售价总和
+	const totalRetailPrice = computed(() => createOrderList.value.reduce((pre,cur) => pre += cur.sku_item.retail_price* cur.count, 0))
+	const activeFee = computed(() => createOrderList.value.reduce((pre,cur) => pre += (cur.sku_item.price - cur.sku_item.retail_price) * cur.count, 0))
 	return {
 		createOrderList,
 		getCreateOrderInfo,
 		getCreateOrderList,
 		totalPrice,
+		totalRetailPrice,
 		activeFee
 	}
 })

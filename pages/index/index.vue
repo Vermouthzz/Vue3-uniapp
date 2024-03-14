@@ -10,7 +10,9 @@
 			<!-- 内容栏 -->
 			<view class="content">
 				<scroll-view scroll-x="true" class="scroll-list flex-a fff">
-					<view class="items" @tap="onSwitch(item,index)" :class="{active: index == currentIndex}" v-for="(item, index) in scrollXList" :key="index">{{item.name}}</view>
+					<view class="max-width">
+						<view class="items" @tap="onSwitch(item,index)" :class="{active: index == currentIndex}" v-for="(item, index) in scrollXList" :key="index">{{item.name}}</view>
+					</view>
 				</scroll-view>
 				<view class="content-block flex-c">
 					<template v-if="currentIndex == 0">
@@ -58,7 +60,7 @@ import {useIndexStore} from '../../store/useIndexStore.js'
 const indexStore = useIndexStore()
 const { safeAreaInsets,screenWidth } = uni.getSystemInfoSync()
 const swiperImgList = ref([])
-
+console.log(screenWidth);
 //scroll-x列表
 const scrollXList = ref([
 	{ name: '猜你喜欢', id: [], list: [] },
@@ -147,14 +149,13 @@ onLoad(() => {
 	}
 	page {
 		position: relative;
+		width: 100vw;
 		height: 100%;
 		box-sizing: border-box;
 	}
 	.index-block {
+		width: 100%;
 		height: 100%;
-		/* #ifdef H5 */
-		height: calc(100% - 55px);
-		/* #endif */
 		box-sizing: border-box;
 		.index-body {
 			position: relative;
@@ -172,20 +173,22 @@ onLoad(() => {
 					padding: 20rpx 0;
 					white-space: nowrap;
 					z-index: 998;
-					.items {
-						display: inline-block;
-						width: 25%;
-						margin-right: 20rpx;
-						font-size: 24rpx;
-						color: #6c6c6c;
-						&.active {
-							font-size: 32rpx;
-							color: #333;
+					.max-width {
+						max-width: v-bind(screenWidth);
+						.items {
+							display: inline-block;
+							width: 25%;
+							margin-right: 20rpx;
+							font-size: 24rpx;
+							color: #6c6c6c;
+							&:last-child {
+								margin-right: 0;
+							}
+							&.active {
+								font-size: 32rpx;
+								color: #333;
+							}
 						}
-					}
-		
-					.items:last-child {
-						margin-right: 0;
 					}
 				}
 				.content-block {

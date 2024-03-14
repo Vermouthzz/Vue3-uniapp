@@ -2,16 +2,19 @@
 	<view class="goods-footer flex">
 		<view class="left-icons flex">
 			<view class="icon flex-c-a" @tap="toTabPage('index/index')">
-				<van-icon name="home-o" size="44rpx" color="#ce4345"></van-icon>
+				<i class="iconfont icon-home"></i>
 				<text class="icon-text">首页</text>
 			</view>
 			<view class="icon flex-c-a">
-				<van-icon name="service-o" size="44rpx"></van-icon>
+				<i class="iconfont icon-kefu"></i>
 				<text class="icon-text">客服</text>
 			</view>
 			<view class="icon flex-c-a" @tap="toTabPage('cart/cart')">
-				<van-icon name="cart-o" size="44rpx" :info="cartStore.cartList?.length"></van-icon>
+				<i class="iconfont icon-cart1"></i>
 				<text class="icon-text">购物车</text>
+				<view class="cart-badge">
+					
+				</view>
 			</view>
 		</view>
 		<view class="right-buy flex">
@@ -51,6 +54,12 @@ const onShowPopup = (type) => {
 		.left-icons {
 			.icon {
 				margin-right: 30rpx;
+				.iconfont {
+					font-size: 44rpx;
+				}
+				.icon-home {
+					 color: #ce4345;
+				}
 				.icon-text {
 					font-size: 12px;
 					color: #aaa;

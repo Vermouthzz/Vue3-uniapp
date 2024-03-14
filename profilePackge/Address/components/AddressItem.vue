@@ -23,11 +23,18 @@
 					</view>
 				</view>
 				<view class="adress-item-right" >
-					<van-icon name="edit" size="42rpx" @tap="toEdit()" />
+					<i class="iconfont icon-edit" @tap="toEdit()"></i>
 				</view>
 			</view>
 		</van-cell-group>
+		<!-- #ifdef MP -->
 		<view slot="right" class="btn-del flex-a">删除</view>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<template #right>
+			<view class="btn-del flex-a">删除</view>
+		</template>
+		<!-- #endif -->
 	</van-swipe-cell>
 	<van-dialog
 	  use-slot
@@ -141,6 +148,9 @@ const toEdit = () => {
 			}
 			.adress-item-right {
 				margin-left: 30rpx;
+				.icon-edit {
+					font-size: 42rpx;
+				}
 			}
 		}
 	}

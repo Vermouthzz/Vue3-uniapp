@@ -1,13 +1,15 @@
 <template>
 	<view class="index-nav">
 		<scroll-view scroll-x="true" class="scroll-cate" @scroll="onNavScroll" show-scrollbar="false">
-			<view class="cate-item flex-c" v-for="(item,index) in list" :key="index">
-				<navigator class="top-item flex-c-a" :url="'/indexpkg/GoodsList/GoodsList?id=' + subItem.category_id" v-for="subItem in item" :key="item.category_id">
-					<image class="index-image" :src="subItem.img_url"></image>
-					<view class="item-text">
-						{{subItem.category_name}}
-					</view>
-				</navigator>
+			<view class="max-width">
+				<view class="cate-item flex-c" v-for="(item,index) in list" :key="index">
+					<navigator class="top-item flex-c-a" :url="'/indexpkg/GoodsList/GoodsList?id=' + subItem.category_id" v-for="subItem in item" :key="item.category_id">
+						<image class="index-image" :src="subItem.img_url"></image>
+						<view class="item-text">
+							{{subItem.category_name}}
+						</view>
+					</navigator>
+				</view>
 			</view>
 		</scroll-view>
 		<view class="scroll-line flex-a">
@@ -20,6 +22,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+const { screenWidth } = uni.getSystemInfoSync()
 const props = defineProps(['list'])
 const moveRpx = ref(0)
 const onNavScroll = (e) => {
@@ -41,6 +44,9 @@ onMounted(() => {
 	box-sizing: border-box;
 	.scroll-cate {
 		white-space: nowrap;
+		.max-width {
+			max-width: v-bind(screenWidth);
+		}
 		.cate-item {
 			width: 20%;
 			display: inline-block;

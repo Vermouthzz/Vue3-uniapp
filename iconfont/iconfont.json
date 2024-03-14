@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1381361",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "9745387",
+      "name": "clear_circle",
+      "font_class": "clear_circle",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "10043882",
+      "name": "Password",
+      "font_class": "Password",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "1163149",
       "name": "定位",
       "font_class": "dingwei",

@@ -1,9 +1,9 @@
 <template>
-	<view class="category-block flex-c">
-		<header class="custom-header" :style="{paddingTop: safeAreaInsets.top + 'px'}">
+	<view class="category-block flex-c" :style="{paddingTop: `${safeAreaInsets.top}px`}">
+		<header class="custom-header" :style="{height: `${headerHeight}px`}">
 			<view class="search flex-a">
-				<i class="iconfont icon-search search-icon"></i>
-				<input type="text" placeholder="毛巾">
+				<i class="iconfont icon-search"></i>
+				<input class="cate-search" type="text" placeholder="毛巾">
 			</view>
 		</header>
 		<view class="cate-body flex" :style="{height: `calc(100% - ${headerHeight}px)`}">
@@ -52,7 +52,10 @@
 import { ref } from "vue";
 import {onLoad,onReady} from '@dcloudio/uni-app'
 import {getCateListAPI} from '../../api/cate.js'
+import {middle} from '../../hooks/useMiddle.js'
 const {safeAreaInsets} = uni.getSystemInfoSync() //获取设备信息
+const headerHeight = ref(20)
+
 
 //获取分类列表数据
 const cateList = ref([])
@@ -75,12 +78,8 @@ const toSubcate = (item) => {
 	})
 }
 
-const headerHeight = ref(0)
 onReady(() => {
-	const header = uni.createSelectorQuery().select('.custom-header')
-	header.boundingClientRect(res => {
-		headerHeight.value = res.height
-	}).exec()
+	middle('.custom-header').then(res => headerHeight.value = res)
 })
 
 onLoad(() => {
@@ -95,15 +94,21 @@ page {
 .category-block {
 	height: 100%;
 	.custom-header {
+		padding: 10rpx 0;
 		.search {
-			width: 60%;
-			height: 40rpx;
+			width: 60vw;
+			/* #ifdef APP */
+			width: 98vw;
+			/* #endif */
+			height: 100%;
 			background-color: #efefef;
 			margin-left: 20rpx;
-			padding: 20rpx 26rpx;
-			font-size: 14px;
-			input {
-				margin-left: 4rpx;
+			font-size: 28rpx;
+			.cate-search {
+				flex: 1;
+			}
+			.icon-search {
+				margin: 0 6rpx 0 10rpx;
 			}
 		}
 	}

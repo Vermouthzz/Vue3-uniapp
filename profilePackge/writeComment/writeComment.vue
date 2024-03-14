@@ -24,44 +24,51 @@
 				<text class="star-name">{{starName}}</text>
 			</view>
 			<!-- 问题板块 -->
-			<view class="question flex-c" v-if="star <= 3">
-				<text class="title">请选择你遇到的问题:</text>
-				<view class="question-items-block flex">
-					<block v-for="(item,index) in questionList" :key="index">
-						<view class="item">
-							{{item}}
-						</view>
-					</block>
-				</view>
-			</view>
-			<!-- 用户建议板块 -->
-			<view class="user-suggestion">
-				<textarea class="suggestion" v-model="userSuggestion" :placeholder="placeHolder" />
-				<view class="limmit">
-					{{userSuggestion.length}}/300
-				</view>
-			</view>
-			<!-- 添加图片板块 -->
-			<view class="add-image flex-c">
-				<text class="add-title">还可以添加{{3 - images.length}}张图片呦</text>
-				<view class="image-block flex">
-					<block v-if="images.length">
-						<view class="comment-image-block" v-for="(item,index) in images" :key="index">
-							<image :src="item" class="comment-img"></image>
-							<view class="cancel-icon" @tap="onDeleteImg(index)">
-								<van-icon name="close" color="#ececec" size="24rpx"></van-icon>
+			<block v-if="!hadFinish">
+				<view class="question flex-c" v-show="star <= 3">
+					<text class="title">请选择你遇到的问题:</text>
+					<view class="question-items-block flex">
+						<block v-for="(item,index) in questionList" :key="index">
+							<view class="item">
+								{{item}}
 							</view>
-						</view>
-					</block>
-					<view class="upload-image flex" @tap="uploadImg">
-						<van-icon name="plus" />
+						</block>
 					</view>
 				</view>
-				<view class="submit" @tap="onSubmit">
-					提交
+				<!-- 用户建议板块 -->
+				<view class="user-suggestion">
+					<textarea class="suggestion" v-model="userSuggestion" :placeholder="placeHolder" />
+					<view class="limmit">
+						{{userSuggestion.length}}/300
+					</view>
+				</view>
+				<!-- 添加图片板块 -->
+				<view class="add-image flex-c">
+					<text class="add-title">还可以添加{{3 - images.length}}张图片呦</text>
+					<view class="image-block flex">
+						<block v-if="images.length">
+							<view class="comment-image-block" v-for="(item,index) in images" :key="index">
+								<image :src="item" class="comment-img"></image>
+								<view class="cancel-icon" @tap="onDeleteImg(index)">
+									<van-icon name="close" color="#ececec" size="24rpx"></van-icon>
+								</view>
+							</view>
+						</block>
+						<view class="upload-image flex-a" @tap="uploadImg">
+							<van-icon name="plus" />
+						</view>
+					</view>
+					<view class="submit" @tap="onSubmit">
+						提交
+					</view>
+				</view>
+			</block>
+			<view class="finish-show flex-c" v-else>
+				<text class="comment-text">{{userSuggestion}}</text>
+				<view class="comment-imgs flex">
+					<image class="imgs-item" :src="item" v-for="(item, index) in images" :key="index"></image>
 				</view>
 			</view>
-			
 		</view>
 	</view>
 </template>
@@ -73,6 +80,7 @@ import {getCommentGoodsAPI} from '../../api/comment.js'
 import {useOrderStore} from '../../store/useOrderStore.js'
 const orderStore = useOrderStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
+const hadFinish = ref(false)
 const star = ref(5)
 const starList = ['非常差','差','一般吧','满意','非常满意']
 const questionList = ref(['商品问题','客服问题','物流问题','包装问题','其它'])
@@ -84,6 +92,7 @@ watchEffect(() => {
 	starName.value = starList[star.value - 1]
 })
 const onStarChange = (e) => {
+	if(hadFinish.value) return
 	star.value = e.detail
 }
 
@@ -119,50 +128,44 @@ const onSubmit = async () => {
 	    date: time.getTime(),
 	    goods_id: goodsInfo.value.goods_id
 	};
-	try{
-		const res = await uni.uploadFile({
-			url: '/comment',
-			filePath: images.value[0],
-			name: 'comment-img',
-			header: {
-				"Content-Type": "multipart/form-data"
-			},
-			formData: formData,
-			success: async (res) => {
-				const data = JSON.parse(res.data)
-				formData.id = data.id
-				if(images.value.length > 1) {
-					const uploadTasks = images.value.slice(1).map(item => {
-						return new Promise((resolve, reject) => {
-							uni.uploadFile({
-								url: '/comment',
-								filePath: item,
-								name: 'comment-img',
-								header: {
-								  "Content-Type": "multipart/form-data"
-								},
-								formData: formData,
-								success: (res) => {
-								  resolve(); // 标记当前上传任务完成
-								}
-							})
-						})
-					})
-					await Promise.all(uploadTasks)
-				}
-				orderStore.updateItem(4,order_id.value)
-				uni.showToast({
-					icon: 'success',
-					title: '评价成功'
-				})
-				setTimeout(() => {
-					uni.navigateBack()
-				}, 500)
-			}
-		})
-	}catch(e){
+	hadFinish.value = true
+	// try{
+	// 	const res = await uni.uploadFile({
+	// 		url: '/comment',
+	// 		filePath: images.value[0],
+	// 		name: 'comment-img',
+	// 		header: {
+	// 			"Content-Type": "multipart/form-data"
+	// 		},
+	// 		formData: formData,
+	// 		success: async (res) => {
+	// 			const data = JSON.parse(res.data)
+	// 			formData.id = data.id
+	// 			if(images.value.length > 1) {
+	// 				const uploadTasks = images.value.slice(1).map(item => {
+	// 					return new Promise((resolve, reject) => {
+	// 						uni.uploadFile({
+	// 							url: '/comment',
+	// 							filePath: item,
+	// 							name: 'comment-img',
+	// 							header: {
+	// 							  "Content-Type": "multipart/form-data"
+	// 							},
+	// 							formData: formData,
+	// 							success: (res) => {
+	// 							  resolve(); // 标记当前上传任务完成
+	// 							}
+	// 						})
+	// 					})
+	// 				})
+	// 				await Promise.all(uploadTasks)
+	// 			}
+	// 			orderStore.updateItem(4,order_id.value)
+	// 		}
+	// 	})
+	// }catch(e){
 
-	}
+	// }
 }
 
 const goodsInfo = ref({})
@@ -185,7 +188,7 @@ page {
 }
 .write-comment-block {
 	.write-comment-body {
-		padding: 0 28rpx;
+		padding: 0 28rpx 28rpx;
 		.goods-detail {
 			padding: 30rpx 0 20rpx;
 			.goods-left {
@@ -208,11 +211,11 @@ page {
 			}
 		}
 		.comment-star {
+			font-size: 26rpx;
 			margin-bottom: 16rpx;
 			:deep(.van-rate) {
 				margin: 0 18rpx;
 			}
-			font-size: 26rpx;
 		}
 		.question {
 			margin-bottom: 10rpx;
@@ -227,7 +230,7 @@ page {
 					width: fit-content;
 					padding: 8rpx 14rpx;
 					margin: 0 22rpx 22rpx 0;
-					border: 2px solid #808080;
+					border: 4rpx solid #808080;
 					font-size: 14px;
 				}
 			}
@@ -252,7 +255,6 @@ page {
 			}
 		}
 		.add-image {
-			margin-bottom: 24rpx;
 			.add-title {
 				font-size: 22rpx;
 				color: #ababab;
@@ -276,7 +278,6 @@ page {
 				}
 				.upload-image {
 					justify-content: center;
-					align-items: center;
 					width: 146rpx;
 					height: 146rpx;
 					border: 1px dashed #cbcbcb;
@@ -291,6 +292,20 @@ page {
 				border: 1px solid #7f7f7f;
 				text-align: center;
 				line-height: 62rpx;
+			}
+		}
+		.finish-show {
+			.comment-text {
+				font-size: 26rpx;
+				margin-bottom: 24rpx;
+			}
+			.comment-imgs {
+				flex-wrap: wrap;
+				.imgs-item {
+					width: 146rpx;
+					height: 146rpx;
+					margin: 0 26rpx 12rpx 0;
+				}
 			}
 		}
 	}

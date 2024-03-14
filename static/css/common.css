@@ -1,5 +1,5 @@
-body {
-	display: flex;
+view {
+	box-sizing: border-box;
 }
 
 .flex {

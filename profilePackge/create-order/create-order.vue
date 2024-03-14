@@ -38,9 +38,11 @@ import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {useOrderStore} from '../../store/useOrderStore.js'
 import {useUserStore} from '../../store/useUserStore.js'
 import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
+import {useTicketStore} from '../../store/useTicketStore.js'
 import {getCreateOrderAPI} from '../../api/order.js'
 const userStore = useUserStore()
 const createOrderStore = useCreateOrderStore()
+const ticketStore = useTicketStore()
 const orderStore = useOrderStore()
 const addressStore = useAddressStore()
 const cartStore = useCartStore()
@@ -62,10 +64,10 @@ const payNum = computed(() => {
 	//是否选中礼品卡和提货卡
 	if(userCard.value[0].checked) li_num = userCard.value[0].card_num
 	if(userCard.value[1].checked) h_num = userCard.value[1].card_num
-	if( userCardStore.selectedTicket) { //如果选中红包
-		return createOrderStore.totalPrice - li_num - h_num - userCardStore.selectedTicket.ticket_price
+	if( ticketStore.selectedTicket) { //如果选中红包
+		return createOrderStore.totalRetailPrice - li_num - h_num - ticketStore.selectedTicket.ticket_price
 	} else { //未选中红包
-		return createOrderStore.totalPrice - li_num - h_num
+		return createOrderStore.totalRetailPrice - li_num - h_num
 	}
 })
 const change = () => {

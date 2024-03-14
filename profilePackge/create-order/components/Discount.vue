@@ -16,12 +16,12 @@
 				预估￥{{fee}}
 			</view>
 		</view>
-		<view class="common-item flex-a driver-fee" v-show="userCardStore.selectedTicket">
+		<view class="common-item flex-a driver-fee" v-show="ticketStore.selectedTicket">
 			<view class="name-left">
 				红包抵扣
 			</view>
 			<view class="number-right">
-				-￥{{userCardStore.selectedTicket?.ticket_price}}
+				-￥{{ticketStore.selectedTicket?.ticket_price}}
 			</view>
 		</view>
 		<view class="common-item flex-a driver-fee" v-show="li_checked">
@@ -56,8 +56,10 @@ import { ref } from 'vue';
 import {useCartStore} from '../../../store/useCartStore.js'
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
 import {useCreateOrderStore} from '../../../store/useCreateOrderStore.js'
+import {useTicketStore} from '../../../store/useTicketStore.js'
 const userCardStore = useUserCardStore()
 const createOrderStore = useCreateOrderStore()
+const ticketStore = useTicketStore()
 const cartStore = useCartStore()
 const props = defineProps(['li_checked','h_checked'])
 

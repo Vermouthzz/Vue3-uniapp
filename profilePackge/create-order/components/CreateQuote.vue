@@ -5,19 +5,18 @@
 				优惠券：暂无可用
 			</view>
 			<view class="right-block">
-				<text class="quote-count">0张</text>
-				<van-icon name="arrow" size="32rpx" color="#6b6b6b"></van-icon>
+				<i class="iconfont icon-right"></i>
 			</view>
 		</view>
 		<view class="common-block flex-a" @tap="toTicketQuote()">
-			<view class="left-block" v-if="!userCardStore.selectedTicket">
+			<view class="left-block" v-if="!ticketStore.selectedTicket">
 				红包：暂无可用
 			</view>
 			<view class="left-block" v-else>
-				红包：{{userCardStore.selectedTicket.ticket_name || " "}}
+				红包：{{ticketStore.selectedTicket.ticket_name || " "}}
 			</view>
 			<view class="right-block">
-				<van-icon name="arrow" size="32rpx"  color="#6b6b6b"></van-icon>
+				<i class="iconfont icon-right"></i>
 			</view>
 		</view>
 		<view class="common-block flex-a">
@@ -25,7 +24,7 @@
 				<van-checkbox shape="square" class="left-zero-checked" :value="h_checked" @change="onChange($event)" :disabled="userCardStore.userCard[1].card_num == 0 ? true : false">提货卡可用余额：￥{{userCardStore.userCard[1].card_num}}</van-checkbox>
 			</view>
 			<view class="right-block">
-				<van-icon name="arrow" size="32rpx" color="#6b6b6b"></van-icon>
+				<i class="iconfont icon-right"></i>
 			</view>
 		</view>
 		<view class="common-block flex-a">
@@ -33,7 +32,7 @@
 				<van-checkbox shape="square" :class="{leftZeroChecked: true}" :value="li_checked" @change="onChange($event,'li')" :disabled="userCardStore.userCard[0].card_num == 0 ? true : false" >礼品卡余额：￥{{userCardStore.userCard[0]?.card_num}}</van-checkbox>
 			</view>
 			<view class="right-block">
-				<van-icon name="arrow" size="32rpx" color="#6b6b6b"></van-icon>
+				<i class="iconfont icon-right"></i>
 			</view>
 		</view>
 		<view class="common-block flex-a">
@@ -46,7 +45,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import {useTicketStore} from '../../../store/useTicketStore.js'
 import {useUserCardStore} from '../../../store/useUserCardStore.js'
+const ticketStore = useTicketStore()
 const userCardStore = useUserCardStore()
 const props = defineProps(['li_checked','h_checked','ba_checked'])
 const emits = defineEmits(['checkChange','update:ba_checked'])
@@ -79,17 +80,17 @@ const onChange = (e, type = 'h') => {
 				justify-content: space-between;
 				font-size: 13px;
 				.left-block {
-					// .left-checked {
-					// 	color: #cecece;
-					// 	:deep(.van-checkbox__label) {
-					// 		color: #cecece;
-					// 	}
-					// }
 					.left-zero-checked {
 						color: #cecece;
 						:deep(.van-checkbox__label) {
 							color: #cecece;
 						}
+					}
+				}
+				.right-block {
+					.icon-right {
+						font-size: 32rpx;
+						color: #6b6b6b;
 					}
 				}
 			}

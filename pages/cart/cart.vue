@@ -103,8 +103,11 @@ const onAllChange = (e) => {
 //结算功能
 const onClickButton = () => {
 	if(!cartStore.selectedItems.length) return uni.showToast({title:'请选择商品结算', icon: 'error'})
+	// 获取红包限制
+	let ticket_suit = []
+	cartStore.selectedItems.forEach(item => item.forEach(i => ticket_suit.push(i.sku_item.service_id)))
 	//选中最佳的红包
-	ticketStore.optimalTicket(cartStore.allRetailPrice,'selected')
+	ticketStore.optimalTicket(cartStore.allRetailPrice,'selected', ticket_suit)
 	createOrderStore.getCreateOrderList(cartStore.selectedItems)
 	uni.navigateTo({
 		url: `/profilePackge/create-order/create-order`
@@ -112,7 +115,8 @@ const onClickButton = () => {
 }
 //结算总金额
 const submitPrice = computed(() => {
-	return cartStore.allRetailPrice - ticketStore.optimalTicket(cartStore.allRetailPrice, 'price')
+	//- ticketStore.optimalTicket(cartStore.allRetailPrice, 'price' )
+	return cartStore.allRetailPrice 
 })
 
 const recommendList = ref([])
@@ -137,7 +141,7 @@ const onLoadMore = () => {
 }
 
 onLoad(() => {
-	getRecommendList()
+	if(userStore.userInfo.token) getRecommendList()
 })
 
 </script>

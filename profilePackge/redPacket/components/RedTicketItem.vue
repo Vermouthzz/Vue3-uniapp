@@ -14,7 +14,7 @@
 					<text class="condition">{{tickets.condition_name}}</text>
 				</view>
 				<view class="date" v-if="dateFormat">
-					<van-count-down :time="validTime" format="DD天HH 时" />
+					<van-count-down style="{fontSize: 24rpx; color: #fff;}" :time="validTime" format="DD天HH 时" />
 				</view>
 				<view class="forbid-date" v-else>
 					{{startEnd}}
@@ -31,7 +31,7 @@
 				{{isSuit ? '适用商品' : '参与优惠金额小于红包门槛'}}
 			</view>
 			<view class="more-text" v-else>
-				休闲时尚、运动休闲、复古、休闲、居家生活、现代简约、美式、日式、时尚、通用、百搭、通勤、简约、简约时尚、基础休闲、IFASHION
+				{{tickets.suit_desc}}
 			</view>
 			<van-icon :name="isTap ? 'arrow-up': 'arrow-down'" class="arrow-up-down" size="28rpx" />
 		</view>
@@ -133,8 +133,8 @@ const color = computed(() => props.isSuit ? '#e11c20': '#7d837e')
 				margin-top: 8rpx;
 				font-size: 11px;
 				:deep(.van-count-down) {
-					font-size: 12px;
-					color: #fff;
+					font-size: var(24rpx);
+					color: var(#fff);
 				}
 			}
 			.forbid-date {
