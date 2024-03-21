@@ -1,12 +1,12 @@
 <template>
 	<view class="red-ticket-block">
 		<view class="is_selected" v-show="isSelected"></view>
-		<view class="ticket-top flex-a" :style="{backgroundColor: isSuit ? '#ef656b': '#b8bcc3'}">
+		<view class="ticket-top flex-a" :style="{backgroundColor: hadUseDespire ? '#ef656b': '#b8bcc3'}">
 			<view class="price">
 				{{tickets.ticket_price}}元
 			</view>
 			<view class="ticket">
-				<view class="date-out" :style="{backgroundColor: color,display: tickets.sign == 1 ? '': 'none', borderColor: color}">
+				<view class="date-out" v-if="isExpiration" :style="{backgroundColor: color, borderColor: color}">
 					即将过期
 				</view>
 				<view class="name-condition">
@@ -28,7 +28,7 @@
 		</view>
 		<view class="more-detail flex" @tap="onShowMore">
 			<view class="more-text" v-if="!isTap">
-				{{isSuit ? '适用商品' : '参与优惠金额小于红包门槛'}}
+				{{suitCondition[isSuit]}}
 			</view>
 			<view class="more-text" v-else>
 				{{tickets.suit_desc}}
@@ -43,19 +43,19 @@ import { computed, ref } from 'vue'
 import {useTimeHook} from './hooks/useTimeHooks.js'
 const {startEnd,validTime,surplusTime} = useTimeHook(props.tickets)
 const props = defineProps({
-	isUse: {  //是否使用
+	isUse: {  //是否使用/或者过期红包
 		type: Boolean,
 		default: false
 	},
-	isSuit: {
-		type: Boolean,
-		default: true
+	isSuit: {  //控制红包适用范围
+		type: [Number, String],
+		default: 0
 	},
 	isSelected: {  //是否选择
 		type: Boolean,
 		default: false
 	},
-	tickets: {
+	tickets: {  //红包item
 		type: Object,
 		default: {}
 	},
@@ -63,13 +63,23 @@ const props = defineProps({
 		type: Boolean,
 		default: true
 	},
+	hadUseDespire: {  //红包是否适用或者过期
+		type: Boolean,
+		default: true
+	},
+	
 })
+//是否提示快过期
+const isExpiration = computed(() => validTime.value < 1000 * 60 * 60 * 24 * 3 && props.tickets.ticket_status == 0)
+
 const isTap = ref(false)
 const onShowMore = () => {
 	isTap.value = !isTap.value
 }
 
-const color = computed(() => props.isSuit ? '#e11c20': '#7d837e')
+const suitCondition = ['适用商品', '参与优惠金额小于红包门槛', '订单商品无法使用红包']
+
+const color = computed(() => props.hadUseDespire ? '#e11c20': '#7d837e')
 
 
 </script>
@@ -117,7 +127,6 @@ const color = computed(() => props.isSuit ? '#e11c20': '#7d837e')
 		}
 		.ticket {
 			flex: 3.5;
-			// margin-left: -20rpx;
 			.date-out {
 				width: fit-content;
 				padding: 4rpx 12rpx;

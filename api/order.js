@@ -1,16 +1,14 @@
 import http from '../request/index.js'
 
-export const createOrderAPI = (cart,addres,fee,num,total,li_num) => {
-	console.log(li_num,total);
+export const createOrderAPI = (cart,addres,user_ticket_id,li_num, pay) => {
 	return http({
 		url: '/order',
 		method: 'PUT',
 		data: {
 			cart,
 			addres,
-			fee,
-			num,
-			total,
+			user_ticket_id,
+			pay,
 			li_num
 		}
 	})
@@ -36,13 +34,14 @@ export const getOrderListAPI = (type) => {
 }
 
 
-export const updateOrderItemStatusAPI = (type,id) => {
+export const updateOrderItemStatusAPI = (type,id, real_pay) => {
 	return http({
 		url: '/order',
 		method: 'POST',
 		data: {
 			type,
-			id
+			id,
+			real_pay
 		}
 	})
 }

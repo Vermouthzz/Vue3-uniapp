@@ -53,15 +53,16 @@ import {useOrderStore} from '../../store/useOrderStore.js'
 import {getOrderRecommendList} from '../../api/order.js'
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const orderStore = useOrderStore()
-
 //订单状态
-const orderStatus = computed(() => {
-	return orderStore.orderItem.order_status == -1 ? '已取消' : orderStore.orderItem.order_status == 0 ? '待付款' : '待发货'
-})
+const status = ['已取消','待付款','待发货','已发货','交易成功','交易成功']
+const orderStatus = computed(() => status[props.item?.order_status * 1 + 1])
 
 //复制功能
 const onCopy = () => {
-	
+	uni.setClipboardData({
+		data: orderStore.orderItem.order_id,
+		showToast: false
+	})
 }
 
 

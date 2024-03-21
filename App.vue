@@ -23,9 +23,7 @@
 			}
 		},
 		onShow: function() {
-			// #ifdef H5
-				uni.hideTabBar({});
-				// #endif
+			
 		},
 		onHide: function() {
 			uni.pageScrollTo({
@@ -58,7 +56,6 @@
 	/* #ifdef H5 */
 	#app {
 		max-width: 420px;
-		margin: 0 auto;
 	}
 	/* #endif */
 </style>

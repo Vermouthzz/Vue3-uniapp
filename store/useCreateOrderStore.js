@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { computed, ref } from 'vue'
-import {getCreateOrderAPI} from '../api/order.js'
+import {getCreateOrderAPI, createOrderAPI} from '../api/order.js'
 
 export const useCreateOrderStore = defineStore('create-order', () => {
 	//创建订单列表
@@ -18,6 +18,16 @@ export const useCreateOrderStore = defineStore('create-order', () => {
 		createOrderList.value.length = 0
 		arr.forEach(item => createOrderList.value.push(...item))
 	}
+	
+	//创建订单
+	const createOrderItem = async (adress, ticket, li) => {
+		const res = await createOrderAPI(createOrderList.value, adress, ticket, li, totalRetailPrice.value)
+		return res.data.id
+	}
+	
+	//商品红包限制ids
+	const serviceIds = computed(() => createOrderList.value.map(item => item.sku_item.service_id))
+	
 	//商品原价总和
 	const totalPrice = computed(() => createOrderList.value.reduce((pre,cur) => pre += cur.sku_item.price * cur.count, 0))
 	//商品零售价总和
@@ -29,6 +39,8 @@ export const useCreateOrderStore = defineStore('create-order', () => {
 		getCreateOrderList,
 		totalPrice,
 		totalRetailPrice,
-		activeFee
+		activeFee,
+		serviceIds,
+		createOrderItem
 	}
 })

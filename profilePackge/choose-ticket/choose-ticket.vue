@@ -6,7 +6,7 @@
 				<view class="suit-ticket">
 					<template v-if="effectiveTickets.length">
 						<view class="item" @tap="selectedItem(item)" v-for="item in effectiveTickets" :key="item.ticket_id">
-							<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSelected="item.selected"></red-ticket-item>
+							<red-ticket-item :dateFormat="false" :tickets="item" :isSuit="item.suit" :isSelected="item.selected"></red-ticket-item>
 						</view>
 					</template>
 				</view>
@@ -19,7 +19,7 @@
 					<view class="unsuit-item-block">
 						<template v-if="uselessTickets.length">
 							<block v-for="item in uselessTickets" :key="item.ticket_id">
-								<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSuit="false"></red-ticket-item>
+								<red-ticket-item :dateFormat="false" :tickets="item" :isUse="false" :isSuit="item.suit" :hadUseDespire="false"></red-ticket-item>
 							</block>
 						</template>
 					</view>
@@ -38,13 +38,33 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import RedTicketItem from '.././redPacket/components/RedTicketItem.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import {useTicketStore} from '../../store/useTicketStore.js'
 import {useCreateOrderStore} from '../../store/useCreateOrderStore.js'
 const ticketStore = useTicketStore()
 const createOrderStore = useCreateOrderStore()
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
+function handleTicketSuit(list) {
+	if(!list || !list.length) return
+	list.forEach(item => {
+		item.suit = 0  //初始化红包适用商品
+		const flag = item.suit_goods.every(i => {
+			return createOrderStore.createOrderList.every(j => j.sku_item.service_id != i)
+		})
+		if(!flag) {
+			item.suit = 2
+		} else {
+			item.ticket_condition > createOrderStore.totalRetailPrice ? item.suit = 1 : ''
+		}
+	})
+}
+
+watchEffect(() => {
+	handleTicketSuit(ticketStore.noUseTicket)
+})
+
+ 
 const selectedItem = (item) => {
 	ticketStore.tapSelected(item)
 }
@@ -53,16 +73,16 @@ const unuseTicket = () => {
 	ticketStore.unUseTicket()
 	setTimeout(() => (uni.navigateBack()), 500)
 }
+
+const flagSuit = ref(-1)  //是否适用商品的标志
+
 const effectiveTickets = computed(() => {
-	return ticketStore.noUseTicket.filter(item => item.ticket_condition < createOrderStore.totalRetailPrice)
+	return ticketStore.noUseTicket.filter(item => item.suit == 0)
 })
 const uselessTickets = computed(() => {
-	return ticketStore.noUseTicket.filter(item => item.ticket_condition > createOrderStore.totalRetailPrice)
+	return ticketStore.noUseTicket.filter(item => item.suit != 0)
 })
 
-onLoad(() => {
-	
-})
 </script>
 
 <style lang="scss">

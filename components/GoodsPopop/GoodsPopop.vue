@@ -126,8 +126,6 @@
 				break
 			case 'buy':
 				createOrderStore.getCreateOrderInfo(selectSku.id, num.value)
-				//进入创建订单页之前，选中最佳红包
-				ticketStore.optimalTicket(selectSku.retail_price, 'selected', props.goods?.service.id)
 				uni.navigateTo({
 					url: `/profilePackge/create-order/create-order?id=${selectSku.id}&count=${num.value}`
 				})

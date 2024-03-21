@@ -25,25 +25,16 @@ export const useUserCardStore = defineStore('user-card', () => {
 		})
 	}
 	
-	const postNewBalance = (val) => {
-		userBalance.value = val
-	}
 	
 	const onCheckedChange = (val,type) => {
 		type == 'li' ? userCard.value[0].checked = val : userCard.value[1].checked = val
 	}
 	
-	const updateCardNum = async (order_id,type,is_use) => {
-		const res = await updateCardNumsAPI(order_id,type,is_use)
-		getUserCardInfo()
-	}
 	
 	return {
 		userBalance,
 		userCard,
 		getUserCardInfo,
-		postNewBalance,
 		onCheckedChange,
-		updateCardNum
 	}
 })

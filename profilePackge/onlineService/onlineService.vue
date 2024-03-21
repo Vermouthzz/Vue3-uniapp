@@ -6,7 +6,7 @@
 				<text class="name">网易严选</text>
 			</view>
 		</view>
-		<scroll-view scroll-y="true" class="online-server-body">
+		<scroll-view scroll-y="true" class="online-server-body" :scroll-top="scroll"  @scrolltoupper="onLoadMoreMsg">
 			<view class="communicate-block">
 				<view class="communicate">
 					<block v-if="chatInfo.length">
@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import {onLoad, onUnload } from '@dcloudio/uni-app'
+import {onLoad, onUnload, onReady } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 import {getUserChatRecordAPI, insertUserChatAPI} from '../../api/chat.js'
 import {useUserStore} from '../../store/useUserStore.js'
@@ -60,14 +60,32 @@ let socketTask = uni.connectSocket({
 	complete: ()=> {}
 })
 
+const chatOption = ref({
+	size: 8,
+	offset: 0
+})
 
+const optionChange = () => {
+	chatOption.value.offset += chatOption.value.size
+	if(chatOption.value.size < 40) {
+		chatOption.value.size += 2
+	}
+}
 
 const chatInfo = ref([])
 const getChatHistory = async () => {
-	const res = await getUserChatRecordAPI(receiverId.value,userStore.userInfo.socket_id)
+	const res = await getUserChatRecordAPI(receiverId.value,userStore.userInfo.socket_id, chatOption.value)
 	chatInfo.value = res.result
+	optionChange()
 }
 
+const hadFinishLoad = ref(false)
+const onLoadMoreMsg = async () => {
+	if(hadFinishLoad.value) return
+	optionChange()
+	const res = await getUserChatRecordAPI(receiverId.value,userStore.userInfo.socket_id, chatOption.value)
+	res.result.length ? chatInfo.value.unshift(...res.result) : hadFinishLoad.value = true
+}
 
 
 //用户输入数据
@@ -101,6 +119,13 @@ socketTask.onMessage((e) => {
 	}
 })
 
+const scroll = ref(0)
+onReady(() => {
+	const scrollHeight = uni.createSelectorQuery().select('.online-server-body')
+	scrollHeight.boundingClientRect((res) => {
+		scroll.value = res.height
+	}).exec()
+})
 
 onLoad(() => {
 	getChatHistory()

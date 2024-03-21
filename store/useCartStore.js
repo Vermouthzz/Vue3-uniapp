@@ -7,6 +7,7 @@ export const useCartStore = defineStore('cart',() => {
 	//-------------state----------------
 	const ticketStore = useTicketStore()
 	const cartList = ref([])
+	const ticketPrice = ref(0)
 	
 	
 	//-----------getter-------------
@@ -28,18 +29,17 @@ export const useCartStore = defineStore('cart',() => {
 	const allRetailPrice = computed(() => itemValues.value.filter(i => i.selected).reduce((acc, curr) => acc + curr.sku_item.retail_price * curr.count, 0))
 	//选中商品零售价格总和
 	const allPrice = computed(() => itemValues.value.filter(i => i.selected).reduce((acc, curr) => acc + curr.sku_item.price * curr.count, 0))
-	//活动优惠价格
-	const activeFee = computed(() => allPrice.value - allRetailPrice.value)
 	
-	
-	//每个选中的购物车item需要减去的值(当找到有用的券时)
+	//每个选中的购物车item需要减去的值(当找到有用的红包并且适用所有商品时)
+	const serviceIds = computed(() => itemValues.value.map(item => item.sku_item.service_id))
 	const reNum = computed(() => {
-		let item = ticketStore.optimalTicket(allRetailPrice.value)
-		let num = undefined
-		if(item) {
-			num = (item.ticket_price / selectedItems.value.length).toFixed(2)
+		const price = ticketStore.OptimalPrice(allRetailPrice.value, serviceIds.value)
+		ticketPrice.value = price
+		if(price > 0) {
+			return (price / selectedItems.value.length).toFixed(2)
+		} else {
+			return price
 		}
-		return num || 0
 	})
 	
 	
@@ -89,6 +89,6 @@ export const useCartStore = defineStore('cart',() => {
 		itemValues,
 		allRetailPrice,
 		reNum,
-		activeFee
+		ticketPrice,
 	}
 })

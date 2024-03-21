@@ -18,11 +18,13 @@
 				<text class="real-price">￥{{goodsItem.goods_price}}</text>
 			</view>
 		</view>
-		<view class="service-body flex-a" v-if="goodsItem.service_id != 0">
+		<view class="service-body flex-a" v-if="goodsItem.service_id != 0 && finishTime">
 			<view class="left-service">{{goodsItem.service_name}}</view>
 			<view class="end-time">
-				距离结束{{13小时}}
+				距离结束
 			</view>
+			<van-count-down :time="finishTime" :format="timeFormat" class="count-down">
+			</van-count-down>
 		</view>
 	</view>
 </template>
@@ -40,12 +42,29 @@ const props = defineProps({
 	}
 })
 
-function calculateTime() {
-	
+
+function calculateTime(end) {
+	if(!end) return 0
+	const now = new Date().getTime()
+	const remainTime = end * 1 - now
+	return remainTime
 }
+//格式化时间
+const timeFormat = computed(() => {
+	const hours = 1000 * 60 * 60
+	if(finishTime.value < hours) {
+		return 'mm分'
+	} else if(hours <= finishTime.value && finishTime.value < hours * 24) {
+		return 'HH时'
+	} else if(hours * 24 <= finishTime.value && finishTime.value < hours * 24 * 31  ) {
+		return 'DD天'
+	}
+})
+//计算结束时间
+const finishTime = computed(() => calculateTime(props.goodsItem.end_time))
 
 const retailPrice = computed(() => {
-	return props.goodsItem.retail_price - ticketStore.optimalTicket(props.goodsItem.retail_price,'price',1)
+	return props.goodsItem.retail_price - ticketStore.OptimalPrice(props.goodsItem.retail_price, [props.goodsItem.servicer_id])
 })
 
 
@@ -57,6 +76,10 @@ const toGoodsDetail = () => {
 </script>
 
 <style lang="scss" scoped>
+.count-down {
+	--count-down-font-size: 22rpx;
+	--count-down-text-color: #d2293f;
+}
 .goods-item-block {
 	width: 100%;
 	margin-bottom: 50rpx;
@@ -122,7 +145,7 @@ const toGoodsDetail = () => {
 		}
 		.end-time {
 			margin-left: 6rpx;
-			font-size: 18rpx;
+			font-size: 20rpx;
 			color: #d2293f;
 		}
 	}

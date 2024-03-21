@@ -15,7 +15,7 @@
 				<view class="init" v-if="item.init && !item.list.length"></view>
 				<block v-else-if="!item.init && item.list.length">
 					<block v-for="subItem in item.list" :key="subItem.order_id">
-						<order-item :item="subItem" @onReload="getOrderList"></order-item>
+						<order-item :item="subItem" @onReload="onReload"></order-item>
 					</block>
 				</block>
 				<van-empty v-else description="还没有任何订单呢" />
@@ -60,6 +60,9 @@ const onChange = (e) => {
 	getOrderList()
 }
 
+const onReload = () => {
+	getOrderList()
+}
 
 const firstLoad = ref(false)
 onShow(() => {

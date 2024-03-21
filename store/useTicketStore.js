@@ -23,39 +23,54 @@ export const useTicketStore = defineStore('ticket', () => {
 	}
 	
 	//默认选中最优惠的红包
-	const defaultSelectedTicket = (price, service) => {
-		if(!noUseTicket.value.length) return
-		let priceCondition = noUseTicket.value.filter(i => i.ticket_condition <= price)
-		let suitableCoupons = []
-		if(Array.isArray(service)) {
-			suitableCoupons = priceCondition.filter(coupon => {
-			        return service.every(serviceItem => coupon.suit_goods.includes(serviceItem));
-			    });
-		} else {
-			 suitableCoupons = priceCondition.filter(coupon => coupon.suit_goods.includes(service));
-		}
-		const item = suitableCoupons.reduce((a,b) => {
+	const OptimalPrice = (price, ids, type = 'price') => {
+		if(!noUseTicket.value.length) return 0
+		const item = noUseTicket.value.filter(coupon => {
+			return coupon.suit_goods.every(i => {
+				return ids.every(subI => subI != i)
+			})
+		}).filter(i => i.ticket_condition <= price).reduce((a,b) => {
 			if(b.ticket_price > a.ticket_price) {
 				a.ticket_id = b.ticket_id
 				a.ticket_price = b.ticket_price
 			}
 			return a
-		},{ticket_id: 0,ticket_price: 0})
-		const sItem = noUseTicket.value.find(i => i.ticket_id == item.ticket_id)
-		return sItem
-	}
-	//选中红包的item
-	const optimalTicket = (price,type = 'else', service) => {
-		const item = defaultSelectedTicket(price, service)
-		if(type == 'price') {
-			if(!item) return 0
+		},{ticket_id: -1,ticket_price: 0})
+		if(item.ticket_id == -1) {
+			//说明没找到可以使用的红包
 			return item.ticket_price
-		} else if(type == 'selected') {
-			item ? item.selected = true : ''
 		} else {
-			return item
+			//找到最优红包
+			const sItem = noUseTicket.value.find(i => i.ticket_id == item.ticket_id)
+			if(type == 'select') {
+				sItem.selected = true
+				return
+			}
+			return sItem.ticket_price
 		}
 	}
+
+	
+	//创建订单页初始默认选择最优红包
+
+	
+	//购物车页筛选最优红包价格
+	// const optimalCart = (ids, totalPrice) => {
+	// 	let tks = null, max = 0
+	// 	noUseTicket.value.forEach(item => {
+	// 		const flag = item.suit_goods.every(i => {
+	// 			return ids.every(subI => subI != i)
+	// 		})
+	// 		if(flag) {
+	// 			if(item.ticket_price > max) {
+	// 				tks = item
+	// 				max = item.ticket_price
+	// 			}
+	// 		}
+	// 	})
+	// 	return tks
+	// }
+	
 	
 	//使用红包逻辑
 	const updateUseTicket = async (status) => {
@@ -76,20 +91,19 @@ export const useTicketStore = defineStore('ticket', () => {
 		noUseTicket.value.forEach(item => item.selected = false)
 	}
 	
-	
 	//展示选中的红包
 	const selectedTicket = computed(() => noUseTicket.value.find(i => i.selected))
-	
+
 	
 	return {
 		userTicketList,
 		selectedTicket,
-		optimalTicket,
+		OptimalPrice,
 		tapSelected,
 		unUseTicket,
 		getTicketList,
 		noUseTicket,
 		hadUseTicket,
-		hadExpiredTicket
+		hadExpiredTicket,
 	}
 })

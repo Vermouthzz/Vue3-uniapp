@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y="true" class="index-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}" @scroll="handleScroll" @scrolltolower="onLoadMore" enable-flex :scroll-top="scrollTop">
+	<scroll-view scroll-y="true" class="index-block flex-c" :style="{paddingTop: safeAreaInsets.top + 'px'}" @scroll="handleScroll" @scrolltolower="onLoadMore" enable-flex>
 		<view class="index-body flex-c" >
 			<view class="sticky fff">
 				<index-header :scroll="scroll"></index-header>
@@ -9,7 +9,7 @@
 			<index-nav :list="navList"></index-nav>
 			<!-- 内容栏 -->
 			<view class="content">
-				<scroll-view scroll-x="true" class="scroll-list flex-a fff">
+				<scroll-view scroll-x="true" class="scroll-list fff">
 					<view class="max-width">
 						<view class="items" @tap="onSwitch(item,index)" :class="{active: index == currentIndex}" v-for="(item, index) in scrollXList" :key="index">{{item.name}}</view>
 					</view>
@@ -39,9 +39,6 @@
 			</view>
 		</view>
 	</scroll-view>
-	<!-- #ifdef H5 -->
-	<custom-tabbar></custom-tabbar>
-	<!-- #endif -->
 	<!-- <IndexPopup></IndexPopup> -->
 </template>
 
@@ -60,7 +57,6 @@ import {useIndexStore} from '../../store/useIndexStore.js'
 const indexStore = useIndexStore()
 const { safeAreaInsets,screenWidth } = uni.getSystemInfoSync()
 const swiperImgList = ref([])
-console.log(screenWidth);
 //scroll-x列表
 const scrollXList = ref([
 	{ name: '猜你喜欢', id: [], list: [] },
@@ -79,6 +75,10 @@ const onSwitch = (item,index) => {
 	scrollTop.value = headerHeight.value + Math.ceil(screenWidth / 750 * 94)
 	indexData.value.page = 1
 	getHomeList()
+	uni.pageScrollTo({
+		scrollTop: scrollTop.value,
+		duration: 500
+	})
 }
 //滑动距离
 const scroll = ref(false)
@@ -169,7 +169,7 @@ onLoad(() => {
 				padding: 0 20rpx;
 				.scroll-list {
 					position: sticky;
-					top: 94rpx;
+					top: 92rpx;
 					padding: 20rpx 0;
 					white-space: nowrap;
 					z-index: 998;

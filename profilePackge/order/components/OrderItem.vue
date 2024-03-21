@@ -26,7 +26,8 @@
 					取消订单
 				</view>
 				<view class="btn-order flex-a pay-order" @tap.stop="onPay">
-					付款 <van-count-down @finish="onFinish" :time="item?.remainTime" format="mm:ss" />
+					<text>付款</text>
+					<van-count-down @finish="onFinish" :time="item?.remainTime" class="count-down" format="mm:ss" />
 				</view>
 			</view>
 		</view>
@@ -38,7 +39,7 @@
 			</view>
 		</view>
 	</view>
-	<pay-popup v-model:show="show" :price="item.pay_price"></pay-popup>
+	<pay-popup v-model:show="show" :price="item.pay_price" :id="item.order_id"></pay-popup>
 	<van-dialog
 	  use-slot
 	  title="取消订单"
@@ -97,11 +98,17 @@ const toComment = () => {
 
 const show = ref(false)
 const onPay = () => {
+	orderStore.getOrderItem(props.item.order_id)
 	show.value = true
 }
 </script>
 
 <style lang="scss">
+	.count-down {
+		--count-down-text-color: #b93249;
+		--count-down-font-size: 20rpx;
+		margin-left: 6rpx;
+	}
 	.order-item-block {
 		margin-top: 12rpx;
 		padding-left: 20rpx;
@@ -162,11 +169,6 @@ const onPay = () => {
 					margin: 0 24rpx 0 18rpx;
 					color: #b93249;
 					border-color: #b93249;
-					:deep(.van-count-down) {
-						margin-left: 6rpx;
-						font-size: 11px;
-						color: #b93249;
-					}
 				}
 			}
 		}

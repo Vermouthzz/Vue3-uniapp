@@ -111,7 +111,7 @@ const onPayFor = async () => {
 	if(userCardStore.userBalance < payNum.value) {
 		return uni.showToast({
 			icon: 'error',
-			title: '余额不足'
+			title: '余额不足，请充值'
 		})
 	}
 	const res = await hasPayPassword()
@@ -120,9 +120,11 @@ const onPayFor = async () => {
 	uni.showLoading({ mask: true })
 	const li_num = userCard.value[0].checked ? userCard.value[0].card_num : 0
 	try{
-		let id = await orderStore.createOrderItem(cartStore.selectedItems,addressStore.selectedAddress,cartStore.activeFee,payNum.value,cartStore.allRetailPrice,li_num)
-		//消费余额，但是未支付订单
-		if(userCard.value[0].checked) userCardStore.updateCardNum(id,0,-1)
+		let user_ticketId = ticketStore.selectedTicket ? ticketStore.selectedTicket.user_ticket_id : 0
+		const id = await createOrderStore.createOrderItem(addressStore.selectedAddress, user_ticketId, li_num)
+		orderStore.getOrderItem(id)
+		ticketStore.getTicketList()
+		//创建订单完成后，删除购物车商品
 		uni.hideLoading()
 	}catch(e){
 		uni.showToast({
@@ -132,6 +134,9 @@ const onPayFor = async () => {
 	}
 }
 
+onLoad(() => {
+	ticketStore.OptimalPrice(createOrderStore.totalRetailPrice, createOrderStore.serviceIds, 'select')
+})
 </script>
 
 <style lang="scss">

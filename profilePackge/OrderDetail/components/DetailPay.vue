@@ -4,7 +4,7 @@
 			<text class="item-left">{{item.name}}：</text>
 			<text class="item-right">{{item.value}}</text>
 		</view>
-		<view class="item-block flex all_price">
+		<view class="item-block flex all_price" v-if="Object.values(spec.pay).length">
 			<text class="item-left">{{spec.pay.name}}：</text>
 			<text class="item-right">{{spec.pay.value}}<text v-show="li_nums > 0">(含礼品卡￥{{li_nums}})</text></text>
 		</view>

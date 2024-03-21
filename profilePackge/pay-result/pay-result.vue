@@ -26,7 +26,7 @@
 			</view>
 			<view class="pay-detail flex-c">
 				<view class="addres-user flex">
-					<text class="text">{{addressStore.showAddress.name}}</text>
+					<text class="text">{{orderStore.orderItem.adress_name}}</text>
 					<text class="price">{{contact}}</text>
 				</view>
 				<view class="addres-detail flex">
@@ -44,20 +44,18 @@
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
 import { computed, ref } from 'vue';
-import {useAddressStore} from '../../store/useAddressStore.js'
 import {useOrderStore} from '../../store/useOrderStore.js'
 
 const {safeAreaInsets} = uni.getSystemInfoSync()
 
-const addressStore = useAddressStore()
 const orderStore = useOrderStore()
 
 
-const addresDetail = computed(() => Object.values(orderStore.orderItem.adres).join('') + orderStore.orderItem.detail_adrs)
-const contact = computed(() => addressStore.showAddress.contact.slice(0,3) + '****' + addressStore.showAddress.contact.slice(7))
+const addresDetail = computed(() => orderStore.orderItem.address + orderStore.orderItem.detail_adrs)
+const contact = computed(() => orderStore.orderItem.contact.slice(0,3) + '****' + orderStore.orderItem.contact.slice(7))
 const onShowOrder = () => {
 	uni.redirectTo({
-		url: '/profilePackge/OrderDetail/OrderDetail'
+		url: '/profilePackge/OrderDetail/OrderDetail?to=2'
 	})
 }
 const double = ref(false)

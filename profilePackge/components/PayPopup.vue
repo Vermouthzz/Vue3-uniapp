@@ -62,6 +62,7 @@ const onClose = () => {
 		})
 	} else {
 		//取消订单
+		orderStore.onCancelOrderItem(props.id)
 		uni.navigateTo({
 			url: `/profilePackge/pay-result/pay-result?to=1`
 		})
@@ -72,8 +73,7 @@ const onClose = () => {
 const confirmPay = async () => {
 	let to
 	props.type ? to = 2 : to = 1
-	await Promise.all([orderStore.updateItem(1,orderStore.orderItem.order_id),updateUserMoneyAPI(userCardStore.userBalance, 0, props.price),userCardStore.updateCardNum(orderStore.orderItem.order_id,-1,1)])
-	userCardStore.postNewBalance(userCardStore.userBalance - props.price)
+	await Promise.all([orderStore.updateItem(1,orderStore.orderItem.order_id, props.price),updateUserMoneyAPI(userCardStore.userBalance, 0, props.price)])
 	emits('update:show', false)
 	uni.navigateTo({
 		url: `/profilePackge/pay-result/pay-result?to=${to}`
