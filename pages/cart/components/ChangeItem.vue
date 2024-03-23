@@ -49,7 +49,7 @@
 
 <style lang="scss" scoped>
 	.change-block {
-		width: 96%;
+		width: 100%;
 		border-radius: 16rpx;
 		background-color: #fff;
 		padding: 0 16rpx 60rpx;

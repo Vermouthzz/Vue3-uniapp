@@ -2,11 +2,11 @@
 	<view class="price-fee fff flex-c">
 		<view class="item-block flex" v-for="(item,index) in spec?.discount_info" :key="index">
 			<text class="item-left">{{item.name}}：</text>
-			<text class="item-right">{{item.value}}</text>
+			<text class="item-right">{{item.type ? '-' : ''}}{{item.price ? '￥': ''}}{{item.value}}</text>
 		</view>
-		<view class="item-block flex all_price" v-if="Object.values(spec.pay).length">
+		<view class="item-block flex all_price" v-if="Object.values(spec?.pay).length">
 			<text class="item-left">{{spec.pay.name}}：</text>
-			<text class="item-right">{{spec.pay.value}}<text v-show="li_nums > 0">(含礼品卡￥{{li_nums}})</text></text>
+			<text class="item-right">￥{{spec.pay.value}}<text v-show="li_nums > 0">(含礼品卡￥{{li_nums}})</text></text>
 		</view>
 	</view>
 </template>
@@ -31,7 +31,7 @@ defineProps(['spec','li_nums'])
 			margin-left: 20rpx;
 		}
 		&:last-of-type {
-			margin: 0;
+			margin: 30rpx 0 0;
 		}
 	}
 	.all_price {

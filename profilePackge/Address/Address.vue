@@ -25,7 +25,9 @@ import {onLoad} from '@dcloudio/uni-app'
 import AddressItem from './components/AddressItem.vue'
 import {ref} from 'vue'
 import {useAddressStore} from '../../store/useAddressStore.js'
+// import {useUserStore} from '../../store/useUserStore.js'
 const addressStore = useAddressStore()
+// const userStore = useUserStore()
 const {safeAreaInsets} = uni.getSystemInfoSync() //获取设备信息
 
 

@@ -6,7 +6,7 @@
 		<view class="brand-info flex-c">
 			<view class="info-title">
 				<text class="b-title">{{props.brandInfo?.brand_name}}</text>
-				<van-icon name="arrow" size="40rpx" class="b-right"></van-icon>
+				<i class="iconfont icon-right"></i>
 			</view>
 			<view class="info-produce">
 				{{props.brandInfo?.brand_desc}}
@@ -44,10 +44,11 @@ const toBrandPage = () => {
 					font-size: 15px;
 					font-weight: 550;
 				}
-				.b-right {
+				.icon-right {
 					position: absolute;
 					right: 0;
-					top: 10rpx;
+					top: 8rpx;
+					font-size: 40rpx;
 				}
 			}
 			.info-produce {

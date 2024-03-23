@@ -6,8 +6,8 @@
 		<view class="tab-item-block flex-a" @tap="reSortList('price')">
 			<text :style="{ color: types == 2 ? '#a02f40' : types == 3 ? '#a02f40' : ''}">价格</text>
 			<view class="top-btm flex-c">
-				<van-icon name="arrow-up" size="24rpx" :color="types == 2 ? '#a02f40' : ''" class="icon-up"></van-icon>
-				<van-icon name="arrow-down" size="24rpx" :color="types == 3 ? '#a02f40' : ''" class="icon-down" ></van-icon>
+				<i class="iconfont icon-top" :style="{color: types == 2 ? '#a02f40' : ''}"></i>
+				<i class="iconfont icon-down" :style="{color: types == 3 ? '#a02f40' : ''}"></i>
 			</view>
 		</view>
 		<view class="tab-item-block flex-a" @tap="reSortList(4)" :style="{color: props.type == 4 ? '#a02f40' : ''}">
@@ -55,11 +55,13 @@ const reSortList = (val) => {
 			.top-btm {
 				justify-content: center;
 				margin-left: 8rpx;
-				.icon-up {
+				.icon-top {
 					margin-bottom: -10rpx;
+					font-size: 22rpx;
 				}
 				.icon-down {
 					margin-top: 2rpx;
+					font-size: 26rpx;
 				}
 			}
 		}

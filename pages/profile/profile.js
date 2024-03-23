@@ -1,17 +1,20 @@
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {useTicketStore} from '../../store/useTicketStore.js'
 
 export const useProfileHook = () => {
 	const userCardStore = useUserCardStore()
 	const ticketStore = useTicketStore()
-	const unUseTickets = ticketStore.userTicketList?.filter(i => i.ticket_status == 0)
 	const li_card = userCardStore.userCard[0]?.children?.length || 0
 	const h_card = userCardStore.userCard[1]?.children?.length || 0
+	
+	const cardNum = computed(() => li_card + h_card)
+	const unUseTickets = computed(() => ticketStore.userTicketList?.filter(i => i.ticket_status == 0))
+	
 	const quoteList = ref([
-		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card',num: li_card + h_card},
+		{id: 1, name: '礼品卡', is_dollar: false, path: '/profilePackge/card/card',num: cardNum.value},
 		{id: 2, name: '余额', is_dollar: true, path: '/profilePackge/balance/balance', num: userCardStore.userBalance || 0},
-		{id: 3, name: '红包', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: unUseTickets?.length || 0},
+		{id: 3, name: '红包', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: unUseTickets.value?.length || 0},
 		{id: 4, name: '优惠券', is_dollar: false, path: '/profilePackge/redPacket/redPacket', num: 0}
 	])
 	

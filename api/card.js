@@ -16,16 +16,6 @@ export const getCardDetailAPI = (type) => {
 }
 
 
-export const updateCardNumsAPI = (order_id,type,is_use) => {
-	return http({
-		url: '/card',
-		method: 'POST',
-		data: {
-			order_id,type,is_use
-		}
-	})
-}
-
 export const putCardItemsAPI = () => {
 	return http({
 		url: '',

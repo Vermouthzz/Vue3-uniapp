@@ -44,7 +44,7 @@
 				<view class="new-block flex">
 					<view class="new-block-item flex-c-a" v-for="j in 5" :key="j">
 						<view class="new-item-img">
-							<image class=".new-item-image" src="https://yanxuan.nosdn.127.net/static-union/16644541382b06e4.png"></image>
+							<image class="new-item-image" src="https://yanxuan.nosdn.127.net/static-union/16644541382b06e4.png"></image>
 						</view>
 						<view class="new-item-text">
 							新品首发
@@ -77,18 +77,40 @@ const isShow = ref(false)
 const onMyScroll = (e) => {
 	e.detail.scrollTop > 200 ? isShow.value = true : isShow.value = false
 }
+
+const verifyUserLogin = () => {
+	//判断用户是否登录
+	if(!userStore.userInfo) {
+		//未登录
+		uni.showToast({
+			icon: 'error',
+			title: '请先登录后再操作'
+		})
+		setTimeout(() => {
+			uni.navigateTo({
+				url: `/indexpkg/login/login`
+			})
+		}, 400)
+		return false
+	}
+	return true
+}
+
 const toOrder = (item,index) => {
+	if(!verifyUserLogin()) return
 	uni.navigateTo({
 		url: `/profilePackge/order/order?index=${index}&type=${item.type}`
 	})
 }
 
 const toPages = (val) => {
+	if(!verifyUserLogin()) return
 	uni.navigateTo({
 		url: val
 	})
 }
 const onTapQuoteList = (path) => {
+	if(!verifyUserLogin()) return
 	uni.navigateTo({
 		url: path
 	})
@@ -109,15 +131,15 @@ page {
 	.profile-bd {
 		padding: 0 16rpx;
 		.profile-ticket-block {
-			margin: 20px 0;
-			font-size: 12px;
+			margin: 40rpx 0;
+			font-size: 24rpx;
 			.ticket-item {
 				position: relative;
 				flex: 1;
-				margin: 0 7px;
+				margin: 0 14rpx;
 				.item-num {
 					position: relative;
-					margin-bottom: 2px;
+					margin-bottom: 4rpx;
 					&.price::before {
 						content: '￥';
 						display: block;
@@ -138,20 +160,20 @@ page {
 			padding: 24rpx 16rpx 36rpx;
 			border: 1px solid #fff;
 			border-radius: 12rpx;
-			box-shadow: 0 0 3px 1px rgba(0, 0, 0,0.08);
+			box-shadow: 0 0 6rpx 1rpx rgba(0, 0, 0,0.08);
 			.order-block {
 				margin: 0 -30rpx;
 				.order-item {
 					position: relative;
 					width: 20%;
-					margin-top: 6px;
-					margin-bottom: -8px;
+					margin-top: 12rpx;
+					margin-bottom: -16rpx;
 					.iconfont {
 						font-size: 50rpx;
 					}
 					.order-item-text {
 						margin-top: 8rpx;
-						font-size: 12px;
+						font-size: 24rpx;
 						color: #4a4a4a;
 					}
 					&:first-child::after {
@@ -169,22 +191,22 @@ page {
 			}
 		}
 		.card {
-			border-radius: 8px;
+			border-radius: 16rpx;
 			background-color: #fff;
-			box-shadow: 0 0 3px 1px rgba(0, 0, 0,0.08);
+			box-shadow: 0 0 6rpx 2rpx rgba(0, 0, 0,0.08);
 		}
 		.fuwu-card {
-			padding: 15px 6px;
+			padding: 30rpx 12rpx;
 			.fuwu-title {
-				font-size: 16px;
+				font-size: 32rpx;
 				font-weight: 550;
-				margin: 0 0 5px 6px;
+				margin: 0 0 10rpx 12rpx;
 			}
 			.fuwu-block {
 				flex-wrap: wrap;
 				.fuwu-item {
 					width: 18%;
-					margin: 10px 4px 5px 4px;
+					margin: 20rpx 8rpx 10rpx 8rpx;
 					&:nth-child(5n+1) {
 						margin-left: 0;
 					}
@@ -193,7 +215,7 @@ page {
 					}
 					.fuwu-item-text {
 						margin-top: 10rpx;
-						font-size: 11px;
+						font-size: 22rpx;
 						color: #4a4a4a;
 					}
 					.iconfont {
@@ -204,25 +226,25 @@ page {
 			}
 		}
 		.new-product {
-			margin-top: 12px;
+			margin-top: 24rpx;
 			.new-block {
-				padding: 2px 10px 16px 6px;
+				padding: 4rpx 20rpx 32rpx 12rpx;
 				.new-block-item {
-					width: 20%;
+					flex: 1;
 					.new-item-img {
 						.new-item-image {
-							width: 60px;
-							height: 55px;
+							width: 120rpx;
+							height: 102rpx;
 						}
 					}
 					.new-item-text {
-						font-size: 12px;
+						font-size: 24rpx;
 					}
 				}
 			}
 		}
 		.love-title {
-			font-size: 24px;
+			font-size: 48rpx;
 		}
 	}
 	

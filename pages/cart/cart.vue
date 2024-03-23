@@ -136,7 +136,7 @@ const onLoadMore = () => {
 }
 
 onLoad(() => {
-	if(userStore.userInfo.token) getRecommendList()
+	if(userStore.userInfo) getRecommendList()
 })
 
 </script>
@@ -152,8 +152,9 @@ onLoad(() => {
 		overflow: scroll;
 		background-color: #eee;
 		.cart-body {
+			height: 100%;
 			.not-login-block {
-				justify-content: center;
+				padding-top: 120rpx;
 				height: 100%;
 				font-size: 12px;
 

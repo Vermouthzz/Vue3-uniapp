@@ -19,15 +19,6 @@
 							</view>
 						</view>
 					</block>
-<!-- 					<view class="first-message">
-						hello!您的客服小优为您服务
-					</view>
-					<view class="first-message">
-						hello!您的客服小优为您服务
-					</view>
-					<view class="first-message">
-						hello!您的客服小优为您服务
-					</view> -->
 				</view>
 			</view>
 		</scroll-view>
@@ -165,17 +156,6 @@ page {
 				height: 100%;
 				padding: 50rpx 40rpx 10rpx;
 				box-sizing: border-box;
-				.first-message {
-					width: 406rpx;
-					height: 50rpx;
-					line-height: 50rpx;
-					margin: 0rpx auto 40rpx;
-					border-radius: 26rpx;
-					background-color: #cbcbcb;
-					color: #fff;
-					font-size: 12px;
-					text-align: center;
-				}
 				.message-block {
 					margin-bottom: 40rpx;
 					.user-avator {

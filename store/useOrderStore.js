@@ -14,7 +14,6 @@ export const useOrderStore = defineStore('order', () => {
 	
 	
 	//----------action--------
-
 	async function updateOrderStatus(type,id, real_pay) {
 		uni.showLoading({ mask: true })
 		const res = await updateOrderItemStatusAPI(type, id, real_pay)

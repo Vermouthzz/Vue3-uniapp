@@ -22,7 +22,7 @@
 
 <script setup>
 import {onLoad} from '@dcloudio/uni-app'
-import { ref, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import GoodsItem from '../../components/GoodsItem/GoodsItem.vue'
 import BrandTab from './components/BrandTab.vue'
 import BrandDesc from './components/BrandDesc.vue'
@@ -36,8 +36,8 @@ const onBrandScroll = (e) => {
 
 //brandTab栏切换逻辑
 const type = ref(1)  //默认为综合排序
-watchEffect(() => {
-	switch(type.value) {
+watch(type, (newVal, oldVal) => {
+	switch(newVal) {
 		case 1:   //综合排序
 			brandGoodsList.value = brandGoodsList.value.sort((a,b) => a.sort - b.sort)
 			break
@@ -51,6 +51,7 @@ watchEffect(() => {
 			brandGoodsList.value = brandGoodsList.value.sort((a,b) => b.sale - a.sale)
 	}
 })
+
 const brandInfo = ref({})
 const brandGoodsList = ref([])
 const getBrandGoodsList = async (id) => {

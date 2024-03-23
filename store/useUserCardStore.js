@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { computed, ref } from "vue";
 import {getUserInfoAPI} from '../api/user.js'
-import {updateCardNumsAPI} from '../api/card.js'
 
 export const useUserCardStore = defineStore('user-card', () => {
 	

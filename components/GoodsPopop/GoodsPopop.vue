@@ -49,16 +49,11 @@
 </template>
 
 <script setup>
-	import {
-		computed,
-		ref,
-		watchEffect
-	} from "vue"
+	import { computed, ref, watchEffect } from "vue"
 	import mitter from '../../utils/mitt.js'
 	import Set from '../../hooks/Set.js'
-	import {
-		useCartStore
-	} from '../../store/useCartStore.js'
+	import { useCartStore } from '../../store/useCartStore.js'
+	import { useUserStore } from '../../store/useUserStore.js'
 	import {
 		useCreateOrderStore
 	} from '../../store/useCreateOrderStore.js'
@@ -67,6 +62,7 @@
 	} from '../../store/useTicketStore.js'
 	const emits = defineEmits(['update:show'])
 	const cartStore = useCartStore()
+	const userStore = useUserStore()
 	const createOrderStore = useCreateOrderStore()
 	const ticketStore = useTicketStore()
 	const props = defineProps(['goods', 'isCart', 'show'])
@@ -98,6 +94,18 @@
 	}
 
 	const onSubmitSku = async (type) => {
+		if(!userStore.userInfo) {
+			uni.showToast({
+				icon: 'error',
+				title: '请先登录'
+			})
+			setTimeout(() => {
+				uni.navigateTo({
+					url: '/indexpkg/login/login'
+				})
+			}, 500)
+			return
+		}
 		if (Object.values(selectSku).length === 0) {
 			uni.showToast({
 				icon: 'error',

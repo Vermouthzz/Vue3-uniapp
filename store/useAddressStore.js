@@ -4,12 +4,12 @@ import {getAddressAPI,addAddressAPI,updateAddressListAPI,delAddressAPI, updateAd
 
 export const useAddressStore = defineStore('address', () => {
 	//----------state-------------
-	const addressList = ref('')
+	const addressList = ref([])
 	
 	
 	//----------getter-------------
-	const selectedAddress = computed(() => addressList.value?.find(item => item.is_selected == 1))   //选中的地址)
-	const storeAddress = computed(() => addressList.value?.find(item => item.selected))    //store中选中的地址
+	const selectedAddress = computed(() => addressList.value.find(item => item.is_selected == 1))   //选中的地址
+	const storeAddress = computed(() => addressList.value.find(item => item.selected))    //store中选中的地址
 	const showAddress = computed(() => storeAddress.value || selectedAddress.value)
 	
 	//-----------action---------------

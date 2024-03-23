@@ -3,7 +3,7 @@
 		<view class="pakge-top flex-a">
 			<text class="pakge-name">包裹{{index + 1}}</text>
 			<view class="order-status">
-				待收货
+				{{orderStatus}}
 			</view>
 		</view>
 		<view class="pakge-item flex">
@@ -21,8 +21,8 @@
 					{{item.spec}}
 				</view>
 				<view class="item-price">
-					<text class="real-price">￥{{item.price}}</text>
 					<text class="discount-price">￥{{item.retail_price}}</text>
+					<text class="real-price">￥{{item.price}}</text>
 				</view>
 			</view>
 		</view>
@@ -35,7 +35,7 @@
 <script setup>
 import { computed } from 'vue';
 const props = defineProps(['item', 'index'])
-
+console.log(props.item);
 const status = ['已取消','待付款','待发货','已发货','交易成功','交易成功']
 const orderStatus = computed(() => status[props.item?.order_status * 1 + 1])
 const statusColor = computed(() => props.item?.order_status == 3 ? '#4b9263' : '#dd2f50')

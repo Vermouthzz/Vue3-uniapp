@@ -49,12 +49,15 @@ import {useUserStore} from '../../store/useUserStore.js'
 import {useCartStore} from '../../store/useCartStore.js'
 import {useUserCardStore} from '../../store/useUserCardStore.js'
 import {useAddressStore} from '../../store/useAddressStore.js'
+import {useTicketStore} from '../../store/useTicketStore.js'
 const isAgree = ref(false) //是否同意协议
 const isRegister = ref(false) //是否注册
 const userStore = useUserStore()
 const userCardStore = useUserCardStore()
 const addressStore = useAddressStore()
 const cartStore = useCartStore()
+const ticketStore = useTicketStore()
+
 const toRegister = () => {
 	isRegister.value = !isRegister.value
 	formData.value.acconut = ''
@@ -71,7 +74,7 @@ const oncheck = () => {
 const handleSubmit = () => {
 	if(!isAgree.value) {
 		uni.showToast({
-			icon: 'success',
+			icon: 'error',
 			title: '请同意协议'
 		})
 		return
@@ -111,16 +114,12 @@ const handleSubmit = () => {
 				if(result.data.status === '200') {
 					const {data: res} = result
 					userStore.setUserInfo(res.data)
+					await Promise.all([cartStore.getCartList(),userCardStore.getUserCardInfo(res.data.user_id),addressStore.getAddresList(), ticketStore.getTicketList()])
 					uni.showToast({
 						icon: 'success',
 						title: '登录成功'
 					})	
-					await Promise.all([cartStore.getCartList(),userCardStore.getUserCardInfo(res.data.user_id),addressStore.getAddresList()])
-					setTimeout(() => {
-						uni.switchTab({
-							url: '/pages/profile/profile'
-						})
-					}, 500)
+					setTimeout(() => uni.navigateBack(), 500)
 				}
 			}
 		})

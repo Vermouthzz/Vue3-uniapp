@@ -2,14 +2,19 @@
 	<van-swipe-cell :right-width="65" async-close @close="onCloseSwipe">
 		<view class="cart-item flex">
 			<view class="cart-item-left flex-a">
+				<!-- #ifdef MP -->
 				<van-checkbox :value="props.cartItem.selected" @change="onChangeCheck" checked-color="#f81e31"></van-checkbox>
+				<!-- #endif -->
+				<!-- #ifdef APP -->
+				<van-checkbox v-model="props.cartItem.selected" checked-color="#f81e31"></van-checkbox>
+				<!-- #endif -->
 				<image class="cart-item-img" :src="props.cartItem?.sku_item.pic"></image>
 			</view>
 			<view class="cart-item-pro flex-c">
 				<view class="item-pro-top flex">
 					<view class="goods-name">
 						<text class="goods-service">
-							{{cartItem?.sku_item.service_name}}
+							{{cartItem?.sku_item.service_name || ''}}
 						</text>
 						{{props.cartItem?.sku_item.title}}
 					</view>
@@ -92,6 +97,7 @@ const goodsSpec = computed(() => {
 
 const onDelCartItem = async () => {
 	cartStore.delCartItem(props.cartItem.item_id)
+	
 }
 const onCloseSwipe = () => {
 	
@@ -186,14 +192,14 @@ const onChangeCheck = (e) => {
 			}
 			.item-add {
 				position: absolute;
-				right: 26rpx;
-				bottom: 0rpx;
+				right: 18rpx;
+				bottom: -20rpx;
 			}
 			
 			.item-add-1 {
 				position: absolute;
 				right: 26rpx;
-				bottom: 0rpx;
+				bottom: -8rpx;
 				width: 8%;
 				text-align: center;
 				padding: 8rpx 2rpx;

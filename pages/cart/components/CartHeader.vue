@@ -3,7 +3,7 @@
 		<view class="title">
 			购物车
 		</view>
-		<view class="location flex" @tap="onShowAddress">
+		<view class="location flex" @tap="onShowAddress" v-if="addressStore.addressList.length">
 			<i class="iconfont icon-iclocal"></i>
 			<text class="address-text">{{addressStore.selectedAddress?.address.split(' ').join('')}}</text>
 			<i class="iconfont icon-right"></i>
@@ -30,6 +30,7 @@ const onChangeItem = (e,item) => {
 }
 
 const onShowAddress = (type = 'open') => {
+	if(!addressStore.addressList.length) return
 	type == 'close' ? showAddress.value = false : showAddress.value = true
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<view class="common-header flex" :style="{lineHeight: navBatHeight + 'px'}">
+	<view class="common-header flex">
 		<view class="left-icon">
 			<i class="iconfont icon-left" @tap="toBack"></i>
 		</view>
@@ -41,16 +41,24 @@ const toBack = () => {
 	})
 }
 
-let navBatHeight = ref(0)
+let navBatHeight = ref(`0px`)
 onReady(() => {
-	middle().then(data => navBatHeight.value = data)  //垂直居中
+	// #ifdef MP
+	middle().then(data => navBatHeight.value = `${data}px`)  //垂直居中
+	// #endif
 })
 </script>
 
 <style lang="scss">
-// .common-header {
-	
-// }
+.common-header {
+	/* #ifdef APP */
+	padding: 10rpx 0;
+	align-items: center;
+	/* #endif */
+	/* #ifdef MP */
+	line-height: v-bind(navBatHeight);
+	/* #endif */
+}
 .middle {
 	position: absolute;
 	left: 50%;

@@ -18,6 +18,7 @@ import { createSSRApp } from 'vue'
 import 'vant/lib/index.css'
 import { ActionSheet } from 'vant';
 import { Checkbox, CheckboxGroup } from 'vant';
+import { RadioGroup, Radio } from 'vant';
 import { SwipeCell } from 'vant';
 import { Switch } from 'vant';
 import { Stepper } from 'vant';
@@ -43,6 +44,8 @@ export function createApp() {
   app.use(Notify);
   app.use(Field);
   app.use(CellGroup);
+  app.use(Radio);
+  app.use(RadioGroup);
   app.use(SubmitBar);
   app.use(Rate);
   app.use(ActionSheet);

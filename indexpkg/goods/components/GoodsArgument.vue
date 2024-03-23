@@ -13,7 +13,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="tap-more" @tap="showMore" v-show="!isShow">
+		<view class="tap-more flex-a" @tap="showMore" v-show="!isShow">
 			<text>点击查看更多</text>
 			<i class="iconfont icon-down"></i>
 		</view>

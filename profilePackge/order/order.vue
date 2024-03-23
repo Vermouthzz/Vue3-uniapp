@@ -49,6 +49,7 @@ const getOrderList = async () => {
 		}
 	})
 	orderTabs.value[currentItem.value].init = false
+	if(!firstLoad.value) firstLoad.value = true
 }
 const onTapTab = (item,index) => {
 	currentItem.value = index
@@ -75,7 +76,6 @@ onLoad((option) => {
 	if(!firstLoad.value) {
 		currentItem.value = option.index
 		getOrderList()
-		firstLoad.value = true
 	}
 })
 </script>

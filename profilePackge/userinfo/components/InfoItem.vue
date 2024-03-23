@@ -1,35 +1,68 @@
 <template>
 	<van-cell-group>
+	  <!-- #ifdef MP -->
 	  <van-field
 	    :value="userInfo.account"
 	    label="账号"
-		readonly
+	  		readonly
 	  />
 	  <van-field
 	    :value="userInfo.nickname"
-		@change="onChangeName"
+	  		@change="onChangeName"
 	    label="用户名"
 	  />
 	  <van-field
 	    :value="userInfo.sign"
 	    label="个性签名"
-		@change="onChangeSign"
+	  		@change="onChangeSign"
 	  />
 	  <view class="info-item flex">
 	  	<view class="item-left">
 	  		性别
 	  	</view>
-		<view class="item-right">
-			<van-radio-group
-			  :value="userInfo.gender"
-			  @change="onChange"
-			  direction="horizontal"
-			>
-			  <van-radio name="男">男</van-radio>
-			  <van-radio name="女">女</van-radio>
-			</van-radio-group>
-		</view>
+	  		<view class="item-right">
+	  			<van-radio-group
+	  			  :value="userInfo.gender"
+	  			  @change="onChange"
+	  			  direction="horizontal"
+	  			>
+	  			  <van-radio name="男">男</van-radio>
+	  			  <van-radio name="女">女</van-radio>
+	  			</van-radio-group>
+	  		</view>
 	  </view>
+	  <!-- #endif -->
+	  <!-- #ifdef APP -->
+	  <van-field
+	    v-model="userInfo.account"
+	    label="账号"
+	  		readonly
+	  />
+	  <van-field
+	    v-model="userInfo.nickname"
+	  		@change="onChangeName"
+	    label="用户名"
+	  />
+	  <van-field
+	    v-model="userInfo.sign"
+	    label="个性签名"
+	  		@change="onChangeSign"
+	  />
+	  <view class="info-item flex">
+	  	<view class="item-left">
+	  		性别
+	  	</view>
+	  		<view class="item-right">
+	  			<van-radio-group
+	  			  v-model="userInfo.gender"
+	  			  direction="horizontal"
+	  			>
+	  			  <van-radio name="男">男</van-radio>
+	  			  <van-radio name="女">女</van-radio>
+	  			</van-radio-group>
+	  		</view>
+	  </view>
+	  <!-- #endif -->
 	</van-cell-group>
 </template>
 
